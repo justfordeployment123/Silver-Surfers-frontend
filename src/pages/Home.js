@@ -229,8 +229,8 @@ const handleScanSubmit = async (e) => {
                      </div>
                    </div>
                    <div className="flex-1">
-                     <div className="text-white font-semibold text-sm leading-tight">3 tailored improvement</div>
-                     <div className="text-gray-300 text-xs mt-1">tips</div>
+                     <div className="text-white font-semibold text-sm leading-tight">Light version of audit</div>
+                     <div className="text-gray-300 text-xs mt-1">Report</div>
                    </div>
                  </div>
                </div>
@@ -411,7 +411,7 @@ const handleScanSubmit = async (e) => {
              onClick={() => document.querySelector('form').scrollIntoView({ behavior: 'smooth' })}
              className="px-8 py-4 bg-gradient-to-r from-blue-600 via-green-600 to-teal-600 hover:from-blue-700 hover:via-green-700 hover:to-teal-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 text-lg"
            >
-             Start with a Free Scan
+            Get the Light Report
            </button>
            <button 
              onClick={navigateToServices}
@@ -468,7 +468,7 @@ const handleScanSubmit = async (e) => {
           onClick={() => document.querySelector('form').scrollIntoView({ behavior: 'smooth' })}
           className="px-8 py-4 bg-gradient-to-r from-blue-600 via-green-600 to-teal-600 hover:from-blue-700 hover:via-green-700 hover:to-teal-700 text-white font-semibold rounded-xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 text-lg"
         >
-          Get Your Free Assessment
+          Get the Light Report
         </button>
         <button 
           onClick={navigateToContact}

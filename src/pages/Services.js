@@ -77,16 +77,16 @@ const Services = () => {
   ];
 
   const freeAudit = {
-    name: "Free Senior-Friendly Scan",
+    name: "Light Audit Report",
     icon: "🔍",
     price: "Always free",
-    description: "Give immediate value, highlight opportunities, and invite users to explore full solutions.",
+    description: "Light version of the SilverSurfers audit report — quick snapshot with your Senior‑Friendly Score and top tips.",
     features: [
-      "AI Findability Score (0–100)",
+      "Senior‑Friendly Score (0–100)",
       "2–3 high-level improvement tips",
       "Email copy of results"
     ],
-    cta: "Try Free Scan",
+    cta: "Get Light Report",
     highlight: "Start here - No cost",
     gradient: "from-green-500 to-blue-500"
   };
@@ -286,7 +286,7 @@ const Services = () => {
                 <thead className="bg-gradient-to-r from-purple-500 to-blue-600">
                   <tr>
                     <th className="px-6 py-4 text-left text-sm font-semibold text-white">Feature</th>
-                    <th className="px-6 py-4 text-center text-sm font-semibold text-white">Free Scan</th>
+                    <th className="px-6 py-4 text-center text-sm font-semibold text-white">Light Report</th>
                     <th className="px-6 py-4 text-center text-sm font-semibold text-white">AI Report</th>
                     <th className="px-6 py-4 text-center text-sm font-semibold text-white">Optimization</th>
                     <th className="px-6 py-4 text-center text-sm font-semibold text-white">Premium</th>
@@ -319,7 +319,7 @@ const Services = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { title: "Start with Free Scan", desc: "Just curious about AI visibility? Get instant insights in 30 seconds.", cta: "Try Free Scan", link: "/" },
+              { title: "Start with Light Report", desc: "Get a quick snapshot of senior‑friendly accessibility in 30 seconds.", cta: "Get Light Report", link: "/" },
               { title: "Get the Report", desc: "Want detailed analysis and a clear roadmap? Perfect for DIY implementation.", cta: "Get Report", action: () => setSelectedPackage(packages[0]) },
               { title: "Full Optimization", desc: "Ready for us to handle everything? We'll implement all improvements.", cta: "Start Optimization", action: () => setSelectedPackage(packages[1]) },
               { title: "Ongoing Partnership", desc: "Need continuous support? Get a dedicated AI strategist.", cta: "Contact Sales", action: () => setSelectedPackage(packages[2]) }
@@ -349,7 +349,7 @@ const Services = () => {
           <p className="text-xl text-gray-200 mb-8">Join hundreds of businesses that are already being found by AI assistants.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a href="/" className="px-8 py-4 bg-gradient-to-r from-blue-600 via-green-600 to-teal-600 text-white font-semibold rounded-xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300">
-              Try Free Scan
+              Get Light Report
             </a>
             <a href="/contact" className="px-8 py-4 bg-white/10 backdrop-blur-sm text-white border-2 border-white/30 font-semibold rounded-xl hover:bg-white/20 transition-all duration-300">
               Contact Us

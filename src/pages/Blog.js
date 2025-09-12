@@ -296,7 +296,7 @@ const Blog = () => {
               onClick={navigateToHome}
               className="cta-button cta-button-primary"
             >
-              Try Free AI Scan
+              Get Light Report
             </button>
             <button 
               type="button"

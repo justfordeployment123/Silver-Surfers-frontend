@@ -214,7 +214,7 @@ const FAQ = () => {
               onClick={navigateToHome}
               className="cta-button cta-button-secondary"
             >
-              Try Free AI Scan
+              Get Light Report
             </button>
           </div>
   </div>
