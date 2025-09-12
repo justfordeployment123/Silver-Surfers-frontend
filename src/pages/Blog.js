@@ -1,0 +1,315 @@
+import React, { useState } from 'react';
+import './Blog.css';
+
+const Blog = () => {
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [emailSubscribe, setEmailSubscribe] = useState('');
+
+  const categories = [
+    { id: 'all', name: 'All Posts' },
+    { id: 'accessibility', name: 'Accessibility' },
+    { id: 'design', name: 'Design' },
+    { id: 'usability', name: 'Usability' },
+    { id: 'case-studies', name: 'Case Studies' }
+  ];
+
+  // Dummy blog posts (static content)
+  const [posts] = useState([
+    {
+      id: 1,
+      slug: 'making-websites-senior-friendly',
+      title: 'Making Websites Senior-Friendly: 7 Practical Tips',
+      excerpt: 'Simple changes like larger fonts, clearer contrast, and better spacing can dramatically improve usability for older adults.',
+      category: 'accessibility',
+      author: 'SilverSurfers Team',
+      date: '2025-08-15',
+      readTime: '6 min read',
+      featured: true
+    },
+    {
+      id: 2,
+      slug: 'contrast-and-readability-basics',
+      title: 'Contrast and Readability Basics for Seniors',
+      excerpt: 'WCAG contrast ratios, recommended font sizes, and real-world examples that help older eyes.',
+      category: 'design',
+      author: 'Ava Lee',
+      date: '2025-08-01',
+      readTime: '5 min read'
+    },
+    {
+      id: 3,
+      slug: 'simplifying-navigation',
+      title: 'Simplifying Navigation to Reduce Cognitive Load',
+      excerpt: 'Clear labels, fewer choices, and logical grouping make websites easier to use for everyone.',
+      category: 'usability',
+      author: 'Jordan Park',
+      date: '2025-07-20',
+      readTime: '7 min read'
+    },
+    {
+      id: 4,
+      slug: 'case-study-senior-conversions-up',
+      title: 'Case Study: Senior Conversions Up 40% After Small Changes',
+      excerpt: 'A healthcare site increased senior conversions with simple readability and layout tweaks.',
+      category: 'case-studies',
+      author: 'SilverSurfers Research',
+      date: '2025-07-05',
+      readTime: '4 min read'
+    }
+  ]);
+  const [loading] = useState(false);
+  const [error] = useState(null);
+
+  const popularTopics = [
+    { name: 'Readable Fonts', count: 12, gradient: 'green-blue' },
+    { name: 'Color Contrast', count: 15, gradient: 'blue-cyan' },
+    { name: 'Simple Navigation', count: 10, gradient: 'teal-cyan' },
+    { name: 'Mobile Usability', count: 8, gradient: 'green-teal' },
+    { name: 'Case Studies', count: 6, gradient: 'blue-teal' }
+  ];
+
+  const filteredPosts = selectedCategory === 'all' 
+    ? posts 
+    : posts.filter(post => post.category === selectedCategory);
+
+  const featuredPost = posts.find(post => post.featured);
+  const regularPosts = filteredPosts.filter(post => !post.featured);
+
+  const handleSubscribe = (e) => {
+    e.preventDefault();
+    console.log('Subscribing:', emailSubscribe);
+    setEmailSubscribe('');
+    alert('Thank you for subscribing!');
+  };
+
+  const navigateToPost = (slug) => {
+    window.location.href = `/blog/${slug}`;
+  };
+
+  const navigateToHome = () => {
+    window.location.href = '/';
+  };
+
+  const navigateToContact = () => {
+    window.location.href = '/contact';
+  };
+
+  return (
+    <div className="blog-container">
+      {/* Hero Section */}
+      <section className="relative py-32 pt-32 bg-gradient-to-br from-gray-900 via-green-900 to-blue-900 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-tl from-green-600/20 via-transparent to-blue-600/10"></div>
+
+        {/* Animated background elements to match Contact hero */}
+        <div className="pointer-events-none absolute top-20 left-10 w-72 h-72 bg-gradient-to-br from-pink-500/15 to-purple-600/25 rounded-full blur-3xl animate-pulse"></div>
+        <div className="pointer-events-none absolute bottom-20 right-10 w-80 h-80 bg-gradient-to-br from-blue-400/20 to-cyan-600/15 rounded-full blur-3xl animate-pulse delay-700"></div>
+        <div className="pointer-events-none absolute top-1/2 left-1/3 w-60 h-60 bg-gradient-to-br from-indigo-400/12 to-purple-500/18 rounded-full blur-2xl animate-pulse delay-1400"></div>
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center pt-16">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+              <span className="bg-gradient-to-r from-blue-300 via-green-300 to-teal-300 bg-clip-text text-transparent">
+                Accessibility & Senior UX
+              </span>
+            </h1>
+            <p className="text-xl text-gray-200 max-w-4xl mx-auto leading-relaxed">
+              Practical guides, tips, and case studies on creating senior-friendly websites.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Post */}
+  {featuredPost && !loading && (
+        <section className="featured-section">
+          <div className="featured-container">
+            <div className="featured-card">
+              <div className="featured-badge">Featured Insight</div>
+              <h2 className="featured-title">{featuredPost.title}</h2>
+              <p className="featured-excerpt">{featuredPost.excerpt}</p>
+              <div className="featured-meta">
+                <div className="meta-item">
+                  <svg className="meta-icon" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+                  </svg>
+                  By {featuredPost.author}
+                </div>
+                <div className="meta-item">
+                  <svg className="meta-icon" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
+                  </svg>
+                  {new Date(featuredPost.date).toLocaleDateString()}
+                </div>
+                <div className="meta-item">
+                  <svg className="meta-icon" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
+                  </svg>
+                  {featuredPost.readTime}
+                </div>
+              </div>
+              <button 
+                type="button"
+                onClick={() => navigateToPost(featuredPost.slug)}
+                className="featured-button"
+              >
+                Read Full Article
+                <svg className="button-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Category Filters */}
+      <section className="filters-section">
+        <div className="filters-container">
+          {categories.map((category) => (
+            <button
+              key={category.id}
+              type="button"
+              className={`filter-button ${selectedCategory === category.id ? 'active' : ''}`}
+              onClick={() => setSelectedCategory(category.id)}
+            >
+              {category.name}
+            </button>
+          ))}
+        </div>
+      </section>
+
+      {/* Blog Posts Grid */}
+      <section className="posts-section">
+        <div className="posts-container">
+          {loading && <p className="text-center text-white">Loading posts...</p>}
+          {error && <p className="text-center text-red-400 text-sm">{String(error)}</p>}
+          {!loading && !error && regularPosts.length > 0 ? (
+            <div className="posts-grid">
+              {regularPosts.map((post) => (
+                <article key={post.id} className="post-card">
+                  <div className="post-category">
+                    {post.category.replace('-', ' ').toUpperCase()}
+                  </div>
+                  <h3 className="post-title">{post.title}</h3>
+                  <p className="post-excerpt">{post.excerpt}</p>
+                  <div className="post-meta">
+                    <span>By {post.author}</span>
+                    <span>{new Date(post.date).toLocaleDateString()}</span>
+                    <span>{post.readTime}</span>
+                  </div>
+                  <button 
+                    type="button"
+                    onClick={() => navigateToPost(post.slug)}
+                    className="post-link"
+                  >
+                    Read More
+                    <svg className="link-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                  </button>
+                </article>
+              ))}
+            </div>
+          ) : (!loading && !error && (
+            <div className="no-posts">
+              <div className="no-posts-icon">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+              </div>
+              <h3 className="no-posts-title">No posts found for this category</h3>
+              <p className="no-posts-text">Try selecting a different category or check back later for new content.</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Popular Topics */}
+      <section className="topics-section">
+        <div className="topics-container">
+          <div className="topics-header">
+            <h2 className="topics-title">Explore Our Insights</h2>
+            <p className="topics-subtitle">Dive deeper into the topics that matter most for AI visibility</p>
+          </div>
+          
+          <div className="topics-grid">
+            {popularTopics.map((topic, index) => (
+              <div key={index} className="topic-card">
+                <div className={`topic-icon ${topic.gradient}`}>
+                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                  </svg>
+                </div>
+                <h3 className="topic-name">{topic.name}</h3>
+                <span className="topic-count">{topic.count} articles</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Newsletter Signup */}
+      <section className="newsletter-section">
+        <div className="newsletter-container">
+          <div className="newsletter-card">
+            <h2 className="newsletter-title">Stay Ahead of the AI Curve</h2>
+            <p className="newsletter-subtitle">
+              Get the latest insights on AI visibility, industry trends, and actionable strategies delivered to your inbox.
+            </p>
+            <form onSubmit={handleSubscribe} className="newsletter-form">
+              <input 
+                type="email"
+                value={emailSubscribe}
+                onChange={(e) => setEmailSubscribe(e.target.value)}
+                placeholder="Enter your email address"
+                className="newsletter-input"
+                required
+              />
+              <button 
+                type="submit"
+                className="newsletter-button"
+              >
+                Subscribe
+              </button>
+            </form>
+            <p className="newsletter-privacy">
+              We respect your privacy. Unsubscribe at any time.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="cta-section">
+        <div className="cta-bg-effects">
+          <div className="cta-bg-effect"></div>
+        </div>
+        
+        <div className="cta-content">
+          <h2 className="cta-title">Ready to See How Your Business Performs with AI?</h2>
+          <p className="cta-subtitle">
+            Discover your current AI visibility score and get actionable insights to improve your presence with AI assistants.
+          </p>
+          <div className="cta-buttons">
+            <button 
+              type="button"
+              onClick={navigateToHome}
+              className="cta-button cta-button-primary"
+            >
+              Try Free AI Scan
+            </button>
+            <button 
+              type="button"
+              onClick={navigateToContact}
+              className="cta-button cta-button-secondary"
+            >
+              Learn More
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default Blog;
