@@ -67,7 +67,7 @@ const About = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative py-32 pt-32 bg-hero-silver overflow-hidden">
+      <section className="relative py-32 pt-32 bg-gradient-to-br from-gray-900 via-green-900 to-blue-900 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-tl from-green-600/20 via-transparent to-blue-600/10"></div>
         
         {/* Animated background elements */}
@@ -78,7 +78,7 @@ const About = () => {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center pt-16">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-              <span className="text-silver-gradient">About SilverSurfers</span>
+              <span className="bg-gradient-to-r from-blue-300 via-green-300 to-teal-300 bg-clip-text text-transparent">About SilverSurfers</span>
               <span className="block text-white mt-2">Senior-Friendly Web Experts</span>
             </h1>
             <p className="text-xl text-gray-200 max-w-4xl mx-auto leading-relaxed">We help businesses make their websites welcoming and easy for older adults.</p>
@@ -231,8 +231,8 @@ const About = () => {
             We're not a faceless AI – we're people who love to talk about this stuff! Feel free to reach out.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="/contact" className="px-8 py-4 btn-silver text-gray-900 font-semibold rounded-xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300">Contact Us</a>
-            <a href="mailto:hello@silversurfers.io" className="px-8 py-4 btn-silver-outline font-semibold rounded-xl transition-all duration-300">Email Us</a>
+            <a href="/contact" className="px-8 py-4 bg-gradient-to-r from-blue-600 via-green-600 to-teal-600 hover:from-blue-700 hover:via-green-700 hover:to-teal-700 text-white font-semibold rounded-xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300">Contact Us</a>
+            <a href="mailto:hello@silversurfers.io" className="px-8 py-4 bg-white/10 backdrop-blur-sm text-white border-2 border-white/30 font-semibold rounded-xl hover:bg-white/20 hover:border-white/50 transition-all duration-300">Email Us</a>
           </div>
         </div>
       </section>
