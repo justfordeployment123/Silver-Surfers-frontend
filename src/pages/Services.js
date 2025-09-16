@@ -189,7 +189,7 @@ const Services = () => {
               </div>
               
               <div className="text-center">
-                <a href="/" className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 via-green-600 to-teal-600 hover:from-blue-700 hover:via-green-700 hover:to-teal-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 text-lg">
+                <a href="/checkout?pkg=1" className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 via-green-600 to-teal-600 hover:from-blue-700 hover:via-green-700 hover:to-teal-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 text-lg">
                   {freeAudit.cta}
                   <svg className="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
                 </a>
@@ -259,12 +259,18 @@ const Services = () => {
                     <span className="text-gray-600 ml-1">{pkg.bestFor}</span>
                   </div>
                   
-                  <button
-                    className={`w-full py-3 px-6 bg-gradient-to-r ${pkg.gradient} text-white font-semibold rounded-xl hover:shadow-lg transform hover:scale-105 transition-all duration-300`}
-                    onClick={(e)=> { e.stopPropagation(); setSelectedPackage(pkg); }}
-                  >
-                    {pkg.id === 1 ? 'View & Purchase Report' : pkg.cta}
-                  </button>
+                  {pkg.id === 1 ? (
+                    <a href={`/checkout?pkg=${pkg.id}`} className={`w-full block text-center py-3 px-6 bg-gradient-to-r ${pkg.gradient} text-white font-semibold rounded-xl hover:shadow-lg transform hover:scale-105 transition-all duration-300`}>
+                      View & Purchase Report
+                    </a>
+                  ) : (
+                    <button
+                      className={`w-full py-3 px-6 bg-gradient-to-r ${pkg.gradient} text-white font-semibold rounded-xl hover:shadow-lg transform hover:scale-105 transition-all duration-300`}
+                      onClick={(e)=> { e.stopPropagation(); setSelectedPackage(pkg); }}
+                    >
+                      {pkg.cta}
+                    </button>
+                  )}
                 </div>
               </div>
             ))}

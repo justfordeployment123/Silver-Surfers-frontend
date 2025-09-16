@@ -69,3 +69,37 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 # frontend-silverSurfers
+
+## Auth + Checkout integration
+
+This frontend now integrates with a backend that provides JWT auth, Stripe checkout, and the audit workflow.
+
+- Protected route: `/checkout` requires that a user is logged in. If not authenticated, the app redirects to `/login?redirect=/checkout...` and returns after login.
+- New routes: `/login` and `/register` to authenticate and create accounts. Tokens are stored in `localStorage` under the key `token`.
+- The API base URL is read from `REACT_APP_API_BASE_URL`.
+
+### Environment
+
+Create a `.env` file in the `frontend` folder (next to `package.json`) with:
+
+```
+REACT_APP_API_BASE_URL=http://localhost:5000
+```
+
+Ensure your backend exposes:
+
+- `POST /auth/register` and `POST /auth/login` returning `{ token }`
+- `GET /auth/me` returning `{ user }` when `Authorization: Bearer <token>` is provided
+- `POST /create-checkout-session` protected by auth, returning `{ url }`
+- `GET /confirm-payment?session_id=...` returning a confirmation payload
+
+### Run locally
+
+1. Install deps: `npm install`
+2. Start dev server: `npm start`
+3. Backend should be running with matching `REACT_APP_API_BASE_URL`.
+
+### Notes
+
+- After login/register, users are redirected to the original destination via the `redirect` param.
+- All API calls automatically attach the `Authorization` header if a token is present.

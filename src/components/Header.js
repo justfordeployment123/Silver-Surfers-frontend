@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { getMe, logout as apiLogout } from '../api';
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [user, setUser] = useState(null);
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -15,12 +18,27 @@ const Header = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    // Load current user from token
+    (async () => {
+      const res = await getMe();
+      if (res && res.user) setUser(res.user);
+      else setUser(null);
+    })();
+  }, [location.pathname]);
+
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
+  };
+
+  const handleLogout = () => {
+    apiLogout();
+    setUser(null);
+    navigate('/', { replace: true });
   };
 
   const isActive = (path) => {
@@ -126,6 +144,24 @@ const Header = () => {
             >
               Get Your Audit
             </Link>
+            {user ? (
+              <>
+                <span className={isScrolled ? 'text-gray-800' : 'text-white'}>
+                  {user.email}
+                </span>
+                <button
+                  onClick={handleLogout}
+                  className="px-4 py-2 rounded-lg border border-transparent hover:border-red-500 text-red-600 hover:text-white hover:bg-red-600 transition"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link to="/login" className={`px-4 py-2 rounded-lg ${isScrolled ? 'text-gray-800 hover:bg-gray-100' : 'text-white hover:bg-white/20'} transition`}>Login</Link>
+                <Link to="/register" className="px-4 py-2 rounded-lg bg-gray-900/80 text-white hover:bg-gray-900 transition">Register</Link>
+              </>
+            )}
           </div>
 
           {/* Mobile quick actions */}
@@ -227,6 +263,14 @@ const Header = () => {
             </Link>
             <div className="pt-4 space-y-3">
               <Link to="/services" className="block w-full text-center px-6 py-3 bg-gradient-to-r from-blue-600 via-green-600 to-teal-600 text-white font-semibold rounded-xl" onClick={closeMobileMenu}>Get Your Audit</Link>
+              {user ? (
+                <button onClick={() => { handleLogout(); closeMobileMenu(); }} className="block w-full text-center px-6 py-3 bg-red-600 text-white font-semibold rounded-xl">Logout</button>
+              ) : (
+                <div className="flex gap-3">
+                  <Link to="/login" onClick={closeMobileMenu} className="flex-1 text-center px-6 py-3 bg-gray-100 text-gray-900 font-semibold rounded-xl">Login</Link>
+                  <Link to="/register" onClick={closeMobileMenu} className="flex-1 text-center px-6 py-3 bg-gray-900 text-white font-semibold rounded-xl">Register</Link>
+                </div>
+              )}
             </div>
           </div>
         </nav>
