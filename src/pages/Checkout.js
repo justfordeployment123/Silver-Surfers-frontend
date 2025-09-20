@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { createCheckoutSession } from '../api';
+import { createCheckoutSession, getMe } from '../api';
 import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 
 const Checkout = () => {
@@ -14,11 +14,21 @@ const Checkout = () => {
 
   // Simple client-side guard: if no token, redirect to login, preserving return path and pkg
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('authToken') || localStorage.getItem('token');
     if (!token) {
-      const dest = `/login?redirect=${encodeURIComponent(location.pathname + location.search)}`;
-      navigate(dest, { replace: true });
+      // Send users to login and preserve return path via state; also set a 'from=checkout' flag which Login.js understands
+      navigate('/login?from=checkout', {
+        replace: true,
+        state: { from: location.pathname + location.search }
+      });
     }
+    // If logged in, prefill email from profile
+    (async () => {
+      if (token) {
+        const me = await getMe();
+        if (me?.user?.email) setEmail(me.user.email);
+      }
+    })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -26,7 +36,13 @@ const Checkout = () => {
     e.preventDefault();
     setLoading(true);
     setError('');
-  const result = await createCheckoutSession(email, url, pkg);
+    // Normalize URL to include protocol if missing
+    let normalizedUrl = (url || '').trim();
+    if (normalizedUrl && !/^https?:\/\//i.test(normalizedUrl)) {
+      normalizedUrl = `https://${normalizedUrl}`;
+    }
+
+    const result = await createCheckoutSession((email || '').trim(), normalizedUrl, pkg);
     setLoading(false);
     if (result?.url) {
       window.location.href = result.url; // Redirect to Stripe Checkout
@@ -36,12 +52,19 @@ const Checkout = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-green-900 to-blue-900">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-green-900 to-blue-900 pt-24 pb-10 px-4">
       <form className="bg-white rounded-3xl shadow-xl p-8 w-full max-w-md" onSubmit={handleSubmit}>
         <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">Get Your Light Audit Report</h2>
         <div className="mb-4">
           <label className="block text-gray-800 font-semibold mb-2">Website URL</label>
-          <input type="url" required value={url} onChange={e => setUrl(e.target.value)} placeholder="https://yourwebsite.com" className="w-full px-4 py-3 rounded-xl border border-gray-400 focus:ring-2 focus:ring-blue-600 text-gray-900 bg-gray-50" />
+          <input
+            type="text"
+            required
+            value={url}
+            onChange={e => setUrl(e.target.value)}
+            placeholder="yourwebsite.com or https://yourwebsite.com"
+            className="w-full px-4 py-3 rounded-xl border border-gray-400 focus:ring-2 focus:ring-blue-600 text-gray-900 bg-gray-50"
+          />
         </div>
         <div className="mb-6">
           <label className="block text-gray-800 font-semibold mb-2">Email Address</label>

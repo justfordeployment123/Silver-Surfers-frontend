@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { quickAudit } from '../api';
 
 // Simple modal component for demo
 const ScanResultsModal = ({ result, isVisible, onClose }) => {
@@ -38,6 +39,7 @@ const MainScreen = () => {
  });
  const [isScanning, setIsScanning] = useState(false);
  const [error, setError] = useState('');
+ const [success, setSuccess] = useState('');
 const [showResultsModal, setShowResultsModal] = useState(false);
 const [scanResult, setScanResult] = useState(null);
 
@@ -56,6 +58,8 @@ const navigateToContact = () => {
   window.location.href = '/contact';
 };
 
+ const formRef = useRef(null);
+
  const handleCloseModal = () => {
   setShowResultsModal(false);
   setScanResult(null);
@@ -65,37 +69,45 @@ const navigateToContact = () => {
   });
 };
 
-// Dummy scan function for demo purposes
+// Submit free scan request to backend
 const handleScanSubmit = async (e) => {
   e.preventDefault();
+  if (isScanning) return; // guard against double-click/double submission
   setIsScanning(true);
   setError('');
+  setSuccess('');
 
   try {
-    // Simulate scan processing
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    // Generate dummy results
-    const dummyScore = Math.floor(Math.random() * 40) + 60; // Score between 60-100
-    setScanResult({
-      url: scanData.websiteUrl,
-      score: dummyScore,
-      summary: "Your website shows good potential for elderly users but needs improvements in readability and navigation.",
-      recommendations: [
-        "Increase font size to at least 16px for better readability",
-        "Improve color contrast ratios for better visibility",
-        "Simplify navigation menu structure"
-      ],
-      email: scanData.email,
-    });
-    setShowResultsModal(true);
+    // Normalize URL to include protocol
+    let url = scanData.websiteUrl.trim();
+    if (url && !/^https?:\/\//i.test(url)) {
+      url = `https://${url}`;
+    }
+
+    const res = await quickAudit(scanData.email.trim(), url);
+    if (res?.error) {
+      setError(res.error);
+    } else {
+      // Backend typically returns a message like "Audit started"
+      setSuccess(res?.message || 'Your free scan has started. We\'ll email you the results shortly.');
+      // Optionally clear the form
+      setScanData({ websiteUrl: '', email: '' });
+    }
   } catch (err) {
-    setError('Scan completed with sample results. This is a demo version.');
     console.error('Scan error:', err);
+    setError('Unable to start the scan right now. Please try again in a moment.');
   } finally {
     setIsScanning(false);
   }
 };
+
+ // If navigated from Services with openScan=1, scroll into view
+ useEffect(() => {
+   const params = new URLSearchParams(window.location.search);
+   if (params.get('openScan') === '1' && formRef.current) {
+     formRef.current.scrollIntoView({ behavior: 'smooth' });
+   }
+ }, []);
 
  return (
    <div className="min-h-screen">
@@ -132,7 +144,7 @@ const handleScanSubmit = async (e) => {
            {/* Scan form */}
            <div className="max-w-2xl mx-auto">
              <div className="bg-white/8 backdrop-blur-xl rounded-2xl p-6 sm:p-8 border border-white/20 shadow-2xl shadow-green-500/10">
-               <form onSubmit={handleScanSubmit} noValidate className="space-y-4">
+               <form ref={formRef} onSubmit={handleScanSubmit} noValidate className="space-y-4">
                  <div className="grid gap-4 sm:grid-cols-2">
                    <div className="relative">
                     <input
@@ -193,6 +205,11 @@ const handleScanSubmit = async (e) => {
                {error && (
                  <div className="mt-4 p-3 bg-red-500/20 border border-red-500/30 rounded-lg backdrop-blur-sm">
                    <p className="text-red-200 text-sm text-center">{error}</p>
+                 </div>
+               )}
+               {success && (
+                 <div className="mt-4 p-3 bg-green-500/20 border border-green-500/30 rounded-lg backdrop-blur-sm">
+                   <p className="text-green-100 text-sm text-center">{success}</p>
                  </div>
                )}
              </div>

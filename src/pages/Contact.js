@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { submitContact, getMe } from '../api';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: '',
     business: '',
     email: '',
+    subject: '',
     message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -59,10 +61,23 @@ const Contact = () => {
     setIsSubmitting(true);
     setSubmitStatus(null);
     try {
-      // Simulate form submission for demo
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      setSubmitStatus({ type:'success', message: 'Thank you for your interest! This is a demo version. Please email hello@silversurfers.io directly.' });
-      setFormData({ name:'', business:'', email:'', message:'' });
+      if (!formData.message || formData.message.trim().length < 5) {
+        setSubmitStatus({ type:'error', message: 'Please include a message (min 5 characters).' });
+        return;
+      }
+      const payload = {
+        name: formData.name,
+        email: formData.email,
+        subject: formData.subject || `Inquiry from ${formData.business || 'visitor'}`,
+        message: formData.message,
+      };
+      const res = await submitContact(payload);
+      if (res?.error) {
+        setSubmitStatus({ type:'error', message: res.error });
+      } else {
+        setSubmitStatus({ type:'success', message: 'Thanks! Your message was sent. We will reply shortly.' });
+        setFormData({ name:'', business:'', email:'', subject:'', message:'' });
+      }
     } catch(err){
       setSubmitStatus({ type:'error', message: 'This is a demo version. Please contact us directly.' });
     } finally {
@@ -180,6 +195,19 @@ const Contact = () => {
                   value={formData.business}
                   onChange={handleInputChange}
                   placeholder="Your company name"
+                  className="w-full px-4 py-3 bg-white/90 backdrop-blur-sm rounded-xl border border-gray-300 text-gray-800 placeholder-gray-500 focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-200 shadow-sm"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-900 mb-2">
+                  Subject
+                </label>
+                <input
+                  type="text"
+                  name="subject"
+                  value={formData.subject}
+                  onChange={handleInputChange}
+                  placeholder="How can we help?"
                   className="w-full px-4 py-3 bg-white/90 backdrop-blur-sm rounded-xl border border-gray-300 text-gray-800 placeholder-gray-500 focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-200 shadow-sm"
                 />
               </div>

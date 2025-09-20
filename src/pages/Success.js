@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { confirmPayment } from '../api';
 
@@ -7,9 +7,12 @@ const Success = () => {
   const sessionId = params.get('session_id');
   const [status, setStatus] = useState('Confirming your payment…');
   const navigate = useNavigate();
+  const ranRef = useRef(false);
 
   useEffect(() => {
     const run = async () => {
+      if (ranRef.current) return; // prevent duplicate calls in StrictMode or refresh loops
+      ranRef.current = true;
       if (!sessionId) {
         setStatus('Missing session id.');
         return;

@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import './Blog.css';
+import { API_BASE, fetchJSON } from '../config/apiBase';
 
 const Blog = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -13,52 +14,27 @@ const Blog = () => {
     { id: 'case-studies', name: 'Case Studies' }
   ];
 
-  // Dummy blog posts (static content)
-  const [posts] = useState([
-    {
-      id: 1,
-      slug: 'making-websites-senior-friendly',
-      title: 'Making Websites Senior-Friendly: 7 Practical Tips',
-      excerpt: 'Simple changes like larger fonts, clearer contrast, and better spacing can dramatically improve usability for older adults.',
-      category: 'accessibility',
-      author: 'SilverSurfers Team',
-      date: '2025-08-15',
-      readTime: '6 min read',
-      featured: true
-    },
-    {
-      id: 2,
-      slug: 'contrast-and-readability-basics',
-      title: 'Contrast and Readability Basics for Seniors',
-      excerpt: 'WCAG contrast ratios, recommended font sizes, and real-world examples that help older eyes.',
-      category: 'design',
-      author: 'Ava Lee',
-      date: '2025-08-01',
-      readTime: '5 min read'
-    },
-    {
-      id: 3,
-      slug: 'simplifying-navigation',
-      title: 'Simplifying Navigation to Reduce Cognitive Load',
-      excerpt: 'Clear labels, fewer choices, and logical grouping make websites easier to use for everyone.',
-      category: 'usability',
-      author: 'Jordan Park',
-      date: '2025-07-20',
-      readTime: '7 min read'
-    },
-    {
-      id: 4,
-      slug: 'case-study-senior-conversions-up',
-      title: 'Case Study: Senior Conversions Up 40% After Small Changes',
-      excerpt: 'A healthcare site increased senior conversions with simple readability and layout tweaks.',
-      category: 'case-studies',
-      author: 'SilverSurfers Research',
-      date: '2025-07-05',
-      readTime: '4 min read'
-    }
-  ]);
-  const [loading] = useState(false);
-  const [error] = useState(null);
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    let active = true;
+    (async () => {
+      setLoading(true); setError(null);
+      const { ok, data } = await fetchJSON('/blogs?published=true');
+      if (!active) return;
+      if (ok) {
+        const items = Array.isArray(data.items) ? data.items : (data.blogs || data.posts || []);
+        setPosts(items);
+        setLoading(false);
+      } else {
+        setError(data?.error || 'Failed to load posts');
+        setLoading(false);
+      }
+    })();
+    return () => { active = false; };
+  }, []);
 
   const popularTopics = [
     { name: 'Readable Fonts', count: 12, gradient: 'green-blue' },
@@ -68,11 +44,16 @@ const Blog = () => {
     { name: 'Case Studies', count: 6, gradient: 'blue-teal' }
   ];
 
-  const filteredPosts = selectedCategory === 'all' 
-    ? posts 
-    : posts.filter(post => post.category === selectedCategory);
+  const filteredPosts = useMemo(() => {
+    if (selectedCategory === 'all') return posts;
+    return posts.filter(post => (post.category || '').toLowerCase() === selectedCategory);
+  }, [posts, selectedCategory]);
 
-  const featuredPost = posts.find(post => post.featured);
+  const featuredPost = useMemo(() => {
+    // Pick the latest as featured if backend doesn't mark
+    if (!posts.length) return null;
+    return posts[0];
+  }, [posts]);
   const regularPosts = filteredPosts.filter(post => !post.featured);
 
   const handleSubscribe = (e) => {
@@ -188,14 +169,14 @@ const Blog = () => {
               {regularPosts.map((post) => (
                 <article key={post.id} className="post-card">
                   <div className="post-category">
-                    {post.category.replace('-', ' ').toUpperCase()}
+                    {(post.category || 'general').replace('-', ' ').toUpperCase()}
                   </div>
                   <h3 className="post-title">{post.title}</h3>
                   <p className="post-excerpt">{post.excerpt}</p>
                   <div className="post-meta">
-                    <span>By {post.author}</span>
-                    <span>{new Date(post.date).toLocaleDateString()}</span>
-                    <span>{post.readTime}</span>
+                    {post.author && <span>By {post.author}</span>}
+                    {(post.createdAt || post.date) && <span>{new Date(post.createdAt || post.date).toLocaleDateString()}</span>}
+                    {post.readTime && <span>{post.readTime}</span>}
                   </div>
                   <button 
                     type="button"

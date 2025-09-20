@@ -1,9 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 const Services = () => {
-  const [selectedPackage, setSelectedPackage] = useState(null);
-  const [isRedirecting, setIsRedirecting] = useState(false);
-
   const packages = [
     {
       id: 1,
@@ -103,29 +100,10 @@ const Services = () => {
     { feature: "Custom Solutions", free: "✗", report: "✗", optimization: "✗", premium: "✓" }
   ];
 
-  const proceedToContact = () => {
-    if (isRedirecting) return;
-    setIsRedirecting(true);
-    setTimeout(() => {
-      window.location.href = '/contact';
-    }, 300);
-  };
-
-  // Handle card click: first package goes straight to checkout (no modal)
-  const handleCardClick = (pkg) => {
-    setSelectedPackage(pkg); // Always open modal for explicit confirmation
-  };
+  const primary = packages[0];
 
   return (
     <div className="min-h-screen relative">
-      {isRedirecting && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-          <div className="text-center">
-            <div className="w-16 h-16 border-4 border-purple-400 border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
-            <p className="text-white text-lg font-medium">Preparing checkout...</p>
-          </div>
-        </div>
-      )}
       {/* Hero Section - FIXED: Added pt-32 for header spacing and increased height */}
       <section className="relative py-32 pt-32 bg-gradient-to-br from-gray-900 via-green-900 to-blue-900 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-tl from-green-600/20 via-transparent to-blue-600/10"></div>
@@ -189,7 +167,7 @@ const Services = () => {
               </div>
               
               <div className="text-center">
-                <a href="/checkout?pkg=1" className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 via-green-600 to-teal-600 hover:from-blue-700 hover:via-green-700 hover:to-teal-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 text-lg">
+                <a href="/?openScan=1" className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 via-green-600 to-teal-600 hover:from-blue-700 hover:via-green-700 hover:to-teal-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 text-lg">
                   {freeAudit.cta}
                   <svg className="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
                 </a>
@@ -200,148 +178,82 @@ const Services = () => {
         </div>
       </section>
 
-      {/* Paid Packages Section */}
+      {/* Our Package */}
       <section className="py-20 bg-gradient-to-br from-gray-50 to-purple-50/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">Paid Packages</h2>
-            <p className="text-xl text-gray-600">Choose the level of support that's right for your business</p>
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">Our Package</h2>
+            <p className="text-xl text-gray-600">Focused, value-packed deliverable designed for real impact</p>
           </div>
           
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {packages.map((pkg) => (
-              <div
-                key={pkg.id}
-                className={`relative bg-white rounded-3xl p-8 shadow-xl border-2 transition-all duration-300 hover:shadow-2xl hover:scale-105 cursor-pointer ${
-                  pkg.popular ? 'border-purple-300 transform scale-105' : 'border-gray-200'
-                }`}
-                onClick={() => handleCardClick(pkg)}
-              >
-                {pkg.popular && (
-                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                    <span className="bg-gradient-to-r from-pink-600 to-purple-600 text-white px-6 py-2 rounded-full text-sm font-medium">
-                      {pkg.highlight}
-                    </span>
-                  </div>
-                )}
-                
-                <div className="text-center mb-6">
-                  <div className="text-5xl mb-4">{pkg.icon}</div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">{pkg.name}</h3>
-                  <div className={`text-3xl font-bold bg-gradient-to-r ${pkg.gradient} bg-clip-text text-transparent mb-2`}>
-                    {pkg.price}
-                  </div>
-                  <div className="text-gray-500 text-sm">{pkg.period}</div>
+          <div className="max-w-4xl mx-auto">
+            <div className="relative bg-white rounded-3xl p-8 shadow-xl border-2 border-gray-200">
+              <div className="text-center mb-6">
+                <div className="text-5xl mb-4">{primary.icon}</div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">{primary.name}</h3>
+                <div className={`text-4xl font-extrabold bg-gradient-to-r ${primary.gradient} bg-clip-text text-transparent mb-2`}>
+                  {primary.price}
                 </div>
-                
-                <p className="text-gray-600 mb-6 text-center">{pkg.description}</p>
-                
-                <div className="mb-6">
-                  <h4 className="font-semibold text-gray-900 mb-3">What's Included:</h4>
+                <div className="text-gray-500 text-sm">{primary.period}</div>
+              </div>
+
+              <p className="text-gray-700 mb-6 text-center max-w-2xl mx-auto">{primary.description}</p>
+
+              <div className="grid md:grid-cols-2 gap-6 mb-8">
+                <div>
+                  <h4 className="font-semibold text-gray-900 mb-3">What's Included</h4>
                   <ul className="space-y-2">
-                    {pkg.features.slice(0, 4).map((feature, index) => (
-                      <li key={index} className="flex items-start text-sm text-gray-600">
-                        <svg className="w-4 h-4 text-green-500 mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    {primary.features.map((feature, index) => (
+                      <li key={index} className="flex items-start text-sm text-gray-700">
+                        <svg className="w-4 h-4 text-green-600 mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                         </svg>
                         {feature}
                       </li>
                     ))}
-                    {pkg.features.length > 4 && (
-                      <li className="text-sm text-gray-500 italic">+ {pkg.features.length - 4} more features</li>
-                    )}
                   </ul>
                 </div>
-                
-                <div className="space-y-4">
-                  <div className="text-sm">
-                    <span className="font-medium text-gray-900">Best for:</span>
-                    <span className="text-gray-600 ml-1">{pkg.bestFor}</span>
-                  </div>
-                  
-                  {pkg.id === 1 ? (
-                    <a href={`/checkout?pkg=${pkg.id}`} className={`w-full block text-center py-3 px-6 bg-gradient-to-r ${pkg.gradient} text-white font-semibold rounded-xl hover:shadow-lg transform hover:scale-105 transition-all duration-300`}>
-                      View & Purchase Report
-                    </a>
-                  ) : (
-                    <button
-                      className={`w-full py-3 px-6 bg-gradient-to-r ${pkg.gradient} text-white font-semibold rounded-xl hover:shadow-lg transform hover:scale-105 transition-all duration-300`}
-                      onClick={(e)=> { e.stopPropagation(); setSelectedPackage(pkg); }}
-                    >
-                      {pkg.cta}
-                    </button>
-                  )}
+                <div className="space-y-3">
+                  <div className="text-sm"><span className="font-medium text-gray-900">Best for:</span> <span className="text-gray-700">{primary.bestFor}</span></div>
+                  <div className="text-sm"><span className="font-medium text-gray-900">Delivery:</span> <span className="text-gray-700">{primary.delivery}</span></div>
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* Comparison Table */}
-      <section className="py-20 bg-white">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Package Comparison</h2>
-            <p className="text-lg text-gray-600">See exactly what's included in each package</p>
-          </div>
-          
-          <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200">
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead className="bg-gradient-to-r from-purple-500 to-blue-600">
-                  <tr>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-white">Feature</th>
-                    <th className="px-6 py-4 text-center text-sm font-semibold text-white">Light Report</th>
-                    <th className="px-6 py-4 text-center text-sm font-semibold text-white">AI Report</th>
-                    <th className="px-6 py-4 text-center text-sm font-semibold text-white">Optimization</th>
-                    <th className="px-6 py-4 text-center text-sm font-semibold text-white">Premium</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200">
-                  {comparisonData.map((row, index) => (
-                    <tr key={index} className="hover:bg-gray-50">
-                      <td className="px-6 py-4 text-sm font-medium text-gray-900">{row.feature}</td>
-                      <td className="px-6 py-4 text-sm text-gray-600 text-center">{row.free}</td>
-                      <td className="px-6 py-4 text-sm text-gray-600 text-center">{row.report}</td>
-                      <td className="px-6 py-4 text-sm text-gray-600 text-center">{row.optimization}</td>
-                      <td className="px-6 py-4 text-sm text-gray-600 text-center">{row.premium}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href={`/checkout?pkg=${primary.id}`} className={`px-8 py-4 bg-gradient-to-r ${primary.gradient} text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300`}>
+                  View & Purchase Report
+                </a>
+                <a href="/contact" className="px-8 py-4 bg-white text-gray-900 border-2 border-gray-200 font-semibold rounded-xl hover:bg-gray-50 transition-all duration-300">
+                  Contact Us
+                </a>
+              </div>
+
             </div>
           </div>
         </div>
       </section>
 
       {/* How to Choose Section */}
-  <section className="py-20 bg-gradient-to-br from-gray-50 to-blue-50/30">
+      <section className="py-20 bg-gradient-to-br from-gray-50 to-blue-50/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">How to Choose Your Package</h2>
             <p className="text-lg text-gray-600">Not sure which package is right for you? Here's our guide</p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-3xl mx-auto items-stretch">
             {[
               { title: "Start with Light Report", desc: "Get a quick snapshot of senior‑friendly accessibility in 30 seconds.", cta: "Get Light Report", link: "/" },
-              { title: "Get the Report", desc: "Want detailed analysis and a clear roadmap? Perfect for DIY implementation.", cta: "Get Report", action: () => setSelectedPackage(packages[0]) },
-              { title: "Full Optimization", desc: "Ready for us to handle everything? We'll implement all improvements.", cta: "Start Optimization", action: () => setSelectedPackage(packages[1]) },
-              { title: "Ongoing Partnership", desc: "Need continuous support? Get a dedicated AI strategist.", cta: "Contact Sales", action: () => setSelectedPackage(packages[2]) }
+              { title: "Get the Report", desc: "Ready for the full assessment and recommendations.", cta: "Purchase Report", link: `/checkout?pkg=${primary.id}` }
             ].map((item, index) => (
-              <div key={index} className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 text-center">
+              <div key={index} className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 text-center flex flex-col h-full">
                 <h3 className="text-lg font-semibold text-gray-900 mb-3">{item.title}</h3>
                 <p className="text-gray-600 mb-6 text-sm">{item.desc}</p>
-                {item.link ? (
-                  <a href={item.link} className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-600 via-green-600 to-teal-600 text-white font-medium rounded-lg hover:from-blue-700 hover:via-green-700 hover:to-teal-700 transition-all duration-300">
+                <div className="mt-auto">
+                  <a href={item.link} className="inline-flex items-center justify-center px-5 py-2.5 bg-gradient-to-r from-blue-600 via-green-600 to-teal-600 text-white font-medium rounded-lg shadow-sm hover:shadow-md hover:from-blue-700 hover:via-green-700 hover:to-teal-700 transition-all duration-300 w-full sm:w-auto">
                     {item.cta}
                   </a>
-                ) : (
-                  <button onClick={item.action} className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-600 via-green-600 to-teal-600 text-white font-medium rounded-lg hover:from-blue-700 hover:via-green-700 hover:to-teal-700 transition-all duration-300">
-                    {item.cta}
-                  </button>
-                )}
+                </div>
               </div>
             ))}
           </div>
@@ -364,59 +276,7 @@ const Services = () => {
         </div>
       </section>
 
-      {/* Package Modal */}
-      {selectedPackage && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setSelectedPackage(null)}>
-          <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
-            <div className="sticky top-0 bg-white rounded-t-3xl border-b border-gray-200 p-6">
-              <button 
-                className="absolute top-4 right-4 w-8 h-8 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center"
-                onClick={() => setSelectedPackage(null)}
-              >
-                ×
-              </button>
-              <div className="text-center">
-                <div className="text-5xl mb-4">{selectedPackage.icon}</div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-2">{selectedPackage.name}</h2>
-                <div className={`text-3xl font-bold bg-gradient-to-r ${selectedPackage.gradient} bg-clip-text text-transparent mb-2`}>
-                  {selectedPackage.price}
-                </div>
-                <div className="text-gray-500">{selectedPackage.period}</div>
-              </div>
-            </div>
-            
-            <div className="p-6">
-              <p className="text-gray-700 mb-6">{selectedPackage.description}</p>
-              
-              <div className="mb-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">What's Included:</h3>
-                <ul className="space-y-2">
-                  {selectedPackage.features.map((feature, index) => (
-                    <li key={index} className="flex items-start text-gray-700">
-                      <svg className="w-5 h-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                      </svg>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              
-              <div className="space-y-4 mb-6">
-                <div><strong className="text-gray-900">Best for:</strong> <span className="text-gray-700">{selectedPackage.bestFor}</span></div>
-                <div><strong className="text-gray-900">Delivery:</strong> <span className="text-gray-700">{selectedPackage.delivery}</span></div>
-              </div>
-              
-              <div className="space-y-3">
-                <button className={`w-full py-3 px-6 bg-gradient-to-r ${selectedPackage.gradient} text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300`} onClick={proceedToContact}>
-                  {selectedPackage.id === 1 ? 'Contact to Purchase' : selectedPackage.cta}
-                </button>
-                <button className="w-full py-3 px-6 bg-gray-100 text-gray-700 font-medium rounded-xl hover:bg-gray-200 transition" onClick={()=> setSelectedPackage(null)}>Cancel</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* No modal needed for single package */}
     </div>
   );
 };

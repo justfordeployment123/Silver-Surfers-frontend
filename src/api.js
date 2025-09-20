@@ -7,7 +7,7 @@ const BACKEND_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000
 const api = axios.create({ baseURL: BACKEND_URL });
 
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('authToken') || localStorage.getItem('token');
   if (token) {
     config.headers = config.headers || {};
     config.headers.Authorization = `Bearer ${token}`;
@@ -21,6 +21,7 @@ export const login = async (email, password) => {
     const res = await api.post('/auth/login', { email, password });
     if (res.data?.token) {
       localStorage.setItem('token', res.data.token);
+      localStorage.setItem('authToken', res.data.token);
     }
     return res.data;
   } catch (error) {
@@ -41,7 +42,7 @@ export const register = async (email, password) => {
 export const verifyEmail = async (token) => {
   try {
     const res = await api.post('/auth/verify-email', { token });
-    if (res.data?.token) localStorage.setItem('token', res.data.token);
+    if (res.data?.token) { localStorage.setItem('token', res.data.token); localStorage.setItem('authToken', res.data.token); }
     return res.data; // { token, user }
   } catch (error) {
     return { error: error.response?.data?.error || error.message };
@@ -68,12 +69,44 @@ export const getMe = async () => {
 
 export const logout = () => {
   localStorage.removeItem('token');
+  localStorage.removeItem('authToken');
 };
 
-// Existing API calls (now use the axios instance)
+// Precheck URL before audits
+export const precheckUrl = async (url) => {
+  try {
+    const res = await api.post('/precheck-url', { url });
+    return res.data; // { success, normalizedUrl, finalUrl, ... }
+  } catch (error) {
+    return { error: error.response?.data?.error || error.message };
+  }
+};
+
+// Existing API calls (now use the axios instance) with precheck
 export const startAudit = async (email, url) => {
   try {
-    const response = await api.post('/start-audit', { email, url });
+    // Precheck & normalize
+    const pre = await precheckUrl(url);
+    if (pre?.error || pre?.success === false) {
+      return { error: pre?.error || 'URL not reachable. Please check the domain and try again.' };
+    }
+    const normalized = pre?.finalUrl || pre?.normalizedUrl || url;
+    const response = await api.post('/start-audit', { email, url: normalized });
+    return response.data;
+  } catch (error) {
+    return { error: error.response?.data?.error || error.message };
+  }
+};
+
+export const quickAudit = async (email, url) => {
+  try {
+    // Precheck & normalize
+    const pre = await precheckUrl(url);
+    if (pre?.error || pre?.success === false) {
+      return { error: pre?.error || 'URL not reachable. Please check the domain and try again.' };
+    }
+    const normalized = pre?.finalUrl || pre?.normalizedUrl || url;
+    const response = await api.post('/quick-audit', { email, url: normalized });
     return response.data;
   } catch (error) {
     return { error: error.response?.data?.error || error.message };
@@ -105,4 +138,87 @@ export const confirmPayment = async (sessionId) => {
   } catch (error) {
     return { error: error.response?.data?.error || error.message };
   }
+};
+
+// Auth: Forgot/Reset password
+export const forgotPassword = async (email) => {
+  try { const res = await api.post('/auth/forgot-password', { email }); return res.data; } catch (e) { return { error: e.response?.data?.error || e.message }; }
+};
+export const resetPassword = async (token, password) => {
+  try { const res = await api.post('/auth/reset-password', { token, password }); if (res.data?.token) { localStorage.setItem('token', res.data.token); localStorage.setItem('authToken', res.data.token); } return res.data; } catch (e) { return { error: e.response?.data?.error || e.message }; }
+};
+
+// Admin API: Blog
+export const adminListBlog = async () => {
+  try { const res = await api.get('/admin/blog'); return res.data; } catch (e) { return { error: e.response?.data?.error || e.message }; }
+};
+export const adminCreateBlog = async (payload) => {
+  try { const res = await api.post('/admin/blog', payload); return res.data; } catch (e) { return { error: e.response?.data?.error || e.message }; }
+};
+export const adminUpdateBlog = async (id, payload) => {
+  try { const res = await api.put(`/admin/blog/${id}`, payload); return res.data; } catch (e) { return { error: e.response?.data?.error || e.message }; }
+};
+export const adminDeleteBlog = async (id) => {
+  try { const res = await api.delete(`/admin/blog/${id}`); return res.data; } catch (e) { return { error: e.response?.data?.error || e.message }; }
+};
+
+// Admin API: Services
+export const adminListServices = async () => {
+  try { const res = await api.get('/admin/services'); return res.data; } catch (e) { return { error: e.response?.data?.error || e.message }; }
+};
+export const adminCreateService = async (payload) => {
+  try { const res = await api.post('/admin/services', payload); return res.data; } catch (e) { return { error: e.response?.data?.error || e.message }; }
+};
+export const adminUpdateService = async (id, payload) => {
+  try { const res = await api.put(`/admin/services/${id}`, payload); return res.data; } catch (e) { return { error: e.response?.data?.error || e.message }; }
+};
+export const adminDeleteService = async (id) => {
+  try { const res = await api.delete(`/admin/services/${id}`); return res.data; } catch (e) { return { error: e.response?.data?.error || e.message }; }
+};
+
+// Admin API: FAQs
+export const adminListFaqs = async () => {
+  try { const res = await api.get('/admin/faqs'); return res.data; } catch (e) { return { error: e.response?.data?.error || e.message }; }
+};
+export const adminCreateFaq = async (payload) => {
+  try { const res = await api.post('/admin/faqs', payload); return res.data; } catch (e) { return { error: e.response?.data?.error || e.message }; }
+};
+export const adminUpdateFaq = async (id, payload) => {
+  try { const res = await api.put(`/admin/faqs/${id}`, payload); return res.data; } catch (e) { return { error: e.response?.data?.error || e.message }; }
+};
+export const adminDeleteFaq = async (id) => {
+  try { const res = await api.delete(`/admin/faqs/${id}`); return res.data; } catch (e) { return { error: e.response?.data?.error || e.message }; }
+};
+
+// Admin API: Analysis records
+export const adminListAnalysis = async (params = {}) => {
+  try { const res = await api.get('/admin/analysis', { params }); return res.data; } catch (e) { return { error: e.response?.data?.error || e.message }; }
+};
+
+export const adminRerunAnalysis = async (idOrTaskId) => {
+  try { const res = await api.post(`/admin/analysis/${idOrTaskId}/rerun`); return res.data; } catch (e) { return { error: e.response?.data?.error || e.message }; }
+};
+
+// Public: Contact submit
+export const submitContact = async (payload) => {
+  try { const res = await api.post('/contact', payload); return res.data; } catch (e) { return { error: e.response?.data?.error || e.message }; }
+};
+
+// User: list my analysis records (auth)
+export const listMyAnalysis = async (params = {}) => {
+  try { const res = await api.get('/auth/my-analysis', { params }); return res.data; } catch (e) { return { error: e.response?.data?.error || e.message }; }
+};
+
+// Admin: Contact management
+export const adminListContact = async (params = {}) => {
+  try { const res = await api.get('/admin/contact', { params }); return res.data; } catch (e) { return { error: e.response?.data?.error || e.message }; }
+};
+export const adminGetContact = async (id) => {
+  try { const res = await api.get(`/admin/contact/${id}`); return res.data; } catch (e) { return { error: e.response?.data?.error || e.message }; }
+};
+export const adminUpdateContact = async (id, payload) => {
+  try { const res = await api.put(`/admin/contact/${id}`, payload); return res.data; } catch (e) { return { error: e.response?.data?.error || e.message }; }
+};
+export const adminDeleteContact = async (id) => {
+  try { const res = await api.delete(`/admin/contact/${id}`); return res.data; } catch (e) { return { error: e.response?.data?.error || e.message }; }
 };

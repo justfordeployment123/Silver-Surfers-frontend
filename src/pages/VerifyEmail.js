@@ -13,11 +13,17 @@ const VerifyEmail = () => {
   const navigate = useNavigate();
   const redirect = searchParams.get('redirect') || '/';
 
-  const handleVerify = async (e) => {
+  const handleVerify = async (e, overrideToken) => {
     if (e) e.preventDefault();
     setError('');
     setLoading(true);
-    const res = await verifyEmail(token.trim());
+    const useToken = (overrideToken ?? token)?.trim();
+    if (!useToken) {
+      setLoading(false);
+      setError('Token required');
+      return;
+    }
+    const res = await verifyEmail(useToken);
     setLoading(false);
     if (res?.error) {
       setError(res.error);
@@ -31,10 +37,8 @@ const VerifyEmail = () => {
     const qsToken = searchParams.get('token');
     if (qsToken) {
       setToken(qsToken);
-      // Delay a tick so state updates before submission
-      setTimeout(() => {
-        handleVerify();
-      }, 50);
+      // Call verify directly with the query token to avoid state timing issues
+      handleVerify(undefined, qsToken);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -50,7 +54,7 @@ const VerifyEmail = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-green-900 to-blue-900">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-green-900 to-blue-900 pt-24 pb-10 px-4">
       <form onSubmit={handleVerify} className="bg-white rounded-3xl shadow-xl p-8 w-full max-w-md">
         <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">Verify Email</h2>
         {searchParams.get('token') && loading && (

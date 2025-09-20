@@ -1,36 +1,30 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './FAQ.css';
+import { fetchJSON } from '../config/apiBase';
 
 const FAQ = () => {
   const [expandedFaq, setExpandedFaq] = useState(null);
+  const [faqData, setFaqData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
-  const faqData = [
-    {
-      id: 1,
-      question: "What is SilverSurfers?",
-      answer: "SilverSurfers is a website auditing service that specializes in making websites more accessible and user-friendly for elderly users. We provide comprehensive assessments, scoring, and improvement recommendations to ensure your website welcomes users of all ages."
-    },
-    {
-      id: 2,
-      question: "What does the Senior-Friendly Score mean?",
-      answer: "Our Senior-Friendly Score is a comprehensive rating (0-100) that evaluates how accessible your website is to elderly users. It considers factors like font size, color contrast, navigation simplicity, page load speed, and overall usability for seniors."
-    },
-    {
-      id: 3,
-      question: "How do I earn the SilverSurfers seal of approval?",
-      answer: "To earn our seal of approval, your website must achieve a Senior-Friendly Score of 85 or higher and meet our accessibility standards. This includes proper contrast ratios, readable fonts, simple navigation, and mobile-friendly design."
-    },
-    {
-      id: 4,
-      question: "What improvements do you typically recommend?",
-      answer: "Common recommendations include increasing font sizes to at least 16px, improving color contrast ratios, simplifying navigation menus, adding larger click targets, optimizing page load speeds, and ensuring mobile responsiveness for older users."
-    },
-    {
-      id: 5,
-      question: "How long does an audit take?",
-      answer: "Our quick scan provides instant results in about 30 seconds. A comprehensive audit typically takes 2-3 business days, and full optimization services can take 1-2 weeks depending on the scope of changes needed."
-    }
-  ];
+  useEffect(() => {
+    let active = true;
+    (async () => {
+      setLoading(true); setError('');
+      const { ok, data } = await fetchJSON('/faqs?published=true');
+      if (!active) return;
+      if (ok) {
+        const items = Array.isArray(data.items) ? data.items : (data.faqs || []);
+        setFaqData(items);
+        setLoading(false);
+      } else {
+        setError(data?.error || 'Failed to load FAQs');
+        setLoading(false);
+      }
+    })();
+    return () => { active = false; };
+  }, []);
 
   const toggleFaq = (faqId) => {
     setExpandedFaq(expandedFaq === faqId ? null : faqId);
@@ -95,26 +89,28 @@ const FAQ = () => {
       {/* FAQ List */}
       <section className="faq-section">
         <div className="faq-content">
-          {faqData.map((faq) => (
+          {loading && <p className="text-center text-white">Loading FAQs...</p>}
+          {error && <p className="text-center text-red-400 text-sm">{error}</p>}
+          {!loading && !error && faqData.map((faq, idx) => (
             <div 
-              key={faq.id} 
-              className={`faq-item ${expandedFaq === faq.id ? 'expanded' : ''}`}
+              key={faq._id || idx} 
+              className={`faq-item ${expandedFaq === (faq._id || idx) ? 'expanded' : ''}`}
             >
               <button 
                 type="button"
                 className="faq-button"
-                onClick={() => toggleFaq(faq.id)}
+                onClick={() => toggleFaq(faq._id || idx)}
               >
                 <div className="faq-question">
-                  <span className="question-number">{faq.id}</span>
+                  <span className="question-number">{Number(faq.order ?? idx) + 1}</span>
                   <h3 className="question-text">{faq.question}</h3>
                 </div>
                 <div className="faq-icon">
-                  <span className="icon-plus">{expandedFaq === faq.id ? '−' : '+'}</span>
+                  <span className="icon-plus">{expandedFaq === (faq._id || idx) ? '−' : '+'}</span>
                 </div>
               </button>
               
-              {expandedFaq === faq.id && (
+              {expandedFaq === (faq._id || idx) && (
                 <div className="faq-answer">
                   <div className="answer-content">
                     <span className="answer-icon">A</span>
@@ -124,6 +120,9 @@ const FAQ = () => {
               )}
             </div>
           ))}
+          {!loading && !error && faqData.length === 0 && (
+            <div className="text-center text-gray-300">No FAQs published yet.</div>
+          )}
         </div>
       </section>
 
