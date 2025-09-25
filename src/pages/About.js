@@ -2,38 +2,37 @@ import React from 'react';
 
 const About = () => {
   const mission = {
-    title: "Our Mission: Making the Web Accessible for Everyone",
-    description: "SilverSurfers was founded on the belief that the internet should be welcoming to users of all ages. As the population ages and more seniors go online, we recognized the need for websites that truly serve elderly users. Our mission is to bridge the digital divide by helping businesses create senior-friendly websites that provide excellent user experiences for all generations.",
+  title: "Our Mission: Making the Web Accessible for Everyone",
+  description: "SilverSurfers was founded on the belief that the digital world should be welcoming to people of all ages. As more adults over 50 engage online, we saw a growing need for digital experiences that truly serve them. Our mission is to bridge the digital divide by helping businesses create inclusive, older adult–friendly experiences that work beautifully for every generation.",
   };
 
   const approach = [
     {
       icon: "♿",
       title: "Accessibility First",
-      description: "We prioritize inclusive design principles that make websites usable for people with varying abilities and tech skills."
+      description: "We utilize inclusive design principles that ensure digital experiences are usable for people of all abilities and technical skill levels."
     },
     {
       icon: "👥",
-      title: "User-Centered",
-      description: "Every recommendation is based on real user research and testing with elderly participants."
+      title: "User-Focused",
+      description: "Every recommendation is based on real user research and testing with older adult participants."
     },
     {
       icon: "🎯",
       title: "Results-Driven",
-      description: "We measure success by improved user engagement, reduced bounce rates, and positive feedback from senior users."
+      description: "We measure success by improved user engagement, reduced bounce rates, and positive feedback from older adult users."
     },
     {
       icon: "🤝",
       title: "Partnership",
-      description: "We work closely with your team to implement changes that respect your brand while improving accessibility."
+      description: "We work with your team to enhance accessibility & inclusivity while preserving the integrity of your brand."
     }
   ];
 
   const stats = [
-    { number: "50M+", label: "Seniors Online", description: "Active internet users over 65 worldwide" },
-    { number: "500+", label: "Sites Audited", description: "Websites improved for senior accessibility" },
-    { number: "85%", label: "Better Usability", description: "Average improvement in senior user experience" },
-    { number: "2020", label: "Founded", description: "Leading senior-friendly web design" }
+    { number: "124M+", label: "SilverSurfers Online", description: "Active older adults utilizing digital services" },
+    { number: "500+", label: "Sites Audited", description: "Digital experiences improved for older adults" },
+    { number: "85%", label: "Better Usability", description: "Average improvement in older adult digital experiences" }
   ];
 
   const timeline = [
@@ -79,9 +78,9 @@ const About = () => {
           <div className="text-center pt-16">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
               <span className="bg-gradient-to-r from-blue-300 via-green-300 to-teal-300 bg-clip-text text-transparent">About SilverSurfers</span>
-              <span className="block text-white mt-2">Senior-Friendly Web Experts</span>
+              <span className="block text-white mt-2">Experts in Creating Inclusive Digital Experiences</span>
             </h1>
-            <p className="text-xl text-gray-200 max-w-4xl mx-auto leading-relaxed">We help businesses make their websites welcoming and easy for older adults.</p>
+            <p className="text-xl text-gray-200 max-w-4xl mx-auto leading-relaxed">We help businesses make their digital experiences welcoming and easy to use for older adults.</p>
           </div>
         </div>
       </section>
@@ -106,16 +105,16 @@ const About = () => {
       </section>
 
       {/* Stats Section */}
-  <section className="py-20 bg-gradient-to-br from-gray-50 to-green-50/30">
+      <section className="py-20 bg-gradient-to-br from-gray-50 to-green-50/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Our Impact in Numbers</h2>
-            <p className="text-lg text-gray-600">Measurable results across the AI visibility landscape</p>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Our Impact</h2>
+            <p className="text-lg text-gray-600">Measurable results across digital platforms</p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-5xl mx-auto justify-items-center">
             {stats.map((stat, index) => (
-              <div key={index} className="bg-white rounded-2xl p-8 shadow-lg border border-green-100 text-center hover:shadow-xl transition-all duration-300 hover:scale-105">
+              <div key={index} className="w-full sm:w-80 bg-white rounded-2xl p-8 shadow-lg border border-green-100 text-center hover:shadow-xl transition-all duration-300 hover:scale-105">
                 <div className="text-4xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent mb-2">
                   {stat.number}
                 </div>
@@ -123,40 +122,6 @@ const About = () => {
                 <div className="text-sm text-gray-600">{stat.description}</div>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Timeline Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Our Journey</h2>
-            <p className="text-lg text-gray-600">How we became leaders in AI visibility optimization</p>
-          </div>
-          
-          <div className="relative">
-            {/* Timeline line */}
-            <div className="absolute left-1/2 transform -translate-x-px h-full w-0.5 bg-gradient-to-b from-green-600 to-blue-600"></div>
-            
-            <div className="space-y-12">
-              {timeline.map((item, index) => (
-                <div key={index} className={`relative flex items-center ${index % 2 === 0 ? 'justify-start' : 'justify-end'}`}>
-                  {/* Timeline dot */}
-                  <div className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full z-10"></div>
-                  
-                  <div className={`w-5/12 ${index % 2 === 0 ? 'pr-8' : 'pl-8'}`}>
-                    <div className="bg-white rounded-2xl p-6 shadow-lg border border-green-100 hover:shadow-xl transition-all duration-300">
-                      <div className="text-2xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent mb-2">
-                        {item.year}
-                      </div>
-                      <h3 className="text-xl font-semibold text-gray-900 mb-3">{item.title}</h3>
-                      <p className="text-gray-600">{item.description}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </section>
@@ -189,30 +154,30 @@ const About = () => {
         </div>
       </section>
 
-      {/* AI Platform Expertise Section */}
+      {/* Values Section */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">What We Focus On</h2>
-            <p className="text-lg text-gray-600">Key elements that make websites easier for seniors</p>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Our Values</h2>
+            <p className="text-lg text-gray-600">The principles that guide how we serve, innovate, and build inclusive digital experiences</p>
           </div>
-          
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {[
-              { name: "Readable Fonts", company: "Typography", color: "from-green-400 to-blue-500" },
-              { name: "High Contrast", company: "Visibility", color: "from-blue-400 to-teal-500" },
-              { name: "Simple Navigation", company: "Usability", color: "from-teal-400 to-cyan-500" },
-              { name: "Mobile Friendly", company: "Responsive", color: "from-green-400 to-teal-500" },
-              { name: "Clear Labels", company: "Content", color: "from-blue-400 to-green-500" }
-            ].map((platform, index) => (
-              <div key={index} className="text-center group">
-                <div className={`w-20 h-20 bg-gradient-to-br ${platform.color} rounded-2xl mx-auto mb-4 flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-110`}>
-                  <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
-                  </svg>
+              { letter: 'S', title: 'Serve', description: 'We put people first and lead with purpose' },
+              { letter: 'I', title: 'Innovation', description: 'We spark fresh ideas to shape the future' },
+              { letter: 'L', title: 'Learning', description: 'We stay curious and grow through every challenge' },
+              { letter: 'V', title: 'Value', description: 'We deliver meaningful impact for our clients and users' },
+              { letter: 'E', title: 'Excellence', description: 'We pursue the highest standards in all we do' },
+              { letter: 'R', title: 'Relationships', description: 'We build lasting connections based on trust and respect' }
+            ].map((val, i) => (
+              <div key={i} className="bg-gradient-to-br from-gray-50 to-green-50/40 rounded-2xl p-8 shadow-lg border border-green-100 hover:shadow-xl transition-all duration-300 hover:scale-105 flex items-start space-x-6">
+                <div className="w-16 h-16 flex-shrink-0 bg-gradient-to-br from-blue-500 via-green-600 to-teal-600 rounded-2xl flex items-center justify-center text-white text-3xl font-bold shadow-md">
+                  {val.letter}
                 </div>
-                <div className="text-sm font-medium text-gray-900">{platform.name}</div>
-                <div className="text-xs text-gray-600">{platform.company}</div>
+                <div className="flex-1">
+                  <h3 className="text-xl font-semibold text-gray-900 mb-2">{val.title}</h3>
+                  <p className="text-gray-700 leading-relaxed text-base">{val.description}</p>
+                </div>
               </div>
             ))}
           </div>
@@ -228,11 +193,10 @@ const About = () => {
             Curious to learn more or have questions?
           </h2>
           <p className="text-xl text-gray-200 mb-8 max-w-3xl mx-auto">
-            We're not a faceless AI – we're people who love to talk about this stuff! Feel free to reach out.
+            We're not a faceless company – we're people who care deeply about inclusive, older adult–friendly digital experiences. Reach out anytime.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="/contact" className="px-8 py-4 bg-gradient-to-r from-blue-600 via-green-600 to-teal-600 hover:from-blue-700 hover:via-green-700 hover:to-teal-700 text-white font-semibold rounded-xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300">Contact Us</a>
-            <a href="mailto:hello@silversurfers.io" className="px-8 py-4 bg-white/10 backdrop-blur-sm text-white border-2 border-white/30 font-semibold rounded-xl hover:bg-white/20 hover:border-white/50 transition-all duration-300">Email Us</a>
+            <a href="/contact#contact-form" className="px-8 py-4 bg-gradient-to-r from-blue-600 via-green-600 to-teal-600 hover:from-blue-700 hover:via-green-700 hover:to-teal-700 text-white font-semibold rounded-xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300">Contact Us</a>
           </div>
         </div>
       </section>

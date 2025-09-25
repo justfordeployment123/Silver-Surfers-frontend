@@ -74,16 +74,16 @@ const Services = () => {
   ];
 
   const freeAudit = {
-    name: "Light Audit Report",
+    name: "Quick Scan Report",
     icon: "🔍",
     price: "Always free",
-    description: "Light version of the SilverSurfers audit report — quick snapshot with your Senior‑Friendly Score and top tips.",
+    description: "Quick Scan version of the SilverSurfers report – a quick snapshot and your SilverSurfers Score.",
     features: [
-      "Senior‑Friendly Score (0–100)",
-      "2–3 high-level improvement tips",
+      "SilverSurfers Score (0-100)",
+      "2-3 high-level improvement recommendations",
       "Email copy of results"
     ],
-    cta: "Get Light Report",
+    cta: "Get Quick Scan Report",
     highlight: "Start here - No cost",
     gradient: "from-green-500 to-blue-500"
   };
@@ -116,13 +116,12 @@ const Services = () => {
           <div className="text-center pt-16">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
               <span className="bg-gradient-to-r from-blue-300 via-green-300 to-teal-300 bg-clip-text text-transparent">
-                Accessibility Service Packages
-              </span>
-              <span className="block text-white mt-2">& Pricing</span>
+                Service Packages & Pricing</span>
             </h1>
-            <p className="text-xl text-gray-200 max-w-4xl mx-auto leading-relaxed">
-              We help businesses create senior-friendly websites with actionable audits, hands-on improvements, and certification.
-            </p>
+              <p className="text-2xl text-gray-200 max-w-4xl mx-auto leading-relaxed">
+                We help businesses create digital experiences that engage and delight older adults — with expert digital experience assessments, actionable enhancements, and certification to showcase your commitment to accessibility.
+              </p>
+
           </div>
         </div>
       </section>
@@ -132,7 +131,7 @@ const Services = () => {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">Start Here - Completely Free</h2>
-            <p className="text-lg text-gray-600">Get instant insights into your AI visibility</p>
+            <p className="text-lg text-gray-600">Get immediate insights into your current digital experience</p>
           </div>
           
           <div className="relative bg-gradient-to-br from-green-50 to-blue-50 rounded-3xl p-8 lg:p-12 border-2 border-green-200 shadow-xl">
@@ -156,7 +155,7 @@ const Services = () => {
                 <h4 className="text-lg font-semibold text-gray-900 mb-4">What you get:</h4>
                 <ul className="space-y-3">
                   {freeAudit.features.map((feature, index) => (
-                    <li key={index} className="flex items-center text-gray-700">
+                    <li key={index} className="flex items-center text-gray-700 text-base">
                       <svg className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                       </svg>
@@ -171,7 +170,7 @@ const Services = () => {
                   {freeAudit.cta}
                   <svg className="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
                 </a>
-                <p className="text-sm text-gray-500 mt-3">No credit card required • Takes 30 seconds</p>
+                <p className="text-base text-gray-500 mt-3">No credit card required • Takes 30 seconds</p>
               </div>
             </div>
           </div>
@@ -194,7 +193,7 @@ const Services = () => {
                 <div className={`text-4xl font-extrabold bg-gradient-to-r ${primary.gradient} bg-clip-text text-transparent mb-2`}>
                   {primary.price}
                 </div>
-                <div className="text-gray-500 text-sm">{primary.period}</div>
+                <div className="text-gray-500 text-base">{primary.period}</div>
               </div>
 
               <p className="text-gray-700 mb-6 text-center max-w-2xl mx-auto">{primary.description}</p>
@@ -204,7 +203,7 @@ const Services = () => {
                   <h4 className="font-semibold text-gray-900 mb-3">What's Included</h4>
                   <ul className="space-y-2">
                     {primary.features.map((feature, index) => (
-                      <li key={index} className="flex items-start text-sm text-gray-700">
+                      <li key={index} className="flex items-start text-base text-gray-700">
                         <svg className="w-4 h-4 text-green-600 mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                         </svg>
@@ -214,8 +213,8 @@ const Services = () => {
                   </ul>
                 </div>
                 <div className="space-y-3">
-                  <div className="text-sm"><span className="font-medium text-gray-900">Best for:</span> <span className="text-gray-700">{primary.bestFor}</span></div>
-                  <div className="text-sm"><span className="font-medium text-gray-900">Delivery:</span> <span className="text-gray-700">{primary.delivery}</span></div>
+                  <div className="text-base"><span className="font-medium text-gray-900">Best for:</span> <span className="text-gray-700">{primary.bestFor}</span></div>
+                  <div className="text-base"><span className="font-medium text-gray-900">Delivery:</span> <span className="text-gray-700">{primary.delivery}</span></div>
                 </div>
               </div>
 
@@ -243,12 +242,12 @@ const Services = () => {
           
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-3xl mx-auto items-stretch">
             {[
-              { title: "Start with Light Report", desc: "Get a quick snapshot of senior‑friendly accessibility in 30 seconds.", cta: "Get Light Report", link: "/" },
-              { title: "Get the Report", desc: "Ready for the full assessment and recommendations.", cta: "Purchase Report", link: `/checkout?pkg=${primary.id}` }
+              { title: "Start with a Quick Scan", desc: "Get a quick snapshot of your digital experience in 30 seconds.", cta: "Get Quick Scan Report", link: "/?openScan=1" },
+              { title: "SilverSurfers Starter", desc: "Want a simple analysis? Perfect for small businesses.", cta: "Purchase Report", link: `/checkout?pkg=${primary.id}` }
             ].map((item, index) => (
               <div key={index} className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 text-center flex flex-col h-full">
                 <h3 className="text-lg font-semibold text-gray-900 mb-3">{item.title}</h3>
-                <p className="text-gray-600 mb-6 text-sm">{item.desc}</p>
+                <p className="text-gray-600 mb-6 text-base">{item.desc}</p>
                 <div className="mt-auto">
                   <a href={item.link} className="inline-flex items-center justify-center px-5 py-2.5 bg-gradient-to-r from-blue-600 via-green-600 to-teal-600 text-white font-medium rounded-lg shadow-sm hover:shadow-md hover:from-blue-700 hover:via-green-700 hover:to-teal-700 transition-all duration-300 w-full sm:w-auto">
                     {item.cta}
@@ -264,10 +263,10 @@ const Services = () => {
   <section className="py-20 bg-gradient-to-br from-gray-900 via-green-900 to-blue-900">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6">Ready to Get Started?</h2>
-          <p className="text-xl text-gray-200 mb-8">Join hundreds of businesses that are already being found by AI assistants.</p>
+          <p className="text-xl text-gray-200 mb-8">Join the growing community of businesses elevating their digital experience with SilverSurfers.ai</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="/" className="px-8 py-4 bg-gradient-to-r from-blue-600 via-green-600 to-teal-600 text-white font-semibold rounded-xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300">
-              Get Light Report
+            <a href="/?openScan=1" className="px-8 py-4 bg-gradient-to-r from-blue-600 via-green-600 to-teal-600 text-white font-semibold rounded-xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300">
+              Get Quick Scan Report
             </a>
             <a href="/contact" className="px-8 py-4 bg-white/10 backdrop-blur-sm text-white border-2 border-white/30 font-semibold rounded-xl hover:bg-white/20 transition-all duration-300">
               Contact Us

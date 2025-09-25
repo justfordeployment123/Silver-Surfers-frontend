@@ -130,14 +130,15 @@ const handleScanSubmit = async (e) => {
        <div className="relative z-10 flex items-center justify-center min-h-screen px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32">
          <div className="max-w-4xl mx-auto text-center">
            <div className="mb-12">
-             <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-6 leading-tight">
-               <span className="block">Is Your Website</span>
+             <h1 className="text-4xl sm:text-4xl lg:text-5xl xl:text-5xl font-bold text-white mb-6 leading-tight">
+               <span className="block">Are you Delivering</span>
                <span className="block bg-gradient-to-r from-blue-300 via-green-300 via-teal-300 to-cyan-300 bg-clip-text text-transparent">
-                 Senior-Friendly?
+                 Older Adult Friendly Digital Experiences?
                </span>
              </h1>
-             <h2 className="text-xl sm:text-2xl lg:text-3xl text-gray-200 font-light leading-relaxed max-w-3xl mx-auto">
-               Get your SilverSurfers seal of approval. Expert auditing for elderly-friendly websites with scoring and improvement suggestions.
+             
+             <h2 className="text-2xl sm:text-3xl lg:text-2xl text-gray-200 font-light leading-relaxed max-w-4xl mx-auto">
+               Earn the SilverSurfers Seal of Approval through expert audits that score your site and deliver actionable reports to create more delightful digital experiences for older adults.
              </h2>
            </div>
 
@@ -155,7 +156,7 @@ const handleScanSubmit = async (e) => {
                        onChange={handleInputChange}
                       inputMode="url"
                       autoComplete="url"
-                       className="w-full px-4 py-4 bg-white/95 backdrop-blur-sm rounded-xl border border-white/30 text-gray-800 placeholder-gray-500 focus:ring-2 focus:ring-green-400 focus:border-transparent transition-all duration-200 text-sm sm:text-base shadow-lg"
+                       className="w-full px-5 py-5 bg-white/95 backdrop-blur-sm rounded-xl border border-white/30 text-gray-800 placeholder-gray-500 focus:ring-2 focus:ring-green-400 focus:border-transparent transition-all duration-200 text-base sm:text-lg shadow-lg"
                        required
                      />
                      <div className="absolute inset-y-0 right-0 flex items-center pr-3">
@@ -171,7 +172,7 @@ const handleScanSubmit = async (e) => {
                        placeholder="Work email address"
                        value={scanData.email}
                        onChange={handleInputChange}
-                       className="w-full px-4 py-4 bg-white/95 backdrop-blur-sm rounded-xl border border-white/30 text-gray-800 placeholder-gray-500 focus:ring-2 focus:ring-green-400 focus:border-transparent transition-all duration-200 text-sm sm:text-base shadow-lg"
+                       className="w-full px-5 py-5 bg-white/95 backdrop-blur-sm rounded-xl border border-white/30 text-gray-800 placeholder-gray-500 focus:ring-2 focus:ring-green-400 focus:border-transparent transition-all duration-200 text-base sm:text-lg shadow-lg"
                        required
                      />
                      <div className="absolute inset-y-0 right-0 flex items-center pr-3">
@@ -193,13 +194,13 @@ const handleScanSubmit = async (e) => {
                        <span>Analyzing...</span>
                      </div>
                    ) : (
-                     'Get Your Senior-Friendly Score'
+                     'Get your SilverSurfers Score'
                    )}
                  </button>
                </form>
 
-               <p className="text-gray-200 text-sm mt-4 leading-relaxed text-center">
-                 Get a Senior-Friendly Score and detailed recommendations to make your website more accessible to elderly users.
+               <p className="text-gray-200 text-base sm:text-lg mt-4 leading-relaxed text-center font-medium">
+                 Reach 124 million older adults with $8.3 trillion in buying power. Unlock your SilverSurfers Score today.
                </p>
 
                {error && (
@@ -214,61 +215,11 @@ const handleScanSubmit = async (e) => {
                )}
              </div>
            </div>
-
-           {/* Trust indicators */}
-           <div className="mt-12">
-             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
-               <div className="group relative overflow-hidden">
-                 <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-green-500/10 to-transparent rounded-2xl blur-sm group-hover:blur-none transition-all duration-500"></div>
-                 <div className="relative flex items-center space-x-4 p-6 rounded-2xl bg-white/8 backdrop-blur-xl border border-white/15 hover:bg-white/12 transition-all duration-300 shadow-lg hover:shadow-xl">
-                   <div className="flex-shrink-0">
-                     <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-green-600 rounded-xl flex items-center justify-center shadow-lg">
-                       <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                       </svg>
-                     </div>
-                   </div>
-                   <div className="flex-1">
-                     <div className="text-white font-semibold text-sm leading-tight">Senior-Friendly Score</div>
-                     <div className="text-gray-300 text-xs mt-1">in 30 seconds</div>
-                   </div>
-                 </div>
-               </div>
-               
-               <div className="group relative overflow-hidden">
-                 <div className="absolute inset-0 bg-gradient-to-br from-green-500/20 via-teal-500/10 to-transparent rounded-2xl blur-sm group-hover:blur-none transition-all duration-500"></div>
-                 <div className="relative flex items-center space-x-4 p-6 rounded-2xl bg-white/8 backdrop-blur-xl border border-white/15 hover:bg-white/12 transition-all duration-300 shadow-lg hover:shadow-xl">
-                   <div className="flex-shrink-0">
-                     <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-teal-600 rounded-xl flex items-center justify-center shadow-lg">
-                       <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                       </svg>
-                     </div>
-                   </div>
-                   <div className="flex-1">
-                     <div className="text-white font-semibold text-sm leading-tight">Light version of audit</div>
-                     <div className="text-gray-300 text-xs mt-1">Report</div>
-                   </div>
-                 </div>
-               </div>
-               
-               <div className="group relative overflow-hidden">
-                 <div className="absolute inset-0 bg-gradient-to-br from-teal-500/20 via-cyan-500/10 to-transparent rounded-2xl blur-sm group-hover:blur-none transition-all duration-500"></div>
-                 <div className="relative flex items-center space-x-4 p-6 rounded-2xl bg-white/8 backdrop-blur-xl border border-white/15 hover:bg-white/12 transition-all duration-300 shadow-lg hover:shadow-xl">
-                   <div className="flex-shrink-0">
-                     <div className="w-12 h-12 bg-gradient-to-br from-teal-500 to-cyan-600 rounded-xl flex items-center justify-center shadow-lg">
-                       <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                       </svg>
-                     </div>
-                   </div>
-                   <div className="flex-1">
-                     <div className="text-white font-semibold text-sm leading-tight">100% free</div>
-                     <div className="text-gray-300 text-xs mt-1">quick scan</div>
-                   </div>
-                 </div>
-               </div>
-             </div>
+           {/* Replacement descriptive text instead of buttons/cards */}
+           <div className="mt-12 max-w-4xl mx-auto">
+             <p className="text-gray-100 text-lg sm:text-xl leading-relaxed font-medium px-4">
+               SilverSurfers empowers organizations to create digital experiences that delight and engage SilverSurfers (adults 50+) as they surf the digital oceans.
+             </p>
            </div>
          </div>
        </div>
@@ -282,9 +233,9 @@ const handleScanSubmit = async (e) => {
        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
          <div className="text-center mb-16">
            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
-             Making the Web Senior-Friendly
+             Creating Delightful & Inclusive Digital Experiences
            </h2>
-           <p className="text-lg text-gray-700 max-w-3xl mx-auto leading-relaxed">
+           <p className="text-lg sm:text-xl text-gray-700 max-w-4xl mx-auto leading-relaxed">
              Trusted by businesses to create accessible, easy-to-use websites that welcome users of all ages
            </p>
          </div>
@@ -319,7 +270,7 @@ const handleScanSubmit = async (e) => {
              </div>
              <h3 className="text-xl font-semibold text-gray-900 mb-4">Accessibility Analysis</h3>
              <p className="text-gray-700 leading-relaxed mb-4">
-               Comprehensive evaluation of your website's accessibility for elderly users, focusing on readability, navigation, and usability.
+               Comprehensive evaluation of your website's accessibility for older adults, focusing on readability, navigation, and usability.
              </p>
            </div>
 
@@ -331,7 +282,7 @@ const handleScanSubmit = async (e) => {
              </div>
              <h3 className="text-xl font-semibold text-gray-900 mb-4">Seal of Approval</h3>
              <p className="text-gray-700 leading-relaxed mb-4">
-               Earn the SilverSurfers certification badge to display on your website, showing your commitment to inclusive design.
+               Earn the SilverSurfers Seal of Approval Badge to display on your website, showing your commitment to inclusive design.
              </p>
            </div>
 
@@ -343,7 +294,7 @@ const handleScanSubmit = async (e) => {
              </div>
              <h3 className="text-xl font-semibold text-gray-900 mb-4">Improvement Guide</h3>
              <p className="text-gray-700 leading-relaxed mb-4">
-               Receive detailed, actionable recommendations to enhance your website's usability for elderly visitors.
+               Receive detailed, actionable recommendations to enhance your website's usability for older adult visitors.
              </p>
            </div>
          </div>
@@ -351,19 +302,19 @@ const handleScanSubmit = async (e) => {
      </section>
 
      {/* HOW IT WORKS SECTION */}
-     <section className="relative py-20 bg-gradient-to-br from-slate-50 via-green-50/20 to-blue-50/20">
+     <section className="relative py-20 bg-gradient-to-br from-slate-100 via-green-50 to-blue-50">
        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
          <div className="text-center mb-16">
            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
              How SilverSurfers Works
            </h2>
-           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-             Simple 3-step process to make your website senior-friendly and earn your seal of approval
+           <p className="text-xl sm:text-2xl text-gray-800 max-w-4xl mx-auto leading-relaxed font-medium">
+             Simple 3-step process to make your website older adult friendly and earn your Seal of Approval Badge
            </p>
          </div>
 
          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
-           <div className="relative bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-green-100 text-center">
+           <div className="relative bg-white rounded-2xl p-8 shadow-md hover:shadow-lg border border-green-100 text-center transition-all">
              <div className="absolute -top-6 left-1/2 transform -translate-x-1/2">
                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-green-600 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-lg">
                  1
@@ -376,13 +327,13 @@ const handleScanSubmit = async (e) => {
                  </svg>
                </div>
                <h3 className="text-2xl font-bold text-gray-900 mb-4">Quick Scan</h3>
-               <p className="text-gray-600 leading-relaxed">
-                 Enter your URL to get an instant Senior-Friendly Score and see how accessible your website is to elderly users.
+               <p className="text-gray-700 leading-relaxed text-base sm:text-lg">
+                 Enter your URL to get an instant <span className="font-semibold">SilverSurfers Score</span> and see how accessible and inclusive your website really is.
                </p>
              </div>
            </div>
 
-           <div className="relative bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-green-100 text-center">
+           <div className="relative bg-white rounded-2xl p-8 shadow-md hover:shadow-lg border border-green-100 text-center transition-all">
              <div className="absolute -top-6 left-1/2 transform -translate-x-1/2">
                <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-teal-600 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-lg">
                  2
@@ -396,13 +347,13 @@ const handleScanSubmit = async (e) => {
                  </svg>
                </div>
                <h3 className="text-2xl font-bold text-gray-900 mb-4">Get Improvements</h3>
-               <p className="text-gray-600 leading-relaxed">
-                 Receive detailed recommendations on font sizes, color contrast, navigation, and other senior-friendly features.
+               <p className="text-gray-700 leading-relaxed text-base sm:text-lg">
+                 Receive expert guidance that goes beyond industry standards, offering improvements in visual design, navigation, and user experience to enhance accessibility and create more delightful digital experiences for older adults.
                </p>
              </div>
            </div>
 
-           <div className="relative bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-green-100 text-center">
+           <div className="relative bg-white rounded-2xl p-8 shadow-md hover:shadow-lg border border-green-100 text-center transition-all">
              <div className="absolute -top-6 left-1/2 transform -translate-x-1/2">
                <div className="w-12 h-12 bg-gradient-to-br from-teal-500 to-cyan-600 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-lg">
                  3
@@ -415,28 +366,20 @@ const handleScanSubmit = async (e) => {
                  </svg>
                </div>
                <h3 className="text-2xl font-bold text-gray-900 mb-4">Earn Your Seal</h3>
-               <p className="text-gray-600 leading-relaxed">
-                 Once you meet our standards, earn the SilverSurfers seal of approval to proudly display on your website.
+               <p className="text-gray-700 leading-relaxed text-base sm:text-lg">
+                 Once you meet SilverSurfers standards, earn the SilverSurfers Seal of Approval to proudly display on your website.
                </p>
              </div>
            </div>
          </div>
 
          <div className="text-center">
-           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-           <button 
-             onClick={() => document.querySelector('form').scrollIntoView({ behavior: 'smooth' })}
-             className="px-8 py-4 bg-gradient-to-r from-blue-600 via-green-600 to-teal-600 hover:from-blue-700 hover:via-green-700 hover:to-teal-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 text-lg"
-           >
-            Get the Light Report
-           </button>
            <button 
              onClick={navigateToServices}
-             className="px-8 py-4 bg-white text-green-600 font-semibold rounded-xl border-2 border-green-200 hover:border-green-300 hover:bg-green-50 transition-all duration-300 text-lg"
+             className="px-10 py-5 bg-gradient-to-r from-blue-600 via-green-600 to-teal-600 hover:from-blue-700 hover:via-green-700 hover:to-teal-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 text-lg"
            >
-             See Our Services
+             Explore Our Services
            </button>
-           </div>
          </div>
        </div>
      </section>
@@ -478,21 +421,21 @@ const handleScanSubmit = async (e) => {
            </span>
          </h2>
          <p className="text-xl text-gray-200 mb-12 max-w-3xl mx-auto leading-relaxed">
-           Start your journey to creating a senior-friendly website. Get your free assessment and discover how to make your site accessible to users of all ages.
+           Start your journey to creating an inclusive and delightful digital experience for everyone. Get your free assessment and discover how to make your digital assets accessible to users of all ages.
          </p>
          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-        <button 
-          onClick={() => document.querySelector('form').scrollIntoView({ behavior: 'smooth' })}
-          className="px-8 py-4 bg-gradient-to-r from-blue-600 via-green-600 to-teal-600 hover:from-blue-700 hover:via-green-700 hover:to-teal-700 text-white font-semibold rounded-xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 text-lg"
-        >
-          Get the Light Report
-        </button>
-        <button 
-          onClick={navigateToContact}
-          className="px-8 py-4 bg-white/10 backdrop-blur-sm text-white border-2 border-white/30 font-semibold rounded-xl hover:bg-white/20 hover:border-white/50 transition-all duration-300 text-lg"
-        >
-          Contact Our Team
-        </button>
+          <button 
+            onClick={() => document.querySelector('form')?.scrollIntoView({ behavior: 'smooth', block: 'center' })}
+            className="px-8 py-4 bg-gradient-to-r from-blue-600 via-green-600 to-teal-600 hover:from-blue-700 hover:via-green-700 hover:to-teal-700 text-white font-semibold rounded-xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 text-lg"
+          >
+            Get the Quick Scan Report
+          </button>
+          <a 
+            href="mailto:hello@silversurfers.ai"
+            className="px-8 py-4 bg-white/10 backdrop-blur-sm text-white border-2 border-white/30 font-semibold rounded-xl hover:bg-white/20 hover:border-white/50 transition-all duration-300 text-lg"
+          >
+            Contact Our Team
+          </a>
          </div>
        </div>
      </section>

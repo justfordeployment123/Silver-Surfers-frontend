@@ -61,7 +61,8 @@ const FAQ = () => {
             </h1>
             
             <p className="text-xl text-gray-200 max-w-4xl mx-auto leading-relaxed">
-              Everything you need to know about our senior-friendly auditing and services.
+              Ready to Improve Your Digital Experience?<br className="hidden sm:block" />
+              Join hundreds of businesses that are already enhancing their digital experience to capture the SilverSurfers market.  Our expert team is ready to help!
             </p>
           </div>
         </div>
@@ -131,7 +132,7 @@ const FAQ = () => {
         <div className="resources-container">
           <div className="resources-header">
             <h2 className="resources-title">Helpful Resources</h2>
-            <p className="resources-subtitle">Dive deeper into AI visibility optimization</p>
+            <p className="resources-subtitle">Dive deeper into the digital experience.</p>
           </div>
           
           <div className="resources-grid">
@@ -158,14 +159,14 @@ const FAQ = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
               </div>
-              <h3 className="resource-title">Case Studies</h3>
-              <p className="resource-description">See how we've helped businesses improve AI visibility</p>
+              <h3 className="resource-title">SilverSurfers Blog</h3>
+              <p className="resource-description">See how we’ve helped businesses improve their digital platforms</p>
               <button 
                 type="button"
-                onClick={() => console.log('Case Studies clicked')}
+                onClick={() => console.log('SilverSurfers Blog clicked')}
                 className="resource-button"
               >
-                View Cases →
+                Read Blog →
               </button>
             </div>
             
@@ -176,7 +177,7 @@ const FAQ = () => {
                 </svg>
               </div>
               <h3 className="resource-title">Live Chat</h3>
-              <p className="resource-description">Chat with our AI visibility experts in real-time</p>
+              <p className="resource-description">Chat with our friendly SurferSam in real-time</p>
               <button 
                 type="button"
                 onClick={() => console.log('Live Chat clicked')}
@@ -198,7 +199,7 @@ const FAQ = () => {
         <div className="cta-content">
           <h2 className="cta-title">Still Have Questions?</h2>
           <p className="cta-subtitle">
-            Can't find what you're looking for? Our team is here to help with personalized answers.
+            Can’t find what you’re looking for?  Our team is here to help!
           </p>
           <div className="cta-buttons">
             <button 
@@ -213,7 +214,7 @@ const FAQ = () => {
               onClick={navigateToHome}
               className="cta-button cta-button-secondary"
             >
-              Get Light Report
+              Get Quick Scan Report
             </button>
           </div>
   </div>

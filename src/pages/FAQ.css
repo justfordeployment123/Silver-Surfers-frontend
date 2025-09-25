@@ -333,14 +333,20 @@
 }
 
 .resource-icon {
-  width: 4rem;
-  height: 4rem;
-  border-radius: 1rem;
-  margin: 0 auto 1.5rem;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 1.25rem;
+  margin: 0 auto 1.75rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.12);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.resource-card:hover .resource-icon {
+  transform: scale(1.08) translateY(-2px);
+  box-shadow: 0 10px 22px rgba(0,0,0,0.18);
 }
 
 .resource-icon-purple {
@@ -356,8 +362,8 @@
 }
 
 .icon-svg {
-  width: 2rem;
-  height: 2rem;
+  width: 2.5rem;
+  height: 2.5rem;
   color: white;
 }
 

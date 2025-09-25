@@ -13,9 +13,9 @@ const Contact = () => {
   const [submitStatus, setSubmitStatus] = useState(null);
 
   const contactInfo = {
-    email: "hello@silversurfers.io",
-    phone: "+1 (555) 123-4567",
-    address: "123 Accessibility Lane, Inclusive City, IC 12345",
+  email: "hello@silversurfers.ai",
+  phone: "+1 914-623-8747",
+  address: "2320 E Marshall Ave, Phoenix, AZ 85016",
     officeHours: "Monday - Friday: 9:00 AM - 5:00 PM EST",
     responseTime: "We typically respond within 4-6 hours during business hours"
   };
@@ -25,16 +25,16 @@ const Contact = () => {
       icon: "📧",
       title: "Email Us",
       description: "Send us a detailed message about your accessibility needs",
-      action: "hello@silversurfers.io",
-      link: "mailto:hello@silversurfers.io",
+  action: "hello@silversurfers.ai",
+  link: "mailto:hello@silversurfers.ai",
       gradient: "from-blue-500 to-green-600"
     },
     {
       icon: "📞",
       title: "Call Sales",
-      description: "Speak directly with our AI visibility experts",
-      action: "+1 (555) 123-4567",
-      link: "tel:+15551234567",
+  description: "Speak with one of our experts",
+  action: " +1 914 623 8747",
+  link: "tel:+19146238747",
       gradient: "from-pink-500 to-purple-600"
     },
     {
@@ -105,14 +105,15 @@ const Contact = () => {
               </span>
             </h1>
             <p className="text-xl text-gray-200 max-w-4xl mx-auto leading-relaxed">
-              Have questions about accessibility? Need a custom quote? Our friendly, expert team is here to help you succeed.
+              Have questions or need a custom quote?<br className="hidden sm:block" />
+              Our friendly, expert team is here to help! Contact us today.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Contact Methods */}
-      <section className="py-20 bg-white">
+  {/* Contact Methods */}
+  <section id="contact-methods" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
               <h2 className="text-3xl font-bold text-gray-900 mb-4">How Can We Help?</h2>
@@ -142,14 +143,14 @@ const Contact = () => {
         </div>
       </section>
 
-      {/* Contact Form */}
-  <section className="py-20 bg-gradient-to-br from-gray-50 to-purple-50/30">
+    {/* Contact Form */}
+  <section id="contact-form" className="py-20 bg-gradient-to-br from-gray-50 to-purple-50/30">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-white/90 backdrop-blur-sm rounded-3xl p-8 lg:p-12 shadow-xl border border-purple-100">
             <div className="text-center mb-8">
               <h2 className="text-3xl font-bold text-gray-900 mb-4">Send Us a Message</h2>
               <p className="text-lg text-gray-600">
-                Tell us about your business and accessibility goals. We'll get back to you within 2-4 hours with personalized recommendations.
+                Tell us about your business and what you hope to achieve. We’ll respond promptly.
               </p>
             </div>
             
@@ -265,8 +266,8 @@ const Contact = () => {
         </div>
       </section>
 
-      {/* Contact Information */}
-      <section className="py-20 bg-white">
+  {/* Contact Information */}
+  <section id="contact-info" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">Contact Information</h2>
@@ -291,7 +292,7 @@ const Contact = () => {
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Phone</h3>
               <p className="text-sm text-gray-600 mb-3">For sales and urgent inquiries</p>
-              <a href={`tel:${contactInfo.phone.replace(/\s/g, '')}`} className="text-purple-600 hover:text-purple-700 font-medium">
+              <a href={`tel:${contactInfo.phone.replace(/[^+\d]/g, '')}`} className="text-purple-600 hover:text-purple-700 font-medium">
                 {contactInfo.phone}
               </a>
             </div>
@@ -329,7 +330,7 @@ const Contact = () => {
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Custom Solutions</h3>
               <p className="text-sm text-gray-600 mb-3">Need something specific?</p>
-              <span className="text-gray-700">We create custom AI visibility solutions for businesses with unique needs.</span>
+              <span className="text-gray-700">We can create custom solutions for your digital business. Contact us today.</span>
             </div>
           </div>
         </div>
@@ -341,10 +342,10 @@ const Contact = () => {
         
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6">
-            Ready to Improve Senior Accessibility?
+            Ready to Improve Your Digital Experience?
           </h2>
           <p className="text-xl text-gray-200 mb-8 max-w-3xl mx-auto">
-            Join hundreds of businesses that are already being found by AI assistants. Our expert team is ready to help you succeed.
+            Join hundreds of businesses that are already enhancing their digital experience to capture the SilverSurfers market.  Our expert team is ready to help!
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a href="/" className="px-8 py-4 bg-gradient-to-r from-blue-600 via-green-600 to-teal-600 hover:from-blue-700 hover:via-green-700 hover:to-teal-700 text-white font-semibold rounded-xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300">

@@ -27,8 +27,7 @@ const Footer = () => {
               </div>
               
               <p className="text-gray-300 leading-relaxed max-w-md">
-                Making the web accessible for all generations. Expert auditing services 
-                for senior-friendly websites with certification and improvement guidance.
+                Shaping an age-inclusive digital world. SilverSurfers provides expert digital experience assessments, certification, and actionable guidance to help businesses delight all generations of users.
               </p>
               
               <div className="flex space-x-4">
@@ -59,14 +58,14 @@ const Footer = () => {
               </div>
             </div>
 
-            {/* Services */}
+            {/* Services / Plans */}
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-white">Services</h3>
+              <h3 className="text-lg font-semibold text-white">Plans</h3>
               <ul className="space-y-3">
-                <li><Link to="/services" className="text-gray-300 hover:text-white transition-colors duration-300">Accessibility Report</Link></li>
-                <li><Link to="/services" className="text-gray-300 hover:text-white transition-colors duration-300">Full Optimization</Link></li>
-                <li><Link to="/services" className="text-gray-300 hover:text-white transition-colors duration-300">Premium Experience</Link></li>
-                <li><Link to="/" className="text-gray-300 hover:text-white transition-colors duration-300">Light Report</Link></li>
+                <li><Link to="/services" className="text-gray-300 hover:text-white transition-colors duration-300">Basic Subscription</Link></li>
+                <li><Link to="/services" className="text-gray-300 hover:text-white transition-colors duration-300">Professional Subscription</Link></li>
+                <li><Link to="/services" className="text-gray-300 hover:text-white transition-colors duration-300">Enterprise Subscription</Link></li>
+                <li><Link to="/services" className="text-gray-300 hover:text-white transition-colors duration-300">Consulting Services</Link></li>
               </ul>
             </div>
 

@@ -36,13 +36,49 @@ const Blog = () => {
     return () => { active = false; };
   }, []);
 
-  const popularTopics = [
-    { name: 'Readable Fonts', count: 12, gradient: 'green-blue' },
-    { name: 'Color Contrast', count: 15, gradient: 'blue-cyan' },
-    { name: 'Simple Navigation', count: 10, gradient: 'teal-cyan' },
-    { name: 'Mobile Usability', count: 8, gradient: 'green-teal' },
-    { name: 'Case Studies', count: 6, gradient: 'blue-teal' }
-  ];
+  // Dynamically derive topic counts from loaded posts (fallback removed static placeholders)
+  const topicCounts = useMemo(() => {
+    if (!posts || !posts.length) return {};
+    const counts = {};
+    posts.forEach(p => {
+      // Allow multiple tags if provided (comma separated or array). Fallback to category.
+      const raw = (p.tags || p.tag || p.category || 'general');
+      const tagList = Array.isArray(raw) ? raw : String(raw).split(/[,|]/);
+      tagList.map(t => t.trim()).filter(Boolean).forEach(t => {
+        const key = t.toLowerCase();
+        counts[key] = (counts[key] || 0) + 1;
+      });
+    });
+    return counts;
+  }, [posts]);
+
+  // Map raw keys to human readable labels & optional gradients
+  const topicMeta = {
+    'readable fonts': { label: 'Readable Fonts', gradient: 'green-blue' },
+    'fonts': { label: 'Readable Fonts', gradient: 'green-blue' },
+    'color contrast': { label: 'Color Contrast', gradient: 'blue-cyan' },
+    'contrast': { label: 'Color Contrast', gradient: 'blue-cyan' },
+    'navigation': { label: 'Simple Navigation', gradient: 'teal-cyan' },
+    'simple navigation': { label: 'Simple Navigation', gradient: 'teal-cyan' },
+    'mobile usability': { label: 'Mobile Usability', gradient: 'green-teal' },
+    'mobile': { label: 'Mobile Usability', gradient: 'green-teal' },
+    'case studies': { label: 'Case Studies', gradient: 'blue-teal' },
+    'case-studies': { label: 'Case Studies', gradient: 'blue-teal' },
+    'accessibility': { label: 'Accessibility', gradient: 'blue-cyan' },
+    'usability': { label: 'Usability', gradient: 'green-teal' },
+    'design': { label: 'Design', gradient: 'teal-cyan' }
+  };
+
+  const derivedTopics = useMemo(() => {
+    return Object.entries(topicCounts)
+      .map(([key, count]) => {
+        const meta = topicMeta[key] || { label: key.replace(/\b\w/g, c => c.toUpperCase()), gradient: 'green-blue' };
+        return { key, name: meta.label, count, gradient: meta.gradient };
+      })
+      .filter(t => t.count > 0)
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 8);
+  }, [topicCounts]);
 
   const filteredPosts = useMemo(() => {
     if (selectedCategory === 'all') return posts;
@@ -90,11 +126,11 @@ const Blog = () => {
           <div className="text-center pt-16">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
               <span className="bg-gradient-to-r from-blue-300 via-green-300 to-teal-300 bg-clip-text text-transparent">
-                Accessibility & Senior UX
+                Accessibility & Silver UX
               </span>
             </h1>
             <p className="text-xl text-gray-200 max-w-4xl mx-auto leading-relaxed">
-              Practical guides, tips, and case studies on creating senior-friendly websites.
+              Practical guides, tips, and case studies on creating a delightful digital experience.
             </p>
           </div>
         </div>
@@ -205,37 +241,38 @@ const Blog = () => {
         </div>
       </section>
 
-      {/* Popular Topics */}
-      <section className="topics-section">
-        <div className="topics-container">
-          <div className="topics-header">
-            <h2 className="topics-title">Explore Our Insights</h2>
-            <p className="topics-subtitle">Dive deeper into the topics that matter most for AI visibility</p>
-          </div>
-          
-          <div className="topics-grid">
-            {popularTopics.map((topic, index) => (
-              <div key={index} className="topic-card">
-                <div className={`topic-icon ${topic.gradient}`}>
-                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                  </svg>
+      {/* Popular Topics (only if real derivedTopics exist) */}
+      {derivedTopics.length > 0 && (
+        <section className="topics-section">
+          <div className="topics-container">
+            <div className="topics-header">
+              <h2 className="topics-title">Explore Our Insights</h2>
+              <p className="topics-subtitle">Dive deeper into the topics that matter most for AI visibility</p>
+            </div>
+            <div className="topics-grid">
+              {derivedTopics.map((topic) => (
+                <div key={topic.key} className="topic-card">
+                  <div className={`topic-icon ${topic.gradient}`}>
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    </svg>
+                  </div>
+                  <h3 className="topic-name">{topic.name}</h3>
+                  <span className="topic-count">{topic.count} {topic.count === 1 ? 'article' : 'articles'}</span>
                 </div>
-                <h3 className="topic-name">{topic.name}</h3>
-                <span className="topic-count">{topic.count} articles</span>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Newsletter Signup */}
       <section className="newsletter-section">
         <div className="newsletter-container">
           <div className="newsletter-card">
-            <h2 className="newsletter-title">Stay Ahead of the AI Curve</h2>
+            <h2 className="newsletter-title">Stay Ahead of the Curve</h2>
             <p className="newsletter-subtitle">
-              Get the latest insights on AI visibility, industry trends, and actionable strategies delivered to your inbox.
+              Get the latest insights on digital trends and actionable strategies delivered to your inbox.
             </p>
             <form onSubmit={handleSubscribe} className="newsletter-form">
               <input 
@@ -267,9 +304,9 @@ const Blog = () => {
         </div>
         
         <div className="cta-content">
-          <h2 className="cta-title">Ready to See How Your Business Performs with AI?</h2>
+          <h2 className="cta-title">Ready to See How Your Business Performs with SilverSurfers?</h2>
           <p className="cta-subtitle">
-            Discover your current AI visibility score and get actionable insights to improve your presence with AI assistants.
+            Discover your current SilverSurfers Score and get actionable insights to improve your digital experience.
           </p>
           <div className="cta-buttons">
             <button 
@@ -277,7 +314,7 @@ const Blog = () => {
               onClick={navigateToHome}
               className="cta-button cta-button-primary"
             >
-              Get Light Report
+              Get Quick Scan Report
             </button>
             <button 
               type="button"
