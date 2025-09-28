@@ -23,7 +23,7 @@ const Services = () => {
       cta: "Get Assessment",
       popular: false,
       highlight: "Perfect starting point",
-      gradient: "from-blue-500 to-green-600"
+      gradient: "from-blue-500 to-orange-500"
     },
     {
       id: 2,
@@ -46,7 +46,7 @@ const Services = () => {
       cta: "Start Optimization",
       popular: true,
       highlight: "Most popular choice",
-      gradient: "from-green-500 to-teal-600"
+      gradient: "from-orange-500 to-blue-500"
     },
     {
       id: 3,
@@ -69,7 +69,7 @@ const Services = () => {
       cta: "Contact Sales",
       popular: false,
       highlight: "Enterprise solution",
-      gradient: "from-teal-500 to-cyan-600"
+      gradient: "from-blue-500 to-orange-500"
     }
   ];
 
@@ -85,7 +85,7 @@ const Services = () => {
     ],
     cta: "Get Quick Scan Report",
     highlight: "Start here - No cost",
-    gradient: "from-green-500 to-blue-500"
+    gradient: "from-orange-500 to-blue-500"
   };
 
   const comparisonData = [
@@ -105,17 +105,17 @@ const Services = () => {
   return (
     <div className="min-h-screen relative">
       {/* Hero Section - FIXED: Added pt-32 for header spacing and increased height */}
-      <section className="relative py-32 pt-32 bg-gradient-to-br from-gray-900 via-green-900 to-blue-900 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-tl from-green-600/20 via-transparent to-blue-600/10"></div>
-        <div className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-br from-pink-500/20 to-purple-600/30 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 right-10 w-80 h-80 bg-gradient-to-br from-blue-400/25 to-cyan-600/20 rounded-full blur-3xl animate-pulse delay-700"></div>
-        <div className="absolute top-1/2 left-1/4 w-60 h-60 bg-gradient-to-br from-indigo-400/15 to-purple-500/20 rounded-full blur-2xl animate-pulse delay-1000"></div>
-        <div className="absolute top-3/4 right-1/3 w-48 h-48 bg-gradient-to-br from-cyan-400/20 to-blue-500/25 rounded-full blur-xl animate-pulse delay-1500"></div>
+      <section className="relative py-32 pt-32 bg-gradient-to-br from-gray-900 via-blue-900 to-orange-900 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-tl from-blue-500/20 via-transparent to-orange-500/10"></div>
+        <div className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-br from-blue-500/20 to-orange-500/30 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-10 w-80 h-80 bg-gradient-to-br from-orange-400/25 to-blue-500/20 rounded-full blur-3xl animate-pulse delay-700"></div>
+        <div className="absolute top-1/2 left-1/4 w-60 h-60 bg-gradient-to-br from-blue-400/15 to-orange-500/20 rounded-full blur-2xl animate-pulse delay-1000"></div>
+        <div className="absolute top-3/4 right-1/3 w-48 h-48 bg-gradient-to-br from-orange-400/20 to-blue-500/25 rounded-full blur-xl animate-pulse delay-1500"></div>
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center pt-16">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-              <span className="bg-gradient-to-r from-blue-300 via-green-300 to-teal-300 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-blue-300 via-blue-400 to-orange-300 bg-clip-text text-transparent">
                 Service Packages & Pricing</span>
             </h1>
               <p className="text-2xl text-gray-200 max-w-4xl mx-auto leading-relaxed">
@@ -134,9 +134,9 @@ const Services = () => {
             <p className="text-lg text-gray-600">Get immediate insights into your current digital experience</p>
           </div>
           
-          <div className="relative bg-gradient-to-br from-green-50 to-blue-50 rounded-3xl p-8 lg:p-12 border-2 border-green-200 shadow-xl">
+          <div className="relative bg-gradient-to-br from-blue-50 to-orange-50 rounded-3xl p-8 lg:p-12 border-2 border-blue-200 shadow-xl">
             <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-              <span className="bg-gradient-to-r from-green-600 to-blue-600 text-white px-6 py-2 rounded-full text-sm font-medium">
+              <span className="bg-gradient-to-r from-blue-600 to-orange-500 text-white px-6 py-2 rounded-full text-sm font-medium">
                 {freeAudit.highlight}
               </span>
             </div>
@@ -144,7 +144,7 @@ const Services = () => {
             <div className="text-center mb-8">
               <div className="text-6xl mb-4">{freeAudit.icon}</div>
               <h3 className="text-2xl font-bold text-gray-900 mb-2">{freeAudit.name}</h3>
-              <div className="text-3xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent mb-4">
+              <div className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-orange-500 bg-clip-text text-transparent mb-4">
                 {freeAudit.price}
               </div>
               <p className="text-gray-700 mb-6">{freeAudit.description}</p>
@@ -166,7 +166,7 @@ const Services = () => {
               </div>
               
               <div className="text-center">
-                <a href="/?openScan=1" className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 via-green-600 to-teal-600 hover:from-blue-700 hover:via-green-700 hover:to-teal-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 text-lg">
+                <a href="/?openScan=1" className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-500 via-blue-600 to-orange-500 hover:from-blue-600 hover:via-blue-700 hover:to-orange-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 text-lg">
                   {freeAudit.cta}
                   <svg className="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
                 </a>
@@ -178,7 +178,7 @@ const Services = () => {
       </section>
 
       {/* Our Package */}
-      <section className="py-20 bg-gradient-to-br from-gray-50 to-purple-50/30">
+      <section className="py-20 bg-gradient-to-br from-gray-50 to-orange-50/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">Our Package</h2>
@@ -249,7 +249,7 @@ const Services = () => {
                 <h3 className="text-lg font-semibold text-gray-900 mb-3">{item.title}</h3>
                 <p className="text-gray-600 mb-6 text-base">{item.desc}</p>
                 <div className="mt-auto">
-                  <a href={item.link} className="inline-flex items-center justify-center px-5 py-2.5 bg-gradient-to-r from-blue-600 via-green-600 to-teal-600 text-white font-medium rounded-lg shadow-sm hover:shadow-md hover:from-blue-700 hover:via-green-700 hover:to-teal-700 transition-all duration-300 w-full sm:w-auto">
+                  <a href={item.link} className="inline-flex items-center justify-center px-5 py-2.5 bg-gradient-to-r from-blue-500 via-blue-600 to-orange-500 text-white font-medium rounded-lg shadow-sm hover:shadow-md hover:from-blue-600 hover:via-blue-700 hover:to-orange-600 transition-all duration-300 w-full sm:w-auto">
                     {item.cta}
                   </a>
                 </div>
@@ -260,12 +260,12 @@ const Services = () => {
       </section>
 
       {/* CTA Section */}
-  <section className="py-20 bg-gradient-to-br from-gray-900 via-green-900 to-blue-900">
+  <section className="py-20 bg-gradient-to-br from-gray-900 via-blue-900 to-orange-900">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6">Ready to Get Started?</h2>
           <p className="text-xl text-gray-200 mb-8">Join the growing community of businesses elevating their digital experience with SilverSurfers.ai</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="/?openScan=1" className="px-8 py-4 bg-gradient-to-r from-blue-600 via-green-600 to-teal-600 text-white font-semibold rounded-xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300">
+            <a href="/?openScan=1" className="px-8 py-4 bg-gradient-to-r from-blue-500 via-blue-600 to-orange-500 text-white font-semibold rounded-xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300">
               Get Quick Scan Report
             </a>
             <a href="/contact" className="px-8 py-4 bg-white/10 backdrop-blur-sm text-white border-2 border-white/30 font-semibold rounded-xl hover:bg-white/20 transition-all duration-300">

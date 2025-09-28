@@ -54,13 +54,13 @@ const Blog = () => {
 
   // Map raw keys to human readable labels & optional gradients
   const topicMeta = {
-    'readable fonts': { label: 'Readable Fonts', gradient: 'green-blue' },
-    'fonts': { label: 'Readable Fonts', gradient: 'green-blue' },
+    'readable fonts': { label: 'Readable Fonts', gradient: 'blue-orange' },
+    'fonts': { label: 'Readable Fonts', gradient: 'blue-orange' },
     'color contrast': { label: 'Color Contrast', gradient: 'blue-cyan' },
     'contrast': { label: 'Color Contrast', gradient: 'blue-cyan' },
-    'navigation': { label: 'Simple Navigation', gradient: 'teal-cyan' },
-    'simple navigation': { label: 'Simple Navigation', gradient: 'teal-cyan' },
-    'mobile usability': { label: 'Mobile Usability', gradient: 'green-teal' },
+    'navigation': { label: 'Simple Navigation', gradient: 'blue-orange-light' },
+    'simple navigation': { label: 'Simple Navigation', gradient: 'blue-orange-light' },
+    'mobile usability': { label: 'Mobile Usability', gradient: 'orange-blue' },
     'mobile': { label: 'Mobile Usability', gradient: 'green-teal' },
     'case studies': { label: 'Case Studies', gradient: 'blue-teal' },
     'case-studies': { label: 'Case Studies', gradient: 'blue-teal' },
@@ -72,7 +72,7 @@ const Blog = () => {
   const derivedTopics = useMemo(() => {
     return Object.entries(topicCounts)
       .map(([key, count]) => {
-        const meta = topicMeta[key] || { label: key.replace(/\b\w/g, c => c.toUpperCase()), gradient: 'green-blue' };
+        const meta = topicMeta[key] || { label: key.replace(/\b\w/g, c => c.toUpperCase()), gradient: 'blue-orange' };
         return { key, name: meta.label, count, gradient: meta.gradient };
       })
       .filter(t => t.count > 0)
@@ -114,18 +114,18 @@ const Blog = () => {
   return (
     <div className="blog-container">
       {/* Hero Section */}
-      <section className="relative py-32 pt-32 bg-gradient-to-br from-gray-900 via-green-900 to-blue-900 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-tl from-green-600/20 via-transparent to-blue-600/10"></div>
+      <section className="relative py-32 pt-32 bg-gradient-to-br from-gray-900 via-blue-900 to-orange-900 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-tl from-blue-500/20 via-transparent to-orange-500/10"></div>
 
         {/* Animated background elements to match Contact hero */}
-        <div className="pointer-events-none absolute top-20 left-10 w-72 h-72 bg-gradient-to-br from-pink-500/15 to-purple-600/25 rounded-full blur-3xl animate-pulse"></div>
-        <div className="pointer-events-none absolute bottom-20 right-10 w-80 h-80 bg-gradient-to-br from-blue-400/20 to-cyan-600/15 rounded-full blur-3xl animate-pulse delay-700"></div>
-        <div className="pointer-events-none absolute top-1/2 left-1/3 w-60 h-60 bg-gradient-to-br from-indigo-400/12 to-purple-500/18 rounded-full blur-2xl animate-pulse delay-1400"></div>
+        <div className="pointer-events-none absolute top-20 left-10 w-72 h-72 bg-gradient-to-br from-blue-500/15 to-orange-500/25 rounded-full blur-3xl animate-pulse"></div>
+        <div className="pointer-events-none absolute bottom-20 right-10 w-80 h-80 bg-gradient-to-br from-orange-400/20 to-blue-500/15 rounded-full blur-3xl animate-pulse delay-700"></div>
+        <div className="pointer-events-none absolute top-1/2 left-1/3 w-60 h-60 bg-gradient-to-br from-blue-400/12 to-orange-500/18 rounded-full blur-2xl animate-pulse delay-1400"></div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center pt-16">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-              <span className="bg-gradient-to-r from-blue-300 via-green-300 to-teal-300 bg-clip-text text-transparent">
+            <h1 className="heading-hero font-bold text-white mb-6">
+              <span className="bg-gradient-to-r from-blue-300 via-blue-400 to-orange-300 bg-clip-text text-transparent">
                 Accessibility & Silver UX
               </span>
             </h1>
@@ -267,35 +267,6 @@ const Blog = () => {
       )}
 
       {/* Newsletter Signup */}
-      <section className="newsletter-section">
-        <div className="newsletter-container">
-          <div className="newsletter-card">
-            <h2 className="newsletter-title">Stay Ahead of the Curve</h2>
-            <p className="newsletter-subtitle">
-              Get the latest insights on digital trends and actionable strategies delivered to your inbox.
-            </p>
-            <form onSubmit={handleSubscribe} className="newsletter-form">
-              <input 
-                type="email"
-                value={emailSubscribe}
-                onChange={(e) => setEmailSubscribe(e.target.value)}
-                placeholder="Enter your email address"
-                className="newsletter-input"
-                required
-              />
-              <button 
-                type="submit"
-                className="newsletter-button"
-              >
-                Subscribe
-              </button>
-            </form>
-            <p className="newsletter-privacy">
-              We respect your privacy. Unsubscribe at any time.
-            </p>
-          </div>
-        </div>
-      </section>
 
       {/* CTA Section */}
       <section className="cta-section">

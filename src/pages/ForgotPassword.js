@@ -16,9 +16,9 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-green-900 to-blue-900 pt-24 pb-10 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-blue-900 to-orange-900 pt-24 pb-10 px-4">
       <form onSubmit={onSubmit} className="bg-white rounded-3xl shadow-xl p-8 w-full max-w-md">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">Forgot Password</h2>
+        <h2 className="heading-page font-bold text-gray-900 mb-6 text-center">Forgot Password</h2>
         <div className="mb-4">
           <label className="block text-gray-800 font-semibold mb-2">Email</label>
           <input
@@ -39,7 +39,7 @@ const ForgotPassword = () => {
         >
           {loading? 'Sending...' : 'Send Reset Email'}
         </button>
-        <p className="text-xs text-gray-700 mt-4 text-center">
+        <p className="text-caption text-gray-700 mt-4 text-center">
           <a href="/login" className="text-blue-700 underline">Back to login</a>
         </p>
       </form>

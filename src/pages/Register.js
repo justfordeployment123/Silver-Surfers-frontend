@@ -24,9 +24,9 @@ export default function Signup() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-green-900 to-blue-900 pt-24 pb-10 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-blue-900 to-orange-900 pt-24 pb-10 px-4">
       <form onSubmit={handleSubmit} className="bg-white rounded-3xl shadow-xl p-8 w-full max-w-md">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">Create your account</h2>
+        <h2 className="heading-page font-bold text-gray-900 mb-6 text-center">Create your account</h2>
         <div className="mb-4">
           <label className="block text-gray-800 font-semibold mb-2">Email</label>
           <input
@@ -48,21 +48,21 @@ export default function Signup() {
             value={form.password}
             onChange={handleChange}
             placeholder="••••••••"
-            className="w-full px-4 py-3 rounded-xl border border-gray-400 focus:ring-2 focus:ring-green-600 text-gray-900 bg-gray-50"
+            className="w-full px-4 py-3 rounded-xl border border-gray-400 focus:ring-2 focus:ring-blue-600 text-gray-900 bg-gray-50"
             autoComplete="new-password"
             required
           />
         </div>
-        {error && <div className="mb-4 text-red-700 text-sm text-center">{error}</div>}
+        {error && <div className="mb-4 text-red-700 text-small text-center">{error}</div>}
         {message && (
-          <div className="mb-4 text-green-700 text-sm text-center">
+          <div className="mb-4 text-green-700 text-small text-center">
             {message}
           </div>
         )}
         <button
           type="submit"
           disabled={loading}
-          className="w-full py-3 px-6 bg-gradient-to-r from-blue-700 via-green-700 to-teal-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+          className="w-full py-3 px-6 bg-gradient-to-r from-blue-500 via-blue-600 to-orange-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
         >
           {loading ? 'Creating...' : 'Create Account'}
         </button>
@@ -75,7 +75,7 @@ export default function Signup() {
             Go to Login
           </button>
         )}
-        <p className="text-xs text-gray-700 mt-4 text-center">
+        <p className="text-caption text-gray-700 mt-4 text-center">
           Already have an account? <a href="/login" className="text-blue-700 underline">Sign in</a>
         </p>
       </form>

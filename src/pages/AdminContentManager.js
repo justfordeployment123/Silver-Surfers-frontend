@@ -172,11 +172,11 @@ const AdminContentManager = () => {
   };
 
   return (
-    <div className="min-h-screen pt-28 pb-20 px-4 md:px-10 bg-gradient-to-br from-gray-950 via-green-950 to-teal-950 text-white">
+    <div className="min-h-screen pt-28 pb-20 px-4 md:px-10 bg-gradient-to-br from-gray-950 via-blue-950 to-orange-950 text-white">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
           <div>
-            <h1 className="text-3xl md:text-4xl font-bold tracking-tight bg-gradient-to-r from-blue-400 via-green-300 to-teal-300 text-transparent bg-clip-text">Content Administration</h1>
+            <h1 className="heading-page font-bold tracking-tight bg-gradient-to-r from-blue-400 via-blue-500 to-orange-400 text-transparent bg-clip-text">Content Administration</h1>
             <p className="text-sm text-gray-300 mt-2">Manage blog posts & FAQs. Review analysis queue and re-run jobs.</p>
           </div>
         </div>
@@ -186,14 +186,14 @@ const AdminContentManager = () => {
             <select
               value={view}
               onChange={e=> setView(e.target.value)}
-              className='appearance-none w-72 md:w-96 text-lg font-semibold px-6 py-4 pr-12 rounded-2xl bg-gray-900/70 backdrop-blur border border-white/25 hover:bg-gray-900/80 focus:outline-none focus:ring-4 ring-green-500/40 shadow-xl text-white tracking-wide'
+              className='appearance-none w-72 md:w-96 text-lg font-semibold px-6 py-4 pr-12 rounded-2xl bg-gray-900/70 backdrop-blur border border-white/25 hover:bg-gray-900/80 focus:outline-none focus:ring-4 ring-blue-500/40 shadow-xl text-white tracking-wide'
             >
               <option value='blog' className='text-gray-900'>Blog Posts</option>
               <option value='faqs' className='text-gray-900'>FAQs</option>
               <option value='analysis' className='text-gray-900'>Analysis Queue</option>
               <option value='contact' className='text-gray-900'>Contact Messages</option>
             </select>
-            <div className='pointer-events-none absolute inset-y-0 right-4 flex items-center text-green-200'>
+            <div className='pointer-events-none absolute inset-y-0 right-4 flex items-center text-blue-200'>
               <svg className='w-5 h-5' viewBox='0 0 24 24' stroke='currentColor' fill='none' strokeWidth='2'><path strokeLinecap='round' strokeLinejoin='round' d='M6 9l6 6 6-6'/></svg>
             </div>
           </div>
@@ -215,16 +215,16 @@ const AdminContentManager = () => {
                 <h2 className="text-xl font-semibold">Posts</h2>
                 <div className="flex gap-3 w-full md:w-auto">
                   <div className="flex-1 md:w-96 relative">
-                    <input value={postQuery} onChange={e=> setPostQuery(e.target.value)} placeholder="Search posts..." className="w-full pl-9 pr-4 py-2.5 rounded-2xl bg-white/10 border border-white/15 outline-none focus:ring-2 ring-green-500/50 placeholder-green-200/70" />
-                    <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-green-200/70">
+                    <input value={postQuery} onChange={e=> setPostQuery(e.target.value)} placeholder="Search posts..." className="w-full pl-9 pr-4 py-2.5 rounded-2xl bg-white/10 border border-white/15 outline-none focus:ring-2 ring-blue-500/50 placeholder-blue-200/70" />
+                    <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-blue-200/70">
                       <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 103 10.5a7.5 7.5 0 0013.65 6.15z"/></svg>
                     </span>
                   </div>
-                  <button onClick={() => setShowCreate(s => !s)} className="px-4 py-2.5 rounded-2xl bg-green-600 hover:bg-green-500 text-white font-semibold shadow-lg shadow-green-700/20 flex items-center gap-2">
+                  <button onClick={() => setShowCreate(s => !s)} className="px-4 py-2.5 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-semibold shadow-lg shadow-blue-700/20 flex items-center gap-2">
                     <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 5v14m-7-7h14"/></svg>
                     <span className="hidden sm:inline">Add</span>
                   </button>
-                  <button onClick={() => { setPostQuery(''); setShowCreate(false); setEditingId(null); }} className="px-4 py-2.5 rounded-2xl bg-teal-700/80 hover:bg-teal-600 text-white font-semibold shadow flex items-center gap-2">
+                  <button onClick={() => { setPostQuery(''); setShowCreate(false); setEditingId(null); }} className="px-4 py-2.5 rounded-2xl bg-orange-700/80 hover:bg-orange-600 text-white font-semibold shadow flex items-center gap-2">
                     <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
                     <span className="hidden sm:inline">Clear</span>
                   </button>
@@ -235,10 +235,10 @@ const AdminContentManager = () => {
                 <div className="rounded-3xl p-5 bg-gradient-to-br from-white/10 to-white/5 border border-white/10">
                   <h3 className="font-semibold mb-3">Create Blog Post</h3>
                   <form onSubmit={submitBlog} className="grid md:grid-cols-2 gap-4">
-                    <input className="w-full px-3 py-2 rounded-xl bg-white/10 border border-white/20 focus:ring-2 ring-green-500/40" placeholder="Title" value={blogForm.title} onChange={e=>setBlogForm({...blogForm,title:e.target.value})} />
-                    <input className="w-full px-3 py-2 rounded-xl bg-white/10 border border-white/20 focus:ring-2 ring-green-500/40" placeholder="Slug" value={blogForm.slug} onChange={e=>setBlogForm({...blogForm,slug:e.target.value.toLowerCase()})} />
-                    <input className="w-full px-3 py-2 rounded-xl bg-white/10 border border-white/20 md:col-span-2 focus:ring-2 ring-green-500/40" placeholder="Excerpt" value={blogForm.excerpt} onChange={e=>setBlogForm({...blogForm,excerpt:e.target.value})} />
-                    <textarea rows={6} className="w-full px-3 py-2 rounded-xl bg-white/10 border border-white/20 md:col-span-2 focus:ring-2 ring-green-500/40" placeholder="Content" value={blogForm.content} onChange={e=>setBlogForm({...blogForm,content:e.target.value})} />
+                    <input className="w-full px-3 py-2 rounded-xl bg-white/10 border border-white/20 focus:ring-2 ring-blue-500/40" placeholder="Title" value={blogForm.title} onChange={e=>setBlogForm({...blogForm,title:e.target.value})} />
+                    <input className="w-full px-3 py-2 rounded-xl bg-white/10 border border-white/20 focus:ring-2 ring-blue-500/40" placeholder="Slug" value={blogForm.slug} onChange={e=>setBlogForm({...blogForm,slug:e.target.value.toLowerCase()})} />
+                    <input className="w-full px-3 py-2 rounded-xl bg-white/10 border border-white/20 md:col-span-2 focus:ring-2 ring-blue-500/40" placeholder="Excerpt" value={blogForm.excerpt} onChange={e=>setBlogForm({...blogForm,excerpt:e.target.value})} />
+                    <textarea rows={6} className="w-full px-3 py-2 rounded-xl bg-white/10 border border-white/20 md:col-span-2 focus:ring-2 ring-blue-500/40" placeholder="Content" value={blogForm.content} onChange={e=>setBlogForm({...blogForm,content:e.target.value})} />
                     <input className="w-full px-3 py-2 rounded-xl bg-white/10 border border-white/20" placeholder="Category" value={blogForm.category} onChange={e=>setBlogForm({...blogForm,category:e.target.value})} />
                     <input className="w-full px-3 py-2 rounded-xl bg-white/10 border border-white/20" placeholder="Author" value={blogForm.author} onChange={e=>setBlogForm({...blogForm,author:e.target.value})} />
                     <input type="date" className="w-full px-3 py-2 rounded-xl bg-white/10 border border-white/20" placeholder="Date" value={blogForm.date} onChange={e=>setBlogForm({...blogForm,date:e.target.value})} />
@@ -248,7 +248,7 @@ const AdminContentManager = () => {
                       <label className="text-sm"><input type="checkbox" className="mr-2" checked={blogForm.published} onChange={e=>setBlogForm({...blogForm,published:e.target.checked})} /> Published</label>
                       <div className="ml-auto flex gap-3">
                         <button type="button" onClick={()=> setShowCreate(false)} className="px-4 py-2 rounded-xl bg-white/10 border border-white/20">Close</button>
-                        <button className="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 via-green-600 to-teal-600">Create</button>
+                        <button className="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-500 via-blue-600 to-orange-500">Create</button>
                       </div>
                     </div>
                   </form>
@@ -257,7 +257,7 @@ const AdminContentManager = () => {
 
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
                 {items.map(b => (
-                  <div key={b._id} className="relative p-5 rounded-3xl bg-gradient-to-br from-white/10 to-white/5 border border-white/10 hover:border-purple-400/30 transition shadow-lg">
+                  <div key={b._id} className="relative p-5 rounded-3xl bg-gradient-to-br from-white/10 to-white/5 border border-white/10 hover:border-blue-400/30 transition shadow-lg">
                     <div className="flex gap-4">
                       <div className="min-w-0 flex-1">
                         {editingId === b._id ? (
@@ -272,21 +272,21 @@ const AdminContentManager = () => {
                             <label className="text-sm block"><input type="checkbox" className="mr-2" checked={!!editForm.published} onChange={e=> setEditForm({...editForm, published: e.target.checked})} /> Published</label>
                             <label className="text-sm block"><input type="checkbox" className="mr-2" checked={!!editForm.featured} onChange={e=> setEditForm({...editForm, featured: e.target.checked})} /> Featured</label>
                             <div className="flex gap-3">
-                              <button onClick={() => saveEdit(b._id)} className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold">Save</button>
+                              <button onClick={() => saveEdit(b._id)} className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold">Save</button>
                               <button onClick={cancelEdit} className="px-4 py-2 rounded-xl bg-white/10 border border-white/20">Cancel</button>
                             </div>
                           </div>
                         ) : (
                           <>
                             <h3 className="text-lg font-semibold leading-snug truncate" title={b.title}>{b.title}</h3>
-                            <div className="mt-1 flex flex-wrap gap-2 text-[11px] text-purple-200/90">
+                            <div className="mt-1 flex flex-wrap gap-2 text-[11px] text-blue-200/90">
                               <span className="px-2 py-0.5 rounded-full bg-white/10 border border-white/10">{(b.slug||'').toUpperCase()}</span>
-                              <span className={`px-2 py-0.5 rounded-full border ${b.published? 'bg-green-600/60 border-green-500/40' : 'bg-gray-600/50 border-white/10'}`}>{b.published? 'PUBLISHED' : 'DRAFT'}</span>
+                              <span className={`px-2 py-0.5 rounded-full border ${b.published? 'bg-blue-600/60 border-blue-500/40' : 'bg-gray-600/50 border-white/10'}`}>{b.published? 'PUBLISHED' : 'DRAFT'}</span>
                               {b.featured && <span className="px-2 py-0.5 rounded-full bg-yellow-600/60 border border-yellow-500/40">FEATURED</span>}
                               {b.createdAt && <span className="px-2 py-0.5 rounded-full bg-white/10 border border-white/10">{formatDate(b.createdAt)}</span>}
                             </div>
-                            {b.excerpt && <p className="mt-2 text-sm text-purple-100/90 line-clamp-3">{b.excerpt}</p>}
-                            <div className="mt-2 text-xs text-purple-200/80 flex flex-wrap gap-2">
+                            {b.excerpt && <p className="mt-2 text-sm text-blue-100/90 line-clamp-3">{b.excerpt}</p>}
+                            <div className="mt-2 text-xs text-blue-200/80 flex flex-wrap gap-2">
                               {b.category && <span className="px-2 py-0.5 rounded bg-white/10 border border-white/10">{b.category}</span>}
                               {b.author && <span className="px-2 py-0.5 rounded bg-white/10 border border-white/10">By {b.author}</span>}
                               {b.date && <span className="px-2 py-0.5 rounded bg-white/10 border border-white/10">{formatDate(b.date)}</span>}
@@ -330,16 +330,16 @@ const AdminContentManager = () => {
                 <h2 className="text-xl font-semibold">FAQs</h2>
                 <div className="flex gap-3 w-full md:w-auto">
                   <div className="flex-1 md:w-96 relative">
-                    <input value={faqQuery} onChange={e=> setFaqQuery(e.target.value)} placeholder="Search FAQs..." className="w-full pl-9 pr-4 py-2.5 rounded-2xl bg-white/10 border border-white/15 outline-none focus:ring-2 ring-green-500/50 placeholder-green-200/70" />
-                    <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-green-200/70">
+                    <input value={faqQuery} onChange={e=> setFaqQuery(e.target.value)} placeholder="Search FAQs..." className="w-full pl-9 pr-4 py-2.5 rounded-2xl bg-white/10 border border-white/15 outline-none focus:ring-2 ring-blue-500/50 placeholder-green-200/70" />
+                    <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-blue-200/70">
                       <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 103 10.5a7.5 7.5 0 0013.65 6.15z"/></svg>
                     </span>
                   </div>
-                  <button onClick={() => setShowFaqCreate(s => !s)} className="px-4 py-2.5 rounded-2xl bg-green-600 hover:bg-green-500 text-white font-semibold shadow-lg shadow-green-700/20 flex items-center gap-2">
+                  <button onClick={() => setShowFaqCreate(s => !s)} className="px-4 py-2.5 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-semibold shadow-lg shadow-blue-700/20 flex items-center gap-2">
                     <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 5v14m-7-7h14"/></svg>
                     <span className="hidden sm:inline">Add</span>
                   </button>
-                  <button onClick={() => { setFaqQuery(''); setShowFaqCreate(false); setFaqEditingId(null); }} className="px-4 py-2.5 rounded-2xl bg-teal-700/80 hover:bg-teal-600 text-white font-semibold shadow flex items-center gap-2">
+                  <button onClick={() => { setFaqQuery(''); setShowFaqCreate(false); setFaqEditingId(null); }} className="px-4 py-2.5 rounded-2xl bg-orange-700/80 hover:bg-orange-600 text-white font-semibold shadow flex items-center gap-2">
                     <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
                     <span className="hidden sm:inline">Clear</span>
                   </button>
@@ -357,7 +357,7 @@ const AdminContentManager = () => {
                       <label className="text-sm"><input type="checkbox" className="mr-2" checked={faqForm.published} onChange={e=>setFaqForm({...faqForm,published:e.target.checked})} /> Published</label>
                       <div className="ml-auto flex gap-3">
                         <button type="button" onClick={()=> setShowFaqCreate(false)} className="px-4 py-2 rounded-xl bg-white/10 border border-white/20">Close</button>
-                        <button className="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 via-green-600 to-teal-600">Create</button>
+                        <button className="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-500 via-blue-600 to-orange-500">Create</button>
                       </div>
                     </div>
                   </form>
@@ -366,7 +366,7 @@ const AdminContentManager = () => {
 
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
                 {items.map(f => (
-                  <div key={f._id} className="relative p-5 rounded-3xl bg-gradient-to-br from-white/10 to-white/5 border border-white/10 hover:border-purple-400/30 transition shadow-lg">
+                  <div key={f._id} className="relative p-5 rounded-3xl bg-gradient-to-br from-white/10 to-white/5 border border-white/10 hover:border-blue-400/30 transition shadow-lg">
                     <div className="flex gap-4">
                       <div className="min-w-0 flex-1">
                         {faqEditingId === f._id ? (
@@ -376,18 +376,18 @@ const AdminContentManager = () => {
                             <textarea rows={3} className="w-full px-3 py-2 rounded-xl bg-white/10 border border-white/20" placeholder="Answer" value={faqEditForm.answer} onChange={e=> setFaqEditForm({...faqEditForm, answer: e.target.value})} />
                             <label className="text-sm block"><input type="checkbox" className="mr-2" checked={!!faqEditForm.published} onChange={e=> setFaqEditForm({...faqEditForm, published: e.target.checked})} /> Published</label>
                             <div className="flex gap-3">
-                              <button onClick={() => saveFaqEdit(f._id)} className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold">Save</button>
+                              <button onClick={() => saveFaqEdit(f._id)} className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold">Save</button>
                               <button onClick={cancelFaqEdit} className="px-4 py-2 rounded-xl bg-white/10 border border-white/20">Cancel</button>
                             </div>
                           </div>
                         ) : (
                           <>
                             <h3 className="text-lg font-semibold leading-snug" title={f.question}>#{f.order} {f.question}</h3>
-                            <div className="mt-1 flex flex-wrap gap-2 text-[11px] text-purple-200/90">
-                              <span className={`px-2 py-0.5 rounded-full border ${f.published? 'bg-green-600/60 border-green-500/40' : 'bg-gray-600/50 border-white/10'}`}>{f.published? 'PUBLISHED' : 'DRAFT'}</span>
+                            <div className="mt-1 flex flex-wrap gap-2 text-[11px] text-blue-200/90">
+                              <span className={`px-2 py-0.5 rounded-full border ${f.published? 'bg-blue-600/60 border-blue-500/40' : 'bg-gray-600/50 border-white/10'}`}>{f.published? 'PUBLISHED' : 'DRAFT'}</span>
                               {f.createdAt && <span className="px-2 py-0.5 rounded-full bg-white/10 border border-white/10">{formatDate(f.createdAt)}</span>}
                             </div>
-                            {f.answer && <p className="mt-2 text-sm text-purple-100/90 line-clamp-3">{f.answer}</p>}
+                            {f.answer && <p className="mt-2 text-sm text-blue-100/90 line-clamp-3">{f.answer}</p>}
                           </>
                         )}
                       </div>
@@ -416,12 +416,12 @@ const AdminContentManager = () => {
           <section className='relative mb-14 -mt-4'>
             <header className='flex flex-col gap-4 mb-4 md:flex-row md:items-center md:justify-between'>
               <h2 className='text-xl font-semibold flex items-center gap-3'>
-                <span className='w-2 h-2 rounded-full bg-green-400 animate-pulse'></span> Analysis Requests
+                <span className='w-2 h-2 rounded-full bg-blue-400 animate-pulse'></span> Analysis Requests
               </h2>
               <div className='flex flex-col md:flex-row gap-3 w-full md:w-auto items-stretch md:items-center'>
                 <div className='flex gap-3 w-full'>
-                  <input value={analysisQuery} onChange={e=> setAnalysisQuery(e.target.value)} placeholder='Search (url, email, taskId)...' className='flex-1 md:w-80 px-3 py-2 rounded-lg bg-white/10 text-sm outline-none focus:ring-2 ring-green-500/50' />
-                  <select value={analysisStatus} onChange={e=> setAnalysisStatus(e.target.value)} className='px-3 py-2 rounded-lg bg-white/10 text-sm outline-none focus:ring-2 ring-green-500/50 text-white'>
+                  <input value={analysisQuery} onChange={e=> setAnalysisQuery(e.target.value)} placeholder='Search (url, email, taskId)...' className='flex-1 md:w-80 px-3 py-2 rounded-lg bg-white/10 text-sm outline-none focus:ring-2 ring-blue-500/50' />
+                  <select value={analysisStatus} onChange={e=> setAnalysisStatus(e.target.value)} className='px-3 py-2 rounded-lg bg-white/10 text-sm outline-none focus:ring-2 ring-blue-500/50 text-white'>
                     <option value='all' className='text-black'>All</option>
                     <option value='queued' className='text-black'>Queued</option>
                     <option value='processing' className='text-black'>Processing</option>
@@ -429,7 +429,7 @@ const AdminContentManager = () => {
                     <option value='failed' className='text-black'>Failed</option>
                   </select>
                 </div>
-                <button onClick={()=> loadAnalysis()} className='px-4 py-2 rounded-lg bg-green-600/80 hover:bg-green-500 text-xs font-semibold shadow'>Refresh</button>
+                <button onClick={()=> loadAnalysis()} className='px-4 py-2 rounded-lg bg-blue-600/80 hover:bg-blue-500 text-xs font-semibold shadow'>Refresh</button>
               </div>
             </header>
             {analysisError && <div className='text-sm text-red-300 mb-2'>{analysisError}</div>}
@@ -437,14 +437,14 @@ const AdminContentManager = () => {
               {analysis.map(rec => {
                 const computedStatus = (rec.status || '');
                 return (
-                  <div key={rec._id || rec.taskId} className='p-4 rounded-lg bg-black/30 border border-white/10 hover:border-purple-400/40 transition'>
+                  <div key={rec._id || rec.taskId} className='p-4 rounded-lg bg-black/30 border border-white/10 hover:border-orange-400/40 transition'>
                     <div className='flex flex-wrap items-center justify-between gap-4'>
                       <div className='min-w-0 flex-1'>
                         <div className='flex flex-wrap gap-2 items-center mb-1'>
                           <span className='font-medium break-all'>{rec.url}</span>
                           <span className='text-xs px-2 py-0.5 rounded-full bg-white/10'>{rec.email}</span>
-                          <span className={`text-[10px] px-2 py-0.5 rounded-full ${computedStatus==='completed'?'bg-emerald-600/70': computedStatus==='failed'?'bg-red-600/70': computedStatus==='processing'?'bg-blue-600/70':'bg-gray-600/60'}`}>{(computedStatus||'').toUpperCase()}</span>
-                          <span className={`text-[10px] px-2 py-0.5 rounded-full ${rec.emailStatus==='sent'?'bg-emerald-600/60': rec.emailStatus==='failed'?'bg-red-600/60': rec.emailStatus==='sending'?'bg-blue-600/60':'bg-gray-600/50'}`}>EMAIL {(rec.emailStatus||'').toUpperCase()}</span>
+                          <span className={`text-[10px] px-2 py-0.5 rounded-full ${computedStatus==='completed'?'bg-blue-600/70': computedStatus==='failed'?'bg-red-600/70': computedStatus==='processing'?'bg-blue-600/70':'bg-gray-600/60'}`}>{(computedStatus||'').toUpperCase()}</span>
+                          <span className={`text-[10px] px-2 py-0.5 rounded-full ${rec.emailStatus==='sent'?'bg-blue-600/60': rec.emailStatus==='failed'?'bg-red-600/60': rec.emailStatus==='sending'?'bg-blue-600/60':'bg-gray-600/50'}`}>EMAIL {(rec.emailStatus||'').toUpperCase()}</span>
                         </div>
                         <div className='text-[11px] text-gray-300 flex flex-wrap gap-4'>
                           <span>Task: {rec.taskId}</span>
@@ -463,7 +463,7 @@ const AdminContentManager = () => {
                             const resp = await adminRerunAnalysis(idOrTaskId);
                             if(resp?.error){ alert(resp.error); }
                             else { alert('Re-run queued for existing record'); loadAnalysis(); }
-                          }} className='px-3 py-1.5 rounded bg-purple-600/70 hover:bg-purple-500 text-[11px] font-semibold'>Re-run</button>
+                          }} className='px-3 py-1.5 rounded bg-orange-600/70 hover:bg-orange-500 text-[11px] font-semibold'>Re-run</button>
                         )}
                       </div>
                     </div>
@@ -480,38 +480,38 @@ const AdminContentManager = () => {
           <section className='relative mb-14 -mt-4'>
             <header className='flex flex-col gap-4 mb-4 md:flex-row md:items-center md:justify-between'>
               <h2 className='text-xl font-semibold flex items-center gap-3'>
-                <span className='w-2 h-2 rounded-full bg-purple-400'></span> Contact Messages
+                <span className='w-2 h-2 rounded-full bg-orange-400'></span> Contact Messages
               </h2>
               <div className='flex flex-col md:flex-row gap-3 w-full md:w-auto items-stretch md:items-center'>
                 <div className='flex gap-3 w-full'>
-                  <input value={contactQuery} onChange={e=> setContactQuery(e.target.value)} placeholder='Search (name, email, subject, message)...' className='flex-1 md:w-80 px-3 py-2 rounded-lg bg-white/10 text-sm outline-none focus:ring-2 ring-purple-500/50' />
-                  <select value={contactStatus} onChange={e=> setContactStatus(e.target.value)} className='px-3 py-2 rounded-lg bg-white/10 text-sm outline-none focus:ring-2 ring-purple-500/50 text-white'>
+                  <input value={contactQuery} onChange={e=> setContactQuery(e.target.value)} placeholder='Search (name, email, subject, message)...' className='flex-1 md:w-80 px-3 py-2 rounded-lg bg-white/10 text-sm outline-none focus:ring-2 ring-orange-500/50' />
+                  <select value={contactStatus} onChange={e=> setContactStatus(e.target.value)} className='px-3 py-2 rounded-lg bg-white/10 text-sm outline-none focus:ring-2 ring-orange-500/50 text-white'>
                     <option value='all' className='text-black'>All</option>
                     <option value='new' className='text-black'>New</option>
                     <option value='read' className='text-black'>Read</option>
                     <option value='closed' className='text-black'>Closed</option>
                   </select>
                 </div>
-                <button onClick={()=> loadContact()} className='px-4 py-2 rounded-lg bg-purple-600/80 hover:bg-purple-500 text-xs font-semibold shadow'>Refresh</button>
+                <button onClick={()=> loadContact()} className='px-4 py-2 rounded-lg bg-orange-600/80 hover:bg-orange-500 text-xs font-semibold shadow'>Refresh</button>
               </div>
             </header>
             <div className='rounded-xl bg-gradient-to-br from-white/10 to-white/5 p-4 border border-white/10 max-h-[36rem] overflow-y-auto space-y-4'>
               {contact.map(msg => (
-                <div key={msg._id} className='p-4 rounded-lg bg-black/30 border border-white/10 hover:border-purple-400/40 transition'>
+                <div key={msg._id} className='p-4 rounded-lg bg-black/30 border border-white/10 hover:border-orange-400/40 transition'>
                   <div className='flex flex-wrap items-start justify-between gap-4'>
                     <div className='min-w-0 flex-1'>
                       <div className='flex flex-wrap gap-2 items-center mb-1'>
                         <span className='font-medium break-all'>{msg.subject || 'No subject'}</span>
                         <span className='text-xs px-2 py-0.5 rounded-full bg-white/10'>{msg.email || 'Anonymous'}</span>
-                        <span className={`text-[10px] px-2 py-0.5 rounded-full ${msg.status==='new'?'bg-green-600/70': msg.status==='read'?'bg-blue-600/70':'bg-gray-600/70'}`}>{(msg.status||'new').toUpperCase()}</span>
+                        <span className={`text-[10px] px-2 py-0.5 rounded-full ${msg.status==='new'?'bg-blue-600/70': msg.status==='read'?'bg-blue-600/70':'bg-gray-600/70'}`}>{(msg.status||'new').toUpperCase()}</span>
                         {msg.createdAt && <span className='text-[10px] px-2 py-0.5 rounded-full bg-white/10'>{new Date(msg.createdAt).toLocaleString()}</span>}
                       </div>
                       {msg.name && <div className='text-xs text-gray-300 mb-1'>From: {msg.name}</div>}
                       <div className='text-sm text-gray-200 whitespace-pre-wrap break-words'>{msg.message}</div>
                     </div>
                     <div className='flex flex-col gap-2 shrink-0'>
-                      {msg.status !== 'read' && <button onClick={async ()=>{ await adminUpdateContact(msg._id, { status:'read' }); loadContact(); }} className='px-3 py-1.5 rounded bg-blue-600/70 hover:bg-blue-500 text-[11px] font-semibold'>Mark Read</button>}
-                      {msg.status !== 'closed' && <button onClick={async ()=>{ await adminUpdateContact(msg._id, { status:'closed' }); loadContact(); }} className='px-3 py-1.5 rounded bg-emerald-600/70 hover:bg-emerald-500 text-[11px] font-semibold'>Close</button>}
+                      {msg.status !== 'read' && <button onClick={async ()=>{ await adminUpdateContact(msg._id, { status:'read' }); loadContact(); }} className='px-3 py-1.5 rounded bg-orange-600/70 hover:bg-orange-500 text-[11px] font-semibold'>Mark Read</button>}
+                      {msg.status !== 'closed' && <button onClick={async ()=>{ await adminUpdateContact(msg._id, { status:'closed' }); loadContact(); }} className='px-3 py-1.5 rounded bg-blue-600/70 hover:bg-orange-500 text-[11px] font-semibold'>Close</button>}
                       <button onClick={async ()=>{ if(!window.confirm('Delete this message?')) return; await adminDeleteContact(msg._id); loadContact(); }} className='px-3 py-1.5 rounded bg-red-600/70 hover:bg-red-500 text-[11px] font-semibold'>Delete</button>
                     </div>
                   </div>

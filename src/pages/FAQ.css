@@ -406,7 +406,7 @@
 .cta-section {
   position: relative;
   padding: 5rem 2rem;
-  background: linear-gradient(135deg, #111827 0%, #065f46 50%, #1e40af 100%);
+  background: linear-gradient(135deg, #293f5b 0%, #376c91 50%, #679fba 100%);
   overflow: hidden;
   text-align: center;
   color: white;
@@ -422,7 +422,7 @@
 
 .cta-bg-effect {
   position: absolute;
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.18), rgba(20, 184, 166, 0.14));
+  background: linear-gradient(135deg, rgba(103, 159, 186, 0.18), rgba(223, 120, 47, 0.14));
   top: 0;
   left: 0;
   right: 0;
@@ -467,13 +467,13 @@
 }
 
 .cta-button-primary {
-  background: linear-gradient(135deg, #10b981, #14b8a6, #3b82f6);
+  background: linear-gradient(135deg, #679fba, #376c91, #df782f);
   color: white;
-  box-shadow: 0 4px 15px rgba(20, 184, 166, 0.35);
+  box-shadow: 0 4px 15px rgba(103, 159, 186, 0.35);
 }
 
 .cta-button-primary:hover {
-  box-shadow: 0 8px 25px rgba(20, 184, 166, 0.55);
+  box-shadow: 0 8px 25px rgba(103, 159, 186, 0.55);
   transform: translateY(-2px) scale(1.02);
 }
 

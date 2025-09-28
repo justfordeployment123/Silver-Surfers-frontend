@@ -25,9 +25,9 @@ const ResetPassword = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-green-900 to-blue-900 pt-24 pb-10 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-blue-900 to-orange-900 pt-24 pb-10 px-4">
       <form onSubmit={onSubmit} className="bg-white rounded-3xl shadow-xl p-8 w-full max-w-md">
-        <h1 className="text-2xl font-bold text-gray-900 mb-6 text-center">Reset Password</h1>
+        <h1 className="heading-page font-bold text-gray-900 mb-6 text-center">Reset Password</h1>
         <div className="mb-4">
           <label className="block text-gray-800 font-semibold mb-2">New password</label>
           <input
@@ -59,7 +59,7 @@ const ResetPassword = () => {
         >
           {loading ? 'Resetting…' : 'Reset Password'}
         </button>
-        <p className="text-xs text-gray-700 mt-4 text-center">
+        <p className="text-caption text-gray-700 mt-4 text-center">
           <a href="/login" className="text-blue-700 underline">Back to login</a>
         </p>
       </form>

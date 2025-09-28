@@ -21,14 +21,14 @@ body {
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.6;
   color: #ffffff;
-  background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #1a1a2e 75%, #0f0f23 100%);
+  background: linear-gradient(135deg, #293f5b 0%, #376c91 25%, #679fba 50%, #376c91 75%, #293f5b 100%);
   min-height: 100vh;
   overflow-x: hidden;
 }
 
 /* Improved focus styles for accessibility */
 *:focus {
-  outline: 2px solid #6366f1;
+  outline: 2px solid #679fba;
   outline-offset: 2px;
 }
 
@@ -78,7 +78,7 @@ img {
 code {
   font-family: 'JetBrains Mono', 'Fira Code', 'Monaco', 'Consolas', 'Courier New',
     monospace;
-  background: rgba(99, 102, 241, 0.1);
+  background: rgba(103, 159, 186, 0.1);
   padding: 0.125rem 0.25rem;
   border-radius: 0.25rem;
   font-size: 0.875em;
@@ -99,7 +99,7 @@ pre code {
 
 /* Selection styles */
 ::selection {
-  background: rgba(99, 102, 241, 0.3);
+  background: rgba(103, 159, 186, 0.3);
   color: #ffffff;
 }
 
@@ -113,10 +113,10 @@ pre code {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(99, 102, 241, 0.5);
+  background: rgba(103, 159, 186, 0.5);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(99, 102, 241, 0.7);
+  background: rgba(103, 159, 186, 0.7);
 }

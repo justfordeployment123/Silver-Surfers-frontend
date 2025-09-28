@@ -67,24 +67,30 @@ const Header = () => {
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
-          {/* Logo */}
-          <Link to="/" className="flex items-center space-x-3 group" onClick={closeMobileMenu}>
-            <div className="relative">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 via-green-600 to-teal-600 rounded-lg flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
-                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
+        {/* Logo */}
+        <Link to="/" className="flex items-center space-x-3 group" onClick={closeMobileMenu}>
+          <div className="relative">
+            <div className="w-12 h-12 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300 overflow-hidden">
+              <img 
+                src="/Logo.png" 
+                alt="Silver Surfers Logo" 
+                className="w-full h-full object-contain"
+              />
             </div>
-            <div className="flex flex-col">
-              <span className={`text-xl transition-colors duration-300 ${
+          </div>
+          <div className="flex flex-col">
+            <span
+              className={`text-xl transition-colors duration-300 ${
                 isScrolled ? 'text-gray-900' : 'text-white'
-              }`}>
-                <span className="font-light">Silver</span><span className="font-bold">Surfers</span>
-              </span>
-              <div className="h-0.5 w-full bg-gradient-to-r from-blue-500 via-green-600 to-teal-600 rounded-full"></div>
-            </div>
-          </Link>
+              }`}
+            >
+              <span className="font-light">Silver</span>
+              <span className="font-bold">Surfers</span>
+            </span>
+            <div className="h-0.5 w-full bg-gradient-to-r from-blue-400 via-blue-500 to-orange-500 rounded-full"></div>
+          </div>
+        </Link>
+
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-8">
@@ -92,8 +98,8 @@ const Header = () => {
               to="/" 
               className={`nav-link transition-colors duration-300 font-medium hover:scale-105 transform transition-transform ${
                 isActive('/') 
-                  ? (isScrolled ? 'text-green-600' : 'text-white font-semibold') 
-                  : (isScrolled ? 'text-gray-700 hover:text-green-600' : 'text-gray-200 hover:text-white')
+                  ? (isScrolled ? 'text-blue-600' : 'text-white font-semibold') 
+                  : (isScrolled ? 'text-gray-700 hover:text-blue-600' : 'text-gray-200 hover:text-white')
               }`}
             >
               Home
@@ -102,8 +108,8 @@ const Header = () => {
               to="/services" 
               className={`nav-link transition-colors duration-300 font-medium hover:scale-105 transform transition-transform ${
                 isActive('/services') 
-                  ? (isScrolled ? 'text-green-600' : 'text-white font-semibold') 
-                  : (isScrolled ? 'text-gray-700 hover:text-green-600' : 'text-gray-200 hover:text-white')
+                  ? (isScrolled ? 'text-blue-600' : 'text-white font-semibold') 
+                  : (isScrolled ? 'text-gray-700 hover:text-blue-600' : 'text-gray-200 hover:text-white')
               }`}
             >
               Services
@@ -112,8 +118,8 @@ const Header = () => {
               to="/about" 
               className={`nav-link transition-colors duration-300 font-medium hover:scale-105 transform transition-transform ${
                 isActive('/about') 
-                  ? (isScrolled ? 'text-green-600' : 'text-white font-semibold') 
-                  : (isScrolled ? 'text-gray-700 hover:text-green-600' : 'text-gray-200 hover:text-white')
+                  ? (isScrolled ? 'text-blue-600' : 'text-white font-semibold') 
+                  : (isScrolled ? 'text-gray-700 hover:text-blue-600' : 'text-gray-200 hover:text-white')
               }`}
             >
               About
@@ -122,8 +128,8 @@ const Header = () => {
               to="/contact" 
               className={`nav-link transition-colors duration-300 font-medium hover:scale-105 transform transition-transform ${
                 isActive('/contact') 
-                  ? (isScrolled ? 'text-green-600' : 'text-white font-semibold') 
-                  : (isScrolled ? 'text-gray-700 hover:text-green-600' : 'text-gray-200 hover:text-white')
+                  ? (isScrolled ? 'text-blue-600' : 'text-white font-semibold') 
+                  : (isScrolled ? 'text-gray-700 hover:text-blue-600' : 'text-gray-200 hover:text-white')
               }`}
             >
               Contact
@@ -132,8 +138,8 @@ const Header = () => {
               to="/faq" 
               className={`nav-link transition-colors duration-300 font-medium hover:scale-105 transform transition-transform ${
                 isActive('/faq') 
-                  ? (isScrolled ? 'text-green-600' : 'text-white font-semibold') 
-                  : (isScrolled ? 'text-gray-700 hover:text-green-600' : 'text-gray-200 hover:text-white')
+                  ? (isScrolled ? 'text-blue-600' : 'text-white font-semibold') 
+                  : (isScrolled ? 'text-gray-700 hover:text-blue-600' : 'text-gray-200 hover:text-white')
               }`}
             >
               FAQ
@@ -142,8 +148,8 @@ const Header = () => {
               to="/blog" 
               className={`nav-link transition-colors duration-300 font-medium hover:scale-105 transform transition-transform ${
                 isActive('/blog') 
-                  ? (isScrolled ? 'text-green-600' : 'text-white font-semibold') 
-                  : (isScrolled ? 'text-gray-700 hover:text-green-600' : 'text-gray-200 hover:text-white')
+                  ? (isScrolled ? 'text-blue-600' : 'text-white font-semibold') 
+                  : (isScrolled ? 'text-gray-700 hover:text-blue-600' : 'text-gray-200 hover:text-white')
               }`}
             >
               Blog
@@ -154,7 +160,7 @@ const Header = () => {
           <div className="hidden lg:flex items-center gap-4">
             <Link 
               to="/services" 
-              className="px-6 py-3 bg-gradient-to-r from-blue-600 via-green-600 to-teal-600 hover:from-blue-700 hover:via-green-700 hover:to-teal-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+              className="px-6 py-3 bg-gradient-to-r from-blue-500 via-blue-600 to-orange-500 hover:from-blue-600 hover:via-blue-700 hover:to-orange-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
             >
               Get Your Audit
             </Link>
@@ -165,7 +171,7 @@ const Header = () => {
                 aria-haspopup="menu"
                 aria-expanded={isUserMenuOpen}
               >
-                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-500 via-green-600 to-teal-600 text-white flex items-center justify-center font-semibold">
+                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-500 via-blue-600 to-orange-500 text-white flex items-center justify-center font-semibold">
                   {user?.email ? user.email.charAt(0).toUpperCase() : (
                     <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M5.121 17.804A4 4 0 018 16h8a4 4 0 012.879 1.804M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                   )}
@@ -186,7 +192,7 @@ const Header = () => {
                   ) : (
                     <div className="py-1">
                       <Link to="/login" onClick={() => setIsUserMenuOpen(false)} className={`block px-4 py-2 text-sm ${isScrolled ? 'text-gray-800 hover:bg-gray-100' : 'text-gray-200 hover:bg-white/10'}`}>Login</Link>
-                      <Link to="/signup" onClick={() => setIsUserMenuOpen(false)} className="block px-4 py-2 text-sm text-white bg-gradient-to-r from-blue-600 via-green-600 to-teal-600 hover:via-green-700 hover:to-teal-700 rounded-none">Get Started</Link>
+                      <Link to="/signup" onClick={() => setIsUserMenuOpen(false)} className="block px-4 py-2 text-sm text-white bg-gradient-to-r from-blue-500 via-blue-600 to-orange-500 hover:from-blue-600 hover:via-blue-700 hover:to-orange-600 rounded-none">Get Started</Link>
                     </div>
                   )}
                 </div>
@@ -196,7 +202,7 @@ const Header = () => {
 
           {/* Mobile quick actions */}
           <div className="flex lg:hidden items-center gap-2">
-            <Link to="/services" className={`px-3 py-1.5 rounded-md text-xs font-medium ${isScrolled ? 'bg-green-600 text-white' : 'bg-white/20 text-white'} transition`}>
+            <Link to="/services" className={`px-3 py-1.5 rounded-md text-xs font-medium ${isScrolled ? 'bg-blue-600 text-white' : 'bg-white/20 text-white'} transition`}>
               Get Audit
             </Link>
             {/* Mobile Menu Button */}
@@ -229,7 +235,7 @@ const Header = () => {
               to="/" 
               className={`block py-2 px-4 rounded-lg transition-colors duration-300 font-medium ${
                 isActive('/') 
-                  ? 'bg-green-100 text-green-600' 
+                  ? 'bg-blue-100 text-blue-600' 
                   : (isScrolled ? 'text-gray-700 hover:bg-gray-100' : 'text-gray-200 hover:bg-white/10')
               }`}
               onClick={closeMobileMenu}
@@ -240,7 +246,7 @@ const Header = () => {
               to="/services" 
               className={`block py-2 px-4 rounded-lg transition-colors duration-300 font-medium ${
                 isActive('/services') 
-                  ? 'bg-green-100 text-green-600' 
+                  ? 'bg-blue-100 text-blue-600' 
                   : (isScrolled ? 'text-gray-700 hover:bg-gray-100' : 'text-gray-200 hover:bg-white/10')
               }`}
               onClick={closeMobileMenu}
@@ -251,7 +257,7 @@ const Header = () => {
               to="/about" 
               className={`block py-2 px-4 rounded-lg transition-colors duration-300 font-medium ${
                 isActive('/about') 
-                  ? 'bg-green-100 text-green-600' 
+                  ? 'bg-blue-100 text-blue-600' 
                   : (isScrolled ? 'text-gray-700 hover:bg-gray-100' : 'text-gray-200 hover:bg-white/10')
               }`}
               onClick={closeMobileMenu}
@@ -262,7 +268,7 @@ const Header = () => {
               to="/contact" 
               className={`block py-2 px-4 rounded-lg transition-colors duration-300 font-medium ${
                 isActive('/contact') 
-                  ? 'bg-green-100 text-green-600' 
+                  ? 'bg-blue-100 text-blue-600' 
                   : (isScrolled ? 'text-gray-700 hover:bg-gray-100' : 'text-gray-200 hover:bg-white/10')
               }`}
               onClick={closeMobileMenu}
@@ -273,7 +279,7 @@ const Header = () => {
               to="/faq" 
               className={`block py-2 px-4 rounded-lg transition-colors duration-300 font-medium ${
                 isActive('/faq') 
-                  ? 'bg-green-100 text-green-600' 
+                  ? 'bg-blue-100 text-blue-600' 
                   : (isScrolled ? 'text-gray-700 hover:bg-gray-100' : 'text-gray-200 hover:bg-white/10')
               }`}
               onClick={closeMobileMenu}
@@ -284,7 +290,7 @@ const Header = () => {
               to="/blog" 
               className={`block py-2 px-4 rounded-lg transition-colors duration-300 font-medium ${
                 isActive('/blog') 
-                  ? 'bg-green-100 text-green-600' 
+                  ? 'bg-blue-100 text-blue-600' 
                   : (isScrolled ? 'text-gray-700 hover:bg-gray-100' : 'text-gray-200 hover:bg-white/10')
               }`}
               onClick={closeMobileMenu}
@@ -292,7 +298,7 @@ const Header = () => {
               Blog
             </Link>
             <div className="pt-4 space-y-3">
-              <Link to="/services" className="block w-full text-center px-6 py-3 bg-gradient-to-r from-blue-600 via-green-600 to-teal-600 text-white font-semibold rounded-xl" onClick={closeMobileMenu}>Get Your Audit</Link>
+              <Link to="/services" className="block w-full text-center px-6 py-3 bg-gradient-to-r from-blue-500 via-blue-600 to-orange-500 text-white font-semibold rounded-xl" onClick={closeMobileMenu}>Get Your Audit</Link>
               {user ? (
                 <button onClick={() => { handleLogout(); closeMobileMenu(); }} className="block w-full text-center px-6 py-3 bg-red-600 text-white font-semibold rounded-xl">Logout</button>
               ) : (

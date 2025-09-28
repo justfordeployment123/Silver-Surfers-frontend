@@ -126,9 +126,9 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-green-900 to-blue-900 pt-24 pb-10 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-blue-900 to-orange-900 pt-24 pb-10 px-4">
       <form onSubmit={handleSubmit} className="bg-white rounded-3xl shadow-xl p-8 w-full max-w-md">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">Sign in to continue</h2>
+        <h2 className="heading-page font-bold text-gray-900 mb-6 text-center">Sign in to continue</h2>
         <div className="mb-4">
           <label className="block text-gray-800 font-semibold mb-2">Email</label>
           <input
@@ -150,15 +150,15 @@ export default function Login() {
             value={form.password}
             onChange={handleChange}
             placeholder="••••••••"
-            className="w-full px-4 py-3 rounded-xl border border-gray-400 focus:ring-2 focus:ring-green-600 text-gray-900 bg-gray-50"
+            className="w-full px-4 py-3 rounded-xl border border-gray-400 focus:ring-2 focus:ring-blue-600 text-gray-900 bg-gray-50"
             autoComplete="current-password"
             required
           />
         </div>
-        {error && <div className="mb-2 text-red-700 text-sm text-center">{error}</div>}
+        {error && <div className="mb-2 text-red-700 text-small text-center">{error}</div>}
         {unverifiedEmail && (
           <div className="mb-3">
-            <div className="text-sm text-gray-700 text-center mb-2">
+            <div className="text-small text-gray-700 text-center mb-2">
               The email <strong>{unverifiedEmail}</strong> is not verified.
             </div>
             <button
@@ -177,27 +177,27 @@ export default function Login() {
             >
               {resendStatus.sending ? 'Sending...' : 'Resend Verification Email'}
             </button>
-            {resendStatus.message && <div className="mt-2 text-green-700 text-xs text-center">{resendStatus.message}</div>}
-            {resendStatus.error && <div className="mt-2 text-red-700 text-xs text-center">{resendStatus.error}</div>}
+            {resendStatus.message && <div className="mt-2 text-green-700 text-caption text-center">{resendStatus.message}</div>}
+            {resendStatus.error && <div className="mt-2 text-red-700 text-caption text-center">{resendStatus.error}</div>}
           </div>
         )}
         <button
           type="submit"
           disabled={loading}
-          className="w-full py-3 px-6 bg-gradient-to-r from-blue-700 via-green-700 to-teal-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+          className="w-full py-3 px-6 bg-gradient-to-r from-blue-500 via-blue-600 to-orange-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
         >
           {loading ? 'Signing in...' : 'Sign In'}
         </button>
         {GOOGLE_CLIENT_ID && (
           <div className="mt-3">
             <div ref={googleDivRef} className="flex justify-center" />
-            {!googleReady && <p className="text-xs text-gray-600 mt-2 text-center">Loading Google sign-in…</p>}
+            {!googleReady && <p className="text-caption text-gray-600 mt-2 text-center">Loading Google sign-in…</p>}
           </div>
         )}
-        <p className="text-xs text-gray-700 mt-4 text-center">
+        <p className="text-caption text-gray-700 mt-4 text-center">
           New here? <a className="text-blue-700 underline" href="/signup">Create an account</a>
         </p>
-        <p className="text-xs text-gray-700 mt-2 text-center">
+        <p className="text-caption text-gray-700 mt-2 text-center">
           <a className="text-blue-700 underline" href="/forgot-password">Forgot password?</a>
         </p>
       </form>
