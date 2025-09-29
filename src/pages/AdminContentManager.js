@@ -172,11 +172,11 @@ const AdminContentManager = () => {
   };
 
   return (
-    <div className="min-h-screen pt-28 pb-20 px-4 md:px-10 bg-gradient-to-br from-gray-950 via-blue-950 to-orange-950 text-white">
+    <div className="min-h-screen pt-28 pb-20 px-4 md:px-10 bg-gradient-to-br from-gray-950 via-blue-950 to-green-950 text-white">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
           <div>
-            <h1 className="heading-page font-bold tracking-tight bg-gradient-to-r from-blue-400 via-blue-500 to-orange-400 text-transparent bg-clip-text">Content Administration</h1>
+            <h1 className="heading-page font-bold tracking-tight bg-gradient-to-r from-blue-400 via-green-500 to-teal-400 text-transparent bg-clip-text">Content Administration</h1>
             <p className="text-sm text-gray-300 mt-2">Manage blog posts & FAQs. Review analysis queue and re-run jobs.</p>
           </div>
         </div>
@@ -224,7 +224,7 @@ const AdminContentManager = () => {
                     <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 5v14m-7-7h14"/></svg>
                     <span className="hidden sm:inline">Add</span>
                   </button>
-                  <button onClick={() => { setPostQuery(''); setShowCreate(false); setEditingId(null); }} className="px-4 py-2.5 rounded-2xl bg-orange-700/80 hover:bg-orange-600 text-white font-semibold shadow flex items-center gap-2">
+                  <button onClick={() => { setPostQuery(''); setShowCreate(false); setEditingId(null); }} className="px-4 py-2.5 rounded-2xl bg-green-700/80 hover:bg-green-600 text-white font-semibold shadow flex items-center gap-2">
                     <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
                     <span className="hidden sm:inline">Clear</span>
                   </button>
@@ -248,7 +248,7 @@ const AdminContentManager = () => {
                       <label className="text-sm"><input type="checkbox" className="mr-2" checked={blogForm.published} onChange={e=>setBlogForm({...blogForm,published:e.target.checked})} /> Published</label>
                       <div className="ml-auto flex gap-3">
                         <button type="button" onClick={()=> setShowCreate(false)} className="px-4 py-2 rounded-xl bg-white/10 border border-white/20">Close</button>
-                        <button className="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-500 via-blue-600 to-orange-500">Create</button>
+                        <button className="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-500 via-blue-600 to-green-500">Create</button>
                       </div>
                     </div>
                   </form>
@@ -339,7 +339,7 @@ const AdminContentManager = () => {
                     <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 5v14m-7-7h14"/></svg>
                     <span className="hidden sm:inline">Add</span>
                   </button>
-                  <button onClick={() => { setFaqQuery(''); setShowFaqCreate(false); setFaqEditingId(null); }} className="px-4 py-2.5 rounded-2xl bg-orange-700/80 hover:bg-orange-600 text-white font-semibold shadow flex items-center gap-2">
+                  <button onClick={() => { setFaqQuery(''); setShowFaqCreate(false); setFaqEditingId(null); }} className="px-4 py-2.5 rounded-2xl bg-green-700/80 hover:bg-green-600 text-white font-semibold shadow flex items-center gap-2">
                     <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
                     <span className="hidden sm:inline">Clear</span>
                   </button>
@@ -357,7 +357,7 @@ const AdminContentManager = () => {
                       <label className="text-sm"><input type="checkbox" className="mr-2" checked={faqForm.published} onChange={e=>setFaqForm({...faqForm,published:e.target.checked})} /> Published</label>
                       <div className="ml-auto flex gap-3">
                         <button type="button" onClick={()=> setShowFaqCreate(false)} className="px-4 py-2 rounded-xl bg-white/10 border border-white/20">Close</button>
-                        <button className="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-500 via-blue-600 to-orange-500">Create</button>
+                        <button className="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-500 via-blue-600 to-green-500">Create</button>
                       </div>
                     </div>
                   </form>
@@ -437,7 +437,7 @@ const AdminContentManager = () => {
               {analysis.map(rec => {
                 const computedStatus = (rec.status || '');
                 return (
-                  <div key={rec._id || rec.taskId} className='p-4 rounded-lg bg-black/30 border border-white/10 hover:border-orange-400/40 transition'>
+                  <div key={rec._id || rec.taskId} className='p-4 rounded-lg bg-black/30 border border-white/10 hover:border-green-400/40 transition'>
                     <div className='flex flex-wrap items-center justify-between gap-4'>
                       <div className='min-w-0 flex-1'>
                         <div className='flex flex-wrap gap-2 items-center mb-1'>
@@ -463,7 +463,7 @@ const AdminContentManager = () => {
                             const resp = await adminRerunAnalysis(idOrTaskId);
                             if(resp?.error){ alert(resp.error); }
                             else { alert('Re-run queued for existing record'); loadAnalysis(); }
-                          }} className='px-3 py-1.5 rounded bg-orange-600/70 hover:bg-orange-500 text-[11px] font-semibold'>Re-run</button>
+                          }} className='px-3 py-1.5 rounded bg-green-600/70 hover:bg-green-500 text-[11px] font-semibold'>Re-run</button>
                         )}
                       </div>
                     </div>
@@ -480,24 +480,24 @@ const AdminContentManager = () => {
           <section className='relative mb-14 -mt-4'>
             <header className='flex flex-col gap-4 mb-4 md:flex-row md:items-center md:justify-between'>
               <h2 className='text-xl font-semibold flex items-center gap-3'>
-                <span className='w-2 h-2 rounded-full bg-orange-400'></span> Contact Messages
+                <span className='w-2 h-2 rounded-full bg-green-400'></span> Contact Messages
               </h2>
               <div className='flex flex-col md:flex-row gap-3 w-full md:w-auto items-stretch md:items-center'>
                 <div className='flex gap-3 w-full'>
-                  <input value={contactQuery} onChange={e=> setContactQuery(e.target.value)} placeholder='Search (name, email, subject, message)...' className='flex-1 md:w-80 px-3 py-2 rounded-lg bg-white/10 text-sm outline-none focus:ring-2 ring-orange-500/50' />
-                  <select value={contactStatus} onChange={e=> setContactStatus(e.target.value)} className='px-3 py-2 rounded-lg bg-white/10 text-sm outline-none focus:ring-2 ring-orange-500/50 text-white'>
+                  <input value={contactQuery} onChange={e=> setContactQuery(e.target.value)} placeholder='Search (name, email, subject, message)...' className='flex-1 md:w-80 px-3 py-2 rounded-lg bg-white/10 text-sm outline-none focus:ring-2 ring-green-500/50' />
+                  <select value={contactStatus} onChange={e=> setContactStatus(e.target.value)} className='px-3 py-2 rounded-lg bg-white/10 text-sm outline-none focus:ring-2 ring-green-500/50 text-white'>
                     <option value='all' className='text-black'>All</option>
                     <option value='new' className='text-black'>New</option>
                     <option value='read' className='text-black'>Read</option>
                     <option value='closed' className='text-black'>Closed</option>
                   </select>
                 </div>
-                <button onClick={()=> loadContact()} className='px-4 py-2 rounded-lg bg-orange-600/80 hover:bg-orange-500 text-xs font-semibold shadow'>Refresh</button>
+                <button onClick={()=> loadContact()} className='px-4 py-2 rounded-lg bg-green-600/80 hover:bg-green-500 text-xs font-semibold shadow'>Refresh</button>
               </div>
             </header>
             <div className='rounded-xl bg-gradient-to-br from-white/10 to-white/5 p-4 border border-white/10 max-h-[36rem] overflow-y-auto space-y-4'>
               {contact.map(msg => (
-                <div key={msg._id} className='p-4 rounded-lg bg-black/30 border border-white/10 hover:border-orange-400/40 transition'>
+                <div key={msg._id} className='p-4 rounded-lg bg-black/30 border border-white/10 hover:border-green-400/40 transition'>
                   <div className='flex flex-wrap items-start justify-between gap-4'>
                     <div className='min-w-0 flex-1'>
                       <div className='flex flex-wrap gap-2 items-center mb-1'>
@@ -510,8 +510,8 @@ const AdminContentManager = () => {
                       <div className='text-sm text-gray-200 whitespace-pre-wrap break-words'>{msg.message}</div>
                     </div>
                     <div className='flex flex-col gap-2 shrink-0'>
-                      {msg.status !== 'read' && <button onClick={async ()=>{ await adminUpdateContact(msg._id, { status:'read' }); loadContact(); }} className='px-3 py-1.5 rounded bg-orange-600/70 hover:bg-orange-500 text-[11px] font-semibold'>Mark Read</button>}
-                      {msg.status !== 'closed' && <button onClick={async ()=>{ await adminUpdateContact(msg._id, { status:'closed' }); loadContact(); }} className='px-3 py-1.5 rounded bg-blue-600/70 hover:bg-orange-500 text-[11px] font-semibold'>Close</button>}
+                      {msg.status !== 'read' && <button onClick={async ()=>{ await adminUpdateContact(msg._id, { status:'read' }); loadContact(); }} className='px-3 py-1.5 rounded bg-green-600/70 hover:bg-green-500 text-[11px] font-semibold'>Mark Read</button>}
+                      {msg.status !== 'closed' && <button onClick={async ()=>{ await adminUpdateContact(msg._id, { status:'closed' }); loadContact(); }} className='px-3 py-1.5 rounded bg-blue-600/70 hover:bg-green-500 text-[11px] font-semibold'>Close</button>}
                       <button onClick={async ()=>{ if(!window.confirm('Delete this message?')) return; await adminDeleteContact(msg._id); loadContact(); }} className='px-3 py-1.5 rounded bg-red-600/70 hover:bg-red-500 text-[11px] font-semibold'>Delete</button>
                     </div>
                   </div>

@@ -64,7 +64,7 @@ export default function BlogPost() {
 
   if (!post) {
     return (
-      <div className="pt-40 text-center text-white bg-gradient-to-br from-gray-900 via-blue-900 to-orange-900 min-h-screen">
+      <div className="pt-40 text-center text-white bg-gradient-to-br from-blue-950 via-green-950 via-teal-950 to-cyan-900 min-h-screen">
         <div className="max-w-3xl mx-auto px-6">
           <p>Post not found.</p>
           <div className="mt-6">
@@ -78,7 +78,7 @@ export default function BlogPost() {
   }
 
   return (
-    <div className="min-h-screen pt-32 pb-24 bg-gradient-to-br from-gray-900 via-blue-900 to-orange-900 text-white">
+      <div className="min-h-screen pt-32 pb-24 bg-gradient-to-br from-blue-950 via-green-950 via-teal-950 to-cyan-900 text-white">
       <div className="max-w-3xl mx-auto px-6">
         <div className="mb-8">
           <Link to="/blog" className="text-sm text-blue-300 hover:text-blue-200">

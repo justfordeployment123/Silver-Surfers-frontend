@@ -114,17 +114,17 @@ const handleScanSubmit = async (e) => {
      {/* HERO SECTION */}
      <div className="relative min-h-screen overflow-hidden">
        {/* Background gradient */}
-       <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-blue-800 via-orange-900 to-blue-900">
-         <div className="absolute inset-0 bg-gradient-to-tl from-blue-500/15 via-transparent to-orange-500/8"></div>
-         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(103,159,186,0.12),transparent_50%)] opacity-60"></div>
-         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(223,120,47,0.12),transparent_50%)] opacity-60"></div>
+       <div className="absolute inset-0 bg-gradient-to-br from-blue-950 via-green-950 via-teal-950 to-cyan-900">
+         <div className="absolute inset-0 bg-gradient-to-tl from-green-600/15 via-transparent to-blue-600/8"></div>
+         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(34,197,94,0.12),transparent_50%)] opacity-60"></div>
+         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(59,130,246,0.12),transparent_50%)] opacity-60"></div>
        </div>
 
        {/* Animated geometric shapes */}
-       <div className="absolute top-20 left-10 w-48 h-48 bg-gradient-to-br from-blue-400/15 to-blue-500/25 rounded-full blur-3xl animate-pulse"></div>
-       <div className="absolute bottom-20 right-10 w-56 h-56 bg-gradient-to-br from-orange-400/20 to-orange-500/15 rounded-full blur-3xl animate-pulse delay-700"></div>
-       <div className="absolute top-1/2 left-1/4 w-40 h-40 bg-gradient-to-br from-blue-400/12 to-orange-400/18 rounded-full blur-2xl animate-pulse delay-1400"></div>
-       <div className="absolute top-3/4 right-1/4 w-32 h-32 bg-gradient-to-br from-orange-400/10 to-blue-500/15 rounded-full blur-xl animate-pulse delay-2100"></div>
+       <div className="absolute top-20 left-10 w-48 h-48 bg-gradient-to-br from-blue-500/15 to-green-600/25 rounded-full blur-3xl animate-pulse"></div>
+       <div className="absolute bottom-20 right-10 w-56 h-56 bg-gradient-to-br from-teal-400/20 to-cyan-600/15 rounded-full blur-3xl animate-pulse delay-700"></div>
+       <div className="absolute top-1/2 left-1/4 w-40 h-40 bg-gradient-to-br from-green-400/12 to-blue-500/18 rounded-full blur-2xl animate-pulse delay-1400"></div>
+       <div className="absolute top-3/4 right-1/4 w-32 h-32 bg-gradient-to-br from-teal-400/10 to-blue-500/15 rounded-full blur-xl animate-pulse delay-2100"></div>
 
        {/* Hero content */}
        <div className="relative z-10 flex items-center justify-center min-h-screen px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32">
@@ -132,7 +132,7 @@ const handleScanSubmit = async (e) => {
            <div className="mb-12">
              <h1 className="heading-hero text-white mb-6">
                <span className="block">Are you Delivering</span>
-               <span className="block bg-gradient-to-r from-blue-300 via-blue-400 via-orange-300 to-orange-400 bg-clip-text text-transparent leading-tight" style={{lineHeight: '1.2', paddingBottom: '0.1em'}}>
+               <span className="block bg-gradient-to-r from-blue-300 via-green-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent leading-tight" style={{lineHeight: '1.2', paddingBottom: '0.1em'}}>
                  Older Adult Friendly Digital Experiences?
                </span>
              </h1>
@@ -186,7 +186,7 @@ const handleScanSubmit = async (e) => {
                  <button
                    type="submit"
                    disabled={isScanning}
-                   className="w-full py-4 px-8 bg-gradient-to-r from-blue-500 via-blue-600 to-orange-500 hover:from-blue-600 hover:via-blue-700 hover:to-orange-600 text-white font-semibold rounded-xl shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none text-lg"
+                   className="w-full py-4 px-8 bg-gradient-to-r from-blue-500 via-green-600 to-teal-500 hover:from-blue-700 hover:via-green-700 hover:to-teal-700 text-white font-semibold rounded-xl shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none text-lg"
                  >
                    {isScanning ? (
                      <div className="flex items-center justify-center space-x-2">
@@ -243,19 +243,19 @@ const handleScanSubmit = async (e) => {
          {/* Key metrics */}
          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
            <div className="text-center">
-             <div className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-blue-500 to-orange-500 bg-clip-text text-transparent mb-2">500+</div>
+             <div className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-blue-500 to-green-500 bg-clip-text text-transparent mb-2">500+</div>
              <div className="text-gray-700 font-medium">Websites Audited</div>
            </div>
            <div className="text-center">
-             <div className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-orange-500 to-blue-500 bg-clip-text text-transparent mb-2">85%</div>
+             <div className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-green-500 to-teal-500 bg-clip-text text-transparent mb-2">85%</div>
              <div className="text-gray-700 font-medium">Improved Accessibility</div>
            </div>
            <div className="text-center">
-             <div className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-blue-600 to-orange-600 bg-clip-text text-transparent mb-2">95%</div>
+             <div className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-teal-600 to-cyan-600 bg-clip-text text-transparent mb-2">95%</div>
              <div className="text-gray-700 font-medium">Client Satisfaction</div>
            </div>
            <div className="text-center">
-             <div className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-orange-600 to-blue-600 bg-clip-text text-transparent mb-2">30s</div>
+             <div className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-green-600 to-teal-600 bg-clip-text text-transparent mb-2">30s</div>
              <div className="text-gray-700 font-medium">Quick Assessment</div>
            </div>
          </div>
@@ -263,7 +263,7 @@ const handleScanSubmit = async (e) => {
          {/* Core capabilities */}
          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
            <div className="bg-white rounded-lg p-8 shadow-lg border-2 border-blue-100 hover:shadow-xl hover:border-blue-200 transition-all duration-300">
-             <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-orange-500 rounded-lg flex items-center justify-center mb-6">
+             <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-green-500 rounded-lg flex items-center justify-center mb-6">
                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                </svg>
@@ -274,8 +274,8 @@ const handleScanSubmit = async (e) => {
              </p>
            </div>
 
-           <div className="bg-white rounded-lg p-8 shadow-lg border-2 border-orange-100 hover:shadow-xl hover:border-orange-200 transition-all duration-300">
-             <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-blue-500 rounded-lg flex items-center justify-center mb-6">
+           <div className="bg-white rounded-lg p-8 shadow-lg border-2 border-green-100 hover:shadow-xl hover:border-green-200 transition-all duration-300">
+             <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-teal-500 rounded-lg flex items-center justify-center mb-6">
                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                </svg>
@@ -287,7 +287,7 @@ const handleScanSubmit = async (e) => {
            </div>
 
            <div className="bg-white rounded-lg p-8 shadow-lg border-2 border-blue-100 hover:shadow-xl hover:border-blue-200 transition-all duration-300">
-             <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-orange-500 rounded-lg flex items-center justify-center mb-6">
+             <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-green-500 rounded-lg flex items-center justify-center mb-6">
                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                </svg>
@@ -302,7 +302,7 @@ const handleScanSubmit = async (e) => {
      </section>
 
      {/* HOW IT WORKS SECTION */}
-     <section className="relative py-20 bg-gradient-to-br from-slate-100 via-blue-50 to-orange-50">
+     <section className="relative py-20 bg-gradient-to-br from-slate-100 via-blue-50 to-green-50">
        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
          <div className="text-center mb-16">
            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
@@ -316,12 +316,12 @@ const handleScanSubmit = async (e) => {
          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
            <div className="relative bg-white rounded-2xl p-8 shadow-md hover:shadow-lg border border-blue-100 text-center transition-all">
              <div className="absolute -top-6 left-1/2 transform -translate-x-1/2">
-               <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-orange-500 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-lg">
+               <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-green-500 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-lg">
                  1
                </div>
              </div>
              <div className="mt-6 mb-6">
-               <div className="w-20 h-20 bg-gradient-to-br from-blue-100 to-orange-100 rounded-2xl mx-auto flex items-center justify-center mb-6">
+               <div className="w-20 h-20 bg-gradient-to-br from-blue-100 to-green-100 rounded-2xl mx-auto flex items-center justify-center mb-6">
                  <svg className="w-10 h-10 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                  </svg>
@@ -333,15 +333,15 @@ const handleScanSubmit = async (e) => {
              </div>
            </div>
 
-           <div className="relative bg-white rounded-2xl p-8 shadow-md hover:shadow-lg border border-orange-100 text-center transition-all">
+           <div className="relative bg-white rounded-2xl p-8 shadow-md hover:shadow-lg border border-green-100 text-center transition-all">
              <div className="absolute -top-6 left-1/2 transform -translate-x-1/2">
-               <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-blue-500 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-lg">
+               <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-teal-500 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-lg">
                  2
                </div>
              </div>
              <div className="mt-6 mb-6">
-               <div className="w-20 h-20 bg-gradient-to-br from-orange-100 to-blue-100 rounded-2xl mx-auto flex items-center justify-center mb-6">
-                 <svg className="w-10 h-10 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+               <div className="w-20 h-20 bg-gradient-to-br from-green-100 to-blue-100 rounded-2xl mx-auto flex items-center justify-center mb-6">
+                 <svg className="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                  </svg>
@@ -355,12 +355,12 @@ const handleScanSubmit = async (e) => {
 
            <div className="relative bg-white rounded-2xl p-8 shadow-md hover:shadow-lg border border-blue-100 text-center transition-all">
              <div className="absolute -top-6 left-1/2 transform -translate-x-1/2">
-               <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-orange-500 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-lg">
+               <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-green-500 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-lg">
                  3
                </div>
              </div>
              <div className="mt-6 mb-6">
-               <div className="w-20 h-20 bg-gradient-to-br from-blue-100 to-orange-100 rounded-2xl mx-auto flex items-center justify-center mb-6">
+               <div className="w-20 h-20 bg-gradient-to-br from-blue-100 to-green-100 rounded-2xl mx-auto flex items-center justify-center mb-6">
                  <svg className="w-10 h-10 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                  </svg>
@@ -376,7 +376,7 @@ const handleScanSubmit = async (e) => {
          <div className="text-center">
            <button 
              onClick={navigateToServices}
-             className="px-10 py-5 bg-gradient-to-r from-blue-500 via-blue-600 to-orange-500 hover:from-blue-600 hover:via-blue-700 hover:to-orange-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 text-lg"
+             className="px-10 py-5 bg-gradient-to-r from-blue-500 via-green-600 to-teal-500 hover:from-blue-700 hover:via-green-700 hover:to-teal-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 text-lg"
            >
              Explore Our Services
            </button>
@@ -385,7 +385,7 @@ const handleScanSubmit = async (e) => {
      </section>
 
      {/* TESTIMONIAL SECTION */}
-     <section className="relative py-20 bg-gradient-to-br from-blue-50/30 to-orange-50/20">
+     <section className="relative py-20 bg-gradient-to-br from-blue-50/30 to-green-50/20">
        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
          <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 lg:p-12 shadow-lg border border-blue-100">
            <svg className="w-16 h-16 text-blue-300 mx-auto mb-8" fill="currentColor" viewBox="0 0 24 24">
@@ -395,7 +395,7 @@ const handleScanSubmit = async (e) => {
              "SilverSurfers helped us create a website that our older customers can actually use. Our conversion rate from senior visitors increased by 40% after implementing their recommendations."
            </blockquote>
            <div className="flex items-center justify-center space-x-4">
-             <div className="w-12 h-12 bg-gradient-to-br from-blue-400 to-orange-500 rounded-full flex items-center justify-center shadow-lg">
+             <div className="w-12 h-12 bg-gradient-to-br from-blue-400 to-green-500 rounded-full flex items-center justify-center shadow-lg">
                <span className="text-white font-bold text-lg">M</span>
              </div>
              <div className="text-left">
@@ -408,15 +408,15 @@ const handleScanSubmit = async (e) => {
      </section>
 
      {/* FINAL CTA SECTION */}
-     <section className="relative py-20 bg-gradient-to-br from-gray-900 via-blue-900 to-orange-900 overflow-hidden">
-       <div className="absolute inset-0 bg-gradient-to-tl from-blue-500/20 via-transparent to-orange-500/10"></div>
+     <section className="relative py-20 bg-gradient-to-br from-blue-950 via-green-950 via-teal-950 to-cyan-900 overflow-hidden">
+       <div className="absolute inset-0 bg-gradient-to-tl from-blue-500/20 via-transparent to-green-500/10"></div>
        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(103,159,186,0.1),transparent_50%)]"></div>
        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(223,120,47,0.1),transparent_50%)]"></div>
        
        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
            Ready to welcome{' '}
-           <span className="bg-gradient-to-r from-blue-300 via-blue-400 to-orange-300 bg-clip-text text-transparent">
+           <span className="bg-gradient-to-r from-blue-300 via-green-400 to-teal-300 bg-clip-text text-transparent">
              all generations?
            </span>
          </h2>
@@ -426,7 +426,7 @@ const handleScanSubmit = async (e) => {
          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
           <button 
             onClick={() => document.querySelector('form')?.scrollIntoView({ behavior: 'smooth', block: 'center' })}
-            className="px-8 py-4 bg-gradient-to-r from-blue-500 via-blue-600 to-orange-500 hover:from-blue-600 hover:via-blue-700 hover:to-orange-600 text-white font-semibold rounded-xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 text-lg"
+            className="px-8 py-4 bg-gradient-to-r from-blue-500 via-green-600 to-teal-500 hover:from-blue-700 hover:via-green-700 hover:to-teal-700 text-white font-semibold rounded-xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 text-lg"
           >
             Get the Quick Scan Report
           </button>

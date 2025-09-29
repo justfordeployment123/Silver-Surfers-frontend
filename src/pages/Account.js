@@ -44,10 +44,10 @@ export default function Account() {
   });
 
   return (
-    <div className="min-h-screen pt-28 pb-20 px-4 md:px-10 bg-gradient-to-br from-gray-950 via-blue-950 to-orange-950 text-white">
+    <div className="min-h-screen pt-28 pb-20 px-4 md:px-10 bg-gradient-to-br from-gray-950 via-blue-950 to-green-950 text-white">
       <div className="max-w-5xl mx-auto">
         <header className="mb-8">
-          <h1 className="heading-page font-bold tracking-tight bg-gradient-to-r from-blue-400 via-blue-500 to-orange-400 text-transparent bg-clip-text">My Account</h1>
+          <h1 className="heading-page font-bold tracking-tight bg-gradient-to-r from-blue-400 via-green-500 to-teal-400 text-transparent bg-clip-text">My Account</h1>
           <p className="text-sm text-gray-300 mt-2">Your previous scans and their delivery status.</p>
         </header>
         {!user && (

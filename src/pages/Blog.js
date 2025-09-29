@@ -54,13 +54,13 @@ const Blog = () => {
 
   // Map raw keys to human readable labels & optional gradients
   const topicMeta = {
-    'readable fonts': { label: 'Readable Fonts', gradient: 'blue-orange' },
-    'fonts': { label: 'Readable Fonts', gradient: 'blue-orange' },
+    'readable fonts': { label: 'Readable Fonts', gradient: 'blue-green' },
+    'fonts': { label: 'Readable Fonts', gradient: 'blue-green' },
     'color contrast': { label: 'Color Contrast', gradient: 'blue-cyan' },
     'contrast': { label: 'Color Contrast', gradient: 'blue-cyan' },
-    'navigation': { label: 'Simple Navigation', gradient: 'blue-orange-light' },
-    'simple navigation': { label: 'Simple Navigation', gradient: 'blue-orange-light' },
-    'mobile usability': { label: 'Mobile Usability', gradient: 'orange-blue' },
+    'navigation': { label: 'Simple Navigation', gradient: 'blue-green-light' },
+    'simple navigation': { label: 'Simple Navigation', gradient: 'blue-green-light' },
+    'mobile usability': { label: 'Mobile Usability', gradient: 'green-blue' },
     'mobile': { label: 'Mobile Usability', gradient: 'green-teal' },
     'case studies': { label: 'Case Studies', gradient: 'blue-teal' },
     'case-studies': { label: 'Case Studies', gradient: 'blue-teal' },
@@ -72,7 +72,7 @@ const Blog = () => {
   const derivedTopics = useMemo(() => {
     return Object.entries(topicCounts)
       .map(([key, count]) => {
-        const meta = topicMeta[key] || { label: key.replace(/\b\w/g, c => c.toUpperCase()), gradient: 'blue-orange' };
+        const meta = topicMeta[key] || { label: key.replace(/\b\w/g, c => c.toUpperCase()), gradient: 'blue-green' };
         return { key, name: meta.label, count, gradient: meta.gradient };
       })
       .filter(t => t.count > 0)
@@ -114,27 +114,37 @@ const Blog = () => {
   return (
     <div className="blog-container">
       {/* Hero Section */}
-      <section className="relative py-32 pt-32 bg-gradient-to-br from-gray-900 via-blue-900 to-orange-900 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-tl from-blue-500/20 via-transparent to-orange-500/10"></div>
+      <div className="relative min-h-screen overflow-hidden">
+        {/* Background gradient */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-950 via-green-950 via-teal-950 to-cyan-900">
+          <div className="absolute inset-0 bg-gradient-to-tl from-green-600/15 via-transparent to-blue-600/8"></div>
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(34,197,94,0.12),transparent_50%)] opacity-60"></div>
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(59,130,246,0.12),transparent_50%)] opacity-60"></div>
+        </div>
 
-        {/* Animated background elements to match Contact hero */}
-        <div className="pointer-events-none absolute top-20 left-10 w-72 h-72 bg-gradient-to-br from-blue-500/15 to-orange-500/25 rounded-full blur-3xl animate-pulse"></div>
-        <div className="pointer-events-none absolute bottom-20 right-10 w-80 h-80 bg-gradient-to-br from-orange-400/20 to-blue-500/15 rounded-full blur-3xl animate-pulse delay-700"></div>
-        <div className="pointer-events-none absolute top-1/2 left-1/3 w-60 h-60 bg-gradient-to-br from-blue-400/12 to-orange-500/18 rounded-full blur-2xl animate-pulse delay-1400"></div>
+        {/* Animated geometric shapes */}
+        <div className="absolute top-20 left-10 w-48 h-48 bg-gradient-to-br from-blue-500/15 to-green-600/25 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-10 w-56 h-56 bg-gradient-to-br from-teal-400/20 to-cyan-600/15 rounded-full blur-3xl animate-pulse delay-700"></div>
+        <div className="absolute top-1/2 left-1/4 w-40 h-40 bg-gradient-to-br from-green-400/12 to-blue-500/18 rounded-full blur-2xl animate-pulse delay-1400"></div>
+        <div className="absolute top-3/4 right-1/4 w-32 h-32 bg-gradient-to-br from-teal-400/10 to-blue-500/15 rounded-full blur-xl animate-pulse delay-2100"></div>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center pt-16">
-            <h1 className="heading-hero font-bold text-white mb-6">
-              <span className="bg-gradient-to-r from-blue-300 via-blue-400 to-orange-300 bg-clip-text text-transparent">
-                Accessibility & Silver UX
-              </span>
-            </h1>
-            <p className="text-xl text-gray-200 max-w-4xl mx-auto leading-relaxed">
-              Practical guides, tips, and case studies on creating a delightful digital experience.
-            </p>
+        {/* Hero content */}
+        <div className="relative z-10 flex items-center justify-center min-h-screen px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32">
+          <div className="max-w-4xl mx-auto text-center">
+            <div className="mb-12">
+              <h1 className="heading-hero text-white mb-6">
+                <span className="block bg-gradient-to-r from-blue-300 via-green-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent leading-tight" style={{lineHeight: '1.2', paddingBottom: '0.1em'}}>
+                  Accessibility & Silver UX
+                </span>
+              </h1>
+              
+              <h2 className="text-large text-gray-200 font-light leading-relaxed max-w-4xl mx-auto">
+                Practical guides, tips, and case studies on creating a delightful digital experience.
+              </h2>
+            </div>
           </div>
         </div>
-      </section>
+      </div>
 
       {/* Featured Post */}
   {featuredPost && !loading && (

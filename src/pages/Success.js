@@ -29,7 +29,7 @@ const Success = () => {
   }, [sessionId, navigate]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-blue-900 to-orange-900">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-950 via-green-950 via-teal-950 to-cyan-900">
       <div className="bg-white rounded-3xl shadow-xl p-8 w-full max-w-md text-center">
         <h2 className="heading-page font-bold text-gray-900 mb-2">Checkout Success</h2>
         <p className="text-gray-700">{status}</p>

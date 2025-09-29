@@ -5,7 +5,7 @@ const Footer = () => {
   return (
     <footer className="relative bg-gray-900 overflow-hidden">
       {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-blue-900/20 to-orange-900/20"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-blue-900/20 to-green-900/20"></div>
       
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="py-16">
@@ -13,7 +13,7 @@ const Footer = () => {
             {/* Company Info */}
             <div className="lg:col-span-2 space-y-6">
               <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 via-blue-600 to-orange-500 rounded-lg flex items-center justify-center shadow-lg">
+                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 via-green-600 to-teal-500 rounded-lg flex items-center justify-center shadow-lg">
                   <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
@@ -22,7 +22,7 @@ const Footer = () => {
                   <span className="text-xl text-white">
                     <span className="font-light">Silver</span><span className="font-bold">Surfers</span>
                   </span>
-                  <div className="h-0.5 w-full bg-gradient-to-r from-blue-500 via-blue-600 to-orange-500 rounded-full"></div>
+                  <div className="h-0.5 w-full bg-gradient-to-r from-blue-500 via-green-600 to-teal-500 rounded-full"></div>
                 </div>
               </div>
               
