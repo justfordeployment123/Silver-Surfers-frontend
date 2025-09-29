@@ -6,7 +6,7 @@ const Services = () => {
       id: 1,
       name: "Senior-Friendly Assessment",
       icon: "📊",
-      price: "€299",
+      price: "€50",
       period: "one-time",
       description: "A comprehensive evaluation of your website's accessibility and usability for elderly users.",
       features: [
