@@ -89,7 +89,7 @@ const Contact = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <div className="relative min-h-screen overflow-hidden">
+      <div className="relative overflow-hidden">
         {/* Background gradient */}
         <div className="absolute inset-0 bg-gradient-to-br from-blue-950 via-green-950 via-teal-950 to-cyan-900">
           <div className="absolute inset-0 bg-gradient-to-tl from-green-600/15 via-transparent to-blue-600/8"></div>
@@ -104,7 +104,7 @@ const Contact = () => {
         <div className="absolute top-3/4 right-1/4 w-32 h-32 bg-gradient-to-br from-teal-400/10 to-blue-500/15 rounded-full blur-xl animate-pulse delay-2100"></div>
 
         {/* Hero content */}
-        <div className="relative z-10 flex items-center justify-center min-h-screen px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32">
+        <div className="relative z-10 flex items-center justify-center py-20 px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32">
           <div className="max-w-4xl mx-auto text-center">
             <div className="mb-12">
               <h1 className="heading-hero text-white mb-6">
@@ -113,8 +113,8 @@ const Contact = () => {
                 </span>
               </h1>
               
-              <h2 className="text-large text-gray-200 font-light leading-relaxed max-w-4xl mx-auto">
-                Have questions or need a custom quote? Our friendly, expert team is here to help! Contact us today.
+              <h2 className="text-xl sm:text-2xl text-gray-200 font-light leading-relaxed max-w-4xl mx-auto">
+                Have questions or need a custom quote? <br />Our friendly, expert team is here to help! <br />Contact us today.
               </h2>
             </div>
           </div>
@@ -125,8 +125,8 @@ const Contact = () => {
   <section id="contact-methods" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">How Can We Help?</h2>
-            <p className="text-lg text-gray-600">Choose the best way to reach us based on your needs</p>
+              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">How Can We Help?</h2>
+            <p className="text-xl text-gray-600 leading-relaxed">Choose the best way to reach us based on your needs</p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -136,10 +136,10 @@ const Contact = () => {
                   {method.icon}
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-4">{method.title}</h3>
-                <p className="text-gray-600 mb-6">{method.description}</p>
+                <p className="text-gray-600 mb-6 text-lg leading-relaxed">{method.description}</p>
                 <a 
                   href={method.link} 
-                  className={`inline-flex items-center px-6 py-3 bg-gradient-to-r ${method.gradient} text-white font-semibold rounded-xl hover:shadow-lg transform hover:scale-105 transition-all duration-300`}
+                  className={`inline-flex items-center px-6 py-3 bg-gradient-to-r ${method.gradient} text-white font-semibold rounded-xl hover:shadow-lg transform hover:scale-105 transition-all duration-300 text-lg`}
                 >
                   {method.action}
                   <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -157,16 +157,16 @@ const Contact = () => {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-white/90 backdrop-blur-sm rounded-3xl p-8 lg:p-12 shadow-xl border border-purple-100">
             <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">Send Us a Message</h2>
-              <p className="text-lg text-gray-600">
-                Tell us about your business and what you hope to achieve. We’ll respond promptly.
+              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">Send Us a Message</h2>
+              <p className="text-xl text-gray-600 leading-relaxed">
+                Tell us about your business and what you hope to achieve. We'll respond promptly.
               </p>
             </div>
             
             <div className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-900 mb-2">
+                  <label className="block text-base font-medium text-gray-900 mb-2">
                     Full Name *
                   </label>
                   <input
@@ -176,11 +176,11 @@ const Contact = () => {
                     onChange={handleInputChange}
                     required
                     placeholder="Your full name"
-                    className="w-full px-4 py-3 bg-white/90 backdrop-blur-sm rounded-xl border border-gray-300 text-gray-800 placeholder-gray-500 focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-200 shadow-sm"
+                    className="w-full px-4 py-3 bg-white/90 backdrop-blur-sm rounded-xl border border-gray-300 text-gray-800 placeholder-gray-500 focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-200 shadow-sm text-lg"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-900 mb-2">
+                  <label className="block text-base font-medium text-gray-900 mb-2">
                     Email Address *
                   </label>
                   <input
@@ -190,7 +190,7 @@ const Contact = () => {
                     onChange={handleInputChange}
                     required
                     placeholder="your.email@company.com"
-                    className="w-full px-4 py-3 bg-white/90 backdrop-blur-sm rounded-xl border border-gray-300 text-gray-800 placeholder-gray-500 focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-200 shadow-sm"
+                    className="w-full px-4 py-3 bg-white/90 backdrop-blur-sm rounded-xl border border-gray-300 text-gray-800 placeholder-gray-500 focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-200 shadow-sm text-lg"
                   />
                 </div>
               </div>
@@ -358,7 +358,7 @@ const Contact = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a href="/" className="px-8 py-4 bg-gradient-to-r from-blue-500 via-blue-600 to-green-500 hover:from-blue-600 hover:via-blue-700 hover:to-green-600 text-white font-semibold rounded-xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300">
-              Get Light Report
+              Quick Scan Report
             </a>
             <a 
               href="/services" 

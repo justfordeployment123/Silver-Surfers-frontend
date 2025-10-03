@@ -30,9 +30,6 @@ const FAQ = () => {
     setExpandedFaq(expandedFaq === faqId ? null : faqId);
   };
 
-  const handleCategoryClick = (category) => {
-    console.log('Category clicked:', category);
-  };
 
   const navigateToContact = () => {
     window.location.href = '/contact';
@@ -45,7 +42,7 @@ const FAQ = () => {
   return (
     <div className="faq-container">
       {/* Hero Section */}
-      <div className="relative min-h-screen overflow-hidden">
+      <div className="relative overflow-hidden">
         {/* Background gradient */}
         <div className="absolute inset-0 bg-gradient-to-br from-blue-950 via-green-950 via-teal-950 to-cyan-900">
           <div className="absolute inset-0 bg-gradient-to-tl from-green-600/15 via-transparent to-blue-600/8"></div>
@@ -60,7 +57,7 @@ const FAQ = () => {
         <div className="absolute top-3/4 right-1/4 w-32 h-32 bg-gradient-to-br from-teal-400/10 to-blue-500/15 rounded-full blur-xl animate-pulse delay-2100"></div>
 
         {/* Hero content */}
-        <div className="relative z-10 flex items-center justify-center min-h-screen px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32">
+        <div className="relative z-10 flex items-center justify-center py-20 px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32">
           <div className="max-w-4xl mx-auto text-center">
             <div className="mb-12">
               <h1 className="heading-hero text-white mb-6">
@@ -69,32 +66,14 @@ const FAQ = () => {
                 </span>
               </h1>
               
-              <h2 className="text-large text-gray-200 font-light leading-relaxed max-w-4xl mx-auto">
-                Ready to Improve Your Digital Experience? Join hundreds of businesses that are already enhancing their digital experience to capture the SilverSurfers market. Our expert team is ready to help!
+              <h2 className="text-xl sm:text-2xl text-gray-200 font-light leading-relaxed max-w-4xl mx-auto">
+              Find answers to the most frequently asked questions about SilverSurfers
               </h2>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Quick Links */}
-      <section className="nav-section">
-        <div className="nav-container">
-          <h2 className="nav-title">Quick Navigation</h2>
-          <div className="nav-buttons">
-            {['AI Basics', 'Services', 'Implementation', 'Results', 'Pricing', 'Technical'].map((category, index) => (
-              <button 
-                key={index}
-                type="button"
-                onClick={() => handleCategoryClick(category)}
-                className="nav-button"
-              >
-                {category}
-              </button>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* FAQ List */}
       <section className="faq-section">
@@ -200,33 +179,28 @@ const FAQ = () => {
       </section>
 
       {/* Contact CTA */}
-      <section className="cta-section">
-        <div className="cta-bg-effects">
-          <div className="cta-bg-effect"></div>
-        </div>
-        
-        <div className="cta-content">
-          <h2 className="cta-title">Still Have Questions?</h2>
-          <p className="cta-subtitle">
-            Can’t find what you’re looking for?  Our team is here to help!
-          </p>
-          <div className="cta-buttons">
+            {/* Contact CTA */}
+      <section className="py-20 bg-gradient-to-br from-blue-950 via-green-950 via-teal-950 to-cyan-900">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6">Ready to Get Started?</h2>
+          <p className="text-xl text-gray-200 mb-8">Join the growing community of businesses elevating their digital experience with SilverSurfers.ai</p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button 
               type="button"
-              onClick={navigateToContact}
-              className="cta-button cta-button-primary"
-            >
-              Contact Us
-            </button>
-            <button 
-              type="button"
-              onClick={navigateToHome}
-              className="cta-button cta-button-secondary"
+              onClick={() => window.location.href = '/?openScan=1'}
+              className="px-8 py-4 bg-gradient-to-r from-blue-500 via-green-600 to-teal-500 text-white font-semibold rounded-xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300"
             >
               Get Quick Scan Report
             </button>
+            <button 
+              type="button"
+              onClick={navigateToContact}
+              className="px-8 py-4 bg-white/10 backdrop-blur-sm text-white border-2 border-white/30 font-semibold rounded-xl hover:bg-white/20 transition-all duration-300"
+            >
+              Contact Us
+            </button>
           </div>
-  </div>
+        </div>
       </section>
     </div>
   );

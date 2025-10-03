@@ -10,7 +10,7 @@
 .blog-hero {
   position: relative;
   padding: 8rem 2rem;
-  background: linear-gradient(135deg, #581c87 0%, #1e40af 50%, #312e81 100%);
+  background: linear-gradient(135deg, #0c4a6e 0%, #0369a1 25%, #065f46 50%, #0f766e 75%, #0891b2 100%);
   overflow: hidden;
   text-align: center;
   color: white;
@@ -92,7 +92,7 @@
 }
 
 .hero-subtitle {
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   margin: 0 auto;
   max-width: 40rem;
   line-height: 1.6;
@@ -123,7 +123,7 @@
   padding: 0.5rem 1rem;
   background: linear-gradient(90deg, #8b5cf6, #3b82f6);
   color: white;
-  font-size: 0.875rem;
+  font-size: 1rem;
   font-weight: 500;
   border-radius: 1.5rem;
   margin-bottom: 1.5rem;
@@ -138,7 +138,7 @@
 }
 
 .featured-excerpt {
-  font-size: 1.125rem;
+  font-size: 1.25rem;
   color: #6b7280;
   margin-bottom: 2rem;
   line-height: 1.6;
@@ -158,8 +158,8 @@
 }
 
 .meta-icon {
-  width: 1.25rem;
-  height: 1.25rem;
+  width: 1.5rem;
+  height: 1.5rem;
   margin-right: 0.5rem;
 }
 
@@ -170,6 +170,7 @@
   background: linear-gradient(135deg, #8b5cf6, #3b82f6);
   color: white;
   font-weight: 600;
+  font-size: 1.125rem;
   border: none;
   border-radius: 0.75rem;
   cursor: pointer;
@@ -208,6 +209,7 @@
   padding: 0.75rem 1.5rem;
   border-radius: 1.5rem;
   font-weight: 500;
+  font-size: 1rem;
   border: none;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -275,7 +277,7 @@
 }
 
 .post-title {
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   font-weight: bold;
   color: #111827;
   margin-bottom: 1rem;
@@ -291,6 +293,7 @@
   color: #6b7280;
   margin-bottom: 1.5rem;
   line-height: 1.6;
+  font-size: 1.125rem;
 }
 
 .post-meta {
@@ -298,7 +301,7 @@
   flex-wrap: wrap;
   gap: 1rem;
   margin-bottom: 1.5rem;
-  font-size: 0.875rem;
+  font-size: 1rem;
   color: #6b7280;
 }
 
@@ -310,7 +313,7 @@
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 1.125rem;
   padding: 0.5rem;
   border-radius: 0.25rem;
   transition: all 0.2s;
@@ -441,6 +444,11 @@
 .blue-orange-light { background: linear-gradient(135deg, #679fba, #c68a67); }
 .orange-blue { background: linear-gradient(135deg, #df782f, #376c91); }
 .blue-teal { background: linear-gradient(135deg, #3b82f6, #14b8a6); }
+.blue-green { background: linear-gradient(135deg, #3b82f6, #22c55e); }
+.blue-green-light { background: linear-gradient(135deg, #3b82f6, #4ade80); }
+.green-blue { background: linear-gradient(135deg, #22c55e, #3b82f6); }
+.green-teal { background: linear-gradient(135deg, #22c55e, #14b8a6); }
+.teal-cyan { background: linear-gradient(135deg, #14b8a6, #06b6d4); }
 
 .topic-name {
   font-size: 1.125rem;

@@ -8,14 +8,14 @@ const ScanResultsModal = ({ result, isVisible, onClose }) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-lg p-6 max-w-md w-full">
-        <h3 className="text-xl font-bold mb-4">Senior-Friendly Score Results</h3>
-        <div className="mb-4">
-          <div className="text-3xl font-bold text-green-600 mb-2">{result.score}/100</div>
-          <p className="text-gray-600">{result.summary}</p>
+        <h3 className="text-2xl font-bold mb-6">Senior-Friendly Score Results</h3>
+        <div className="mb-6">
+          <div className="text-4xl font-bold text-green-600 mb-3">{result.score}/100</div>
+          <p className="text-gray-600 text-lg leading-relaxed">{result.summary}</p>
         </div>
-        <div className="mb-4">
-          <h4 className="font-semibold mb-2">Recommendations:</h4>
-          <ul className="list-disc list-inside text-gray-600">
+        <div className="mb-6">
+          <h4 className="text-xl font-semibold mb-3">Recommendations:</h4>
+          <ul className="list-disc list-inside text-gray-600 text-lg leading-relaxed space-y-2">
             {result.recommendations.map((rec, index) => (
               <li key={index}>{rec}</li>
             ))}
@@ -23,7 +23,7 @@ const ScanResultsModal = ({ result, isVisible, onClose }) => {
         </div>
         <button 
           onClick={onClose}
-          className="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition"
+          className="w-full bg-green-600 text-white py-3 px-6 rounded-lg hover:bg-green-700 transition text-lg font-semibold"
         >
           Close
         </button>
@@ -56,6 +56,48 @@ const [scanResult, setScanResult] = useState(null);
 
 const navigateToContact = () => {
   window.location.href = '/contact';
+};
+
+const handleContactClick = () => {
+  const email = 'hello@silversurfers.ai';
+  showEmailFallback(email);
+};
+
+const showEmailFallback = (email) => {
+  // Create a temporary notification with the email address
+  const fallback = document.createElement('div');
+  fallback.className = 'email-fallback fixed top-4 right-4 bg-white border border-gray-300 rounded-lg p-4 shadow-lg z-50 max-w-sm';
+  fallback.innerHTML = `
+    <div class="flex items-start space-x-3">
+      <div class="flex-shrink-0">
+        <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+        </svg>
+      </div>
+      <div class="flex-1">
+        <h3 class="text-sm font-medium text-gray-900">Email us directly:</h3>
+        <p class="text-sm text-blue-600 font-mono mt-1">${email}</p>
+        <p class="text-xs text-gray-500 mt-2">Click to copy or send us an email manually</p>
+        <button onclick="navigator.clipboard.writeText('${email}')" class="text-xs text-blue-500 hover:text-blue-700 mt-1">
+          Copy email address
+        </button>
+      </div>
+      <button onclick="this.parentElement.parentElement.remove()" class="flex-shrink-0 text-gray-400 hover:text-gray-600">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+  `;
+  
+  document.body.appendChild(fallback);
+  
+  // Auto-remove after 10 seconds
+  setTimeout(() => {
+    if (fallback.parentElement) {
+      fallback.remove();
+    }
+  }, 10000);
 };
 
  const formRef = useRef(null);
@@ -111,8 +153,8 @@ const handleScanSubmit = async (e) => {
 
  return (
    <div className="min-h-screen">
-     {/* HERO SECTION */}
-     <div className="relative min-h-screen overflow-hidden">
+      {/* HERO SECTION */}
+      <div className="relative overflow-hidden">
        {/* Background gradient */}
        <div className="absolute inset-0 bg-gradient-to-br from-blue-950 via-green-950 via-teal-950 to-cyan-900">
          <div className="absolute inset-0 bg-gradient-to-tl from-green-600/15 via-transparent to-blue-600/8"></div>
@@ -126,18 +168,18 @@ const handleScanSubmit = async (e) => {
        <div className="absolute top-1/2 left-1/4 w-40 h-40 bg-gradient-to-br from-green-400/12 to-blue-500/18 rounded-full blur-2xl animate-pulse delay-1400"></div>
        <div className="absolute top-3/4 right-1/4 w-32 h-32 bg-gradient-to-br from-teal-400/10 to-blue-500/15 rounded-full blur-xl animate-pulse delay-2100"></div>
 
-       {/* Hero content */}
-       <div className="relative z-10 flex items-center justify-center min-h-screen px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32">
+        {/* Hero content */}
+        <div className="relative z-10 flex items-center justify-center py-20 px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32">
          <div className="max-w-4xl mx-auto text-center">
            <div className="mb-12">
              <h1 className="heading-hero text-white mb-6">
-               <span className="block">Are you Delivering</span>
+               <span className="block">Are You Delivering</span>
                <span className="block bg-gradient-to-r from-blue-300 via-green-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent leading-tight" style={{lineHeight: '1.2', paddingBottom: '0.1em'}}>
                  Older Adult Friendly Digital Experiences?
                </span>
              </h1>
              
-             <h2 className="text-large text-gray-200 font-light leading-relaxed max-w-4xl mx-auto">
+             <h2 className="text-xl sm:text-2xl text-gray-200 font-light leading-relaxed max-w-4xl mx-auto">
                Earn the SilverSurfers Seal of Approval through expert audits that score your site and deliver actionable reports to create more delightful digital experiences for older adults.
              </h2>
            </div>
@@ -199,18 +241,18 @@ const handleScanSubmit = async (e) => {
                  </button>
                </form>
 
-               <p className="text-gray-200 text-base sm:text-lg mt-4 leading-relaxed text-center font-medium">
-                 Reach 124 million older adults with $8.3 trillion in buying power. Unlock your SilverSurfers Score today.
+               <p className="text-gray-200 text-large sm:text-xl mt-6 leading-relaxed text-center font-medium">
+                 <b>Reach 124 million older adults with $8.3 trillion in buying power.</b> <br />Unlock your SilverSurfers Score today.
                </p>
 
                {error && (
-                 <div className="mt-4 p-3 bg-red-500/20 border border-red-500/30 rounded-lg backdrop-blur-sm">
-                   <p className="text-red-200 text-sm text-center">{error}</p>
+                 <div className="mt-6 p-4 bg-red-500/20 border border-red-500/30 rounded-lg backdrop-blur-sm">
+                   <p className="text-red-200 text-base text-center">{error}</p>
                  </div>
                )}
                {success && (
-                 <div className="mt-4 p-3 bg-green-500/20 border border-green-500/30 rounded-lg backdrop-blur-sm">
-                   <p className="text-green-100 text-sm text-center">{success}</p>
+                 <div className="mt-6 p-4 bg-green-500/20 border border-green-500/30 rounded-lg backdrop-blur-sm">
+                   <p className="text-green-100 text-base text-center">{success}</p>
                  </div>
                )}
              </div>
@@ -309,7 +351,7 @@ const handleScanSubmit = async (e) => {
              How SilverSurfers Works
            </h2>
            <p className="text-xl sm:text-2xl text-gray-800 max-w-4xl mx-auto leading-relaxed font-medium">
-             Simple 3-step process to make your website older adult friendly and earn your Seal of Approval Badge
+             Simple 3-step process to make your website older adult friendly and earn your <br />Seal of Approval Badge
            </p>
          </div>
 
@@ -385,7 +427,7 @@ const handleScanSubmit = async (e) => {
      </section>
 
      {/* TESTIMONIAL SECTION */}
-     <section className="relative py-20 bg-gradient-to-br from-blue-50/30 to-green-50/20">
+     <section className="relative py-20 bg-white">
        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
          <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 lg:p-12 shadow-lg border border-blue-100">
            <svg className="w-16 h-16 text-blue-300 mx-auto mb-8" fill="currentColor" viewBox="0 0 24 24">
@@ -430,12 +472,12 @@ const handleScanSubmit = async (e) => {
           >
             Get the Quick Scan Report
           </button>
-          <a 
-            href="mailto:hello@silversurfers.ai"
+          <button 
+            onClick={handleContactClick}
             className="px-8 py-4 bg-white/10 backdrop-blur-sm text-white border-2 border-white/30 font-semibold rounded-xl hover:bg-white/20 hover:border-white/50 transition-all duration-300 text-lg"
           >
             Contact Our Team
-          </a>
+          </button>
          </div>
        </div>
      </section>

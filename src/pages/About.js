@@ -64,9 +64,9 @@ const About = () => {
   ];
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen relative  bg-white">
       {/* Hero Section */}
-      <div className="relative min-h-screen overflow-hidden">
+      <div className="relative overflow-hidden">
         {/* Background gradient */}
         <div className="absolute inset-0 bg-gradient-to-br from-blue-950 via-green-950 via-teal-950 to-cyan-900">
           <div className="absolute inset-0 bg-gradient-to-tl from-green-600/15 via-transparent to-blue-600/8"></div>
@@ -81,17 +81,18 @@ const About = () => {
         <div className="absolute top-3/4 right-1/4 w-32 h-32 bg-gradient-to-br from-teal-400/10 to-blue-500/15 rounded-full blur-xl animate-pulse delay-2100"></div>
 
         {/* Hero content */}
-        <div className="relative z-10 flex items-center justify-center min-h-screen px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32">
+        <div className="relative z-10 flex items-center justify-center py-20 px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32">
           <div className="max-w-4xl mx-auto text-center">
             <div className="mb-12">
               <h1 className="heading-hero text-white mb-6">
                 <span className="block bg-gradient-to-r from-blue-300 via-green-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent leading-tight" style={{lineHeight: '1.2', paddingBottom: '0.1em'}}>
-                  About SilverSurfers
+                   About SilverSurfers
                 </span>
-                <span className="block text-white mt-2 text-xl font-light">Experts in Creating Inclusive Digital Experiences</span>
               </h1>
               
-              <h2 className="text-large text-gray-200 font-light leading-relaxed max-w-4xl mx-auto">
+              <h2 className="text-xl sm:text-2xl text-gray-200 font-light leading-relaxed max-w-4xl mx-auto">
+                Experts in Creating Inclusive Digital Experiences
+                <br />
                 We help businesses make their digital experiences welcoming and easy to use for older adults.
               </h2>
             </div>
@@ -110,7 +111,7 @@ const About = () => {
             </div>
             
             <div className="bg-gradient-to-br from-blue-50 via-green-50/50 to-blue-50/30 rounded-3xl p-8 lg:p-12 border border-blue-100 shadow-lg">
-              <p className="text-lg text-gray-700 leading-relaxed">
+              <p className="text-xl text-gray-700 leading-relaxed">
                 {mission.description}
               </p>
             </div>
@@ -122,8 +123,8 @@ const About = () => {
       <section className="py-20 bg-gradient-to-br from-gray-50 to-green-50/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Our Impact</h2>
-            <p className="text-lg text-gray-600">Measurable results across digital platforms</p>
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">Our Impact</h2>
+            <p className="text-xl text-gray-600 leading-relaxed">Measurable results across digital platforms</p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-5xl mx-auto justify-items-center">
@@ -132,8 +133,8 @@ const About = () => {
                 <div className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-green-500 bg-clip-text text-transparent mb-2">
                   {stat.number}
                 </div>
-                <div className="text-lg font-semibold text-gray-900 mb-2">{stat.label}</div>
-                <div className="text-sm text-gray-600">{stat.description}</div>
+                <div className="text-xl font-semibold text-gray-900 mb-3">{stat.label}</div>
+                <div className="text-base text-gray-600 leading-relaxed">{stat.description}</div>
               </div>
             ))}
           </div>
@@ -144,8 +145,8 @@ const About = () => {
       <section className="py-20 bg-gradient-to-br from-gray-50 to-blue-50/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Our Approach & Values</h2>
-            <p className="text-lg text-gray-600">The core principles that guide our work</p>
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">Our Approach & Values</h2>
+            <p className="text-xl text-gray-600 leading-relaxed">The core principles that guide our work</p>
           </div>
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -158,8 +159,8 @@ const About = () => {
                     </div>
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-xl font-semibold text-gray-900 mb-3">{item.title}</h3>
-                    <p className="text-gray-600 leading-relaxed">{item.description}</p>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-4">{item.title}</h3>
+                    <p className="text-gray-600 leading-relaxed text-lg">{item.description}</p>
                   </div>
                 </div>
               </div>
@@ -172,10 +173,10 @@ const About = () => {
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Our Values</h2>
-            <p className="text-lg text-gray-600">The principles that guide how we serve, innovate, and build inclusive digital experiences</p>
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">Our Values</h2>
+            <p className="text-xl text-gray-600 leading-relaxed">The principles that guide how we serve, innovate, and build inclusive digital experiences</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <div className="flex flex-col gap-6 max-w-4xl mx-auto">
             {[
               { letter: 'S', title: 'Serve', description: 'We put people first and lead with purpose' },
               { letter: 'I', title: 'Innovation', description: 'We spark fresh ideas to shape the future' },
@@ -184,13 +185,13 @@ const About = () => {
               { letter: 'E', title: 'Excellence', description: 'We pursue the highest standards in all we do' },
               { letter: 'R', title: 'Relationships', description: 'We build lasting connections based on trust and respect' }
             ].map((val, i) => (
-              <div key={i} className="bg-gradient-to-br from-gray-50 to-green-50/40 rounded-2xl p-8 shadow-lg border border-green-100 hover:shadow-xl transition-all duration-300 hover:scale-105 flex items-start space-x-6">
+              <div key={i} className="bg-gradient-to-br from-gray-50 to-green-50/40 rounded-2xl p-8 shadow-lg border border-green-100 hover:shadow-xl transition-all duration-300 hover:scale-105 flex items-center space-x-6 w-full">
                 <div className="w-16 h-16 flex-shrink-0 bg-gradient-to-br from-blue-500 via-blue-600 to-green-500 rounded-2xl flex items-center justify-center text-white text-3xl font-bold shadow-md">
                   {val.letter}
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">{val.title}</h3>
-                  <p className="text-gray-700 leading-relaxed text-base">{val.description}</p>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-3 break-words">{val.title}</h3>
+                  <p className="text-gray-700 leading-relaxed text-lg">{val.description}</p>
                 </div>
               </div>
             ))}
@@ -200,17 +201,16 @@ const About = () => {
 
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-br from-blue-950 via-green-950 via-teal-950 to-cyan-900 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-tl from-blue-500/20 via-transparent to-green-500/10"></div>
         
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6">
+          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-8">
             Curious to learn more or have questions?
           </h2>
-          <p className="text-xl text-gray-200 mb-8 max-w-3xl mx-auto">
+          <p className="text-xl sm:text-2xl text-gray-200 mb-10 max-w-3xl mx-auto leading-relaxed">
             We're not a faceless company – we're people who care deeply about inclusive, older adult–friendly digital experiences. Reach out anytime.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="/contact#contact-form" className="px-8 py-4 bg-gradient-to-r from-blue-500 via-blue-600 to-green-500 hover:from-blue-600 hover:via-blue-700 hover:to-green-600 text-white font-semibold rounded-xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300">Contact Us</a>
+            <a href="/contact#contact-form" className="px-8 py-4 bg-gradient-to-r from-blue-500 via-blue-600 to-green-500 hover:from-blue-600 hover:via-blue-700 hover:to-green-600 text-white font-semibold rounded-xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 text-lg">Contact Us</a>
           </div>
         </div>
       </section>
