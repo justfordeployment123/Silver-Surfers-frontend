@@ -201,6 +201,7 @@ const About = () => {
 
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-br from-blue-950 via-green-950 via-teal-950 to-cyan-900 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-tl from-blue-500/20 via-transparent to-green-500/10"></div>
         
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-8">

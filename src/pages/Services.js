@@ -290,8 +290,6 @@ const Services = () => {
           </div>
         </div>
       </section>
-
-      {/* No modal needed for single package */}
     </div>
   );
 };

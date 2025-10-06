@@ -13,11 +13,19 @@ const Footer = () => {
             {/* Company Info */}
             <div className="lg:col-span-2 space-y-6">
               <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 via-green-600 to-teal-500 rounded-lg flex items-center justify-center shadow-lg">
-                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
+              <Link to="/" className="flex items-center space-x-3 group" >
+                <div className="relative">
+                  <div className="w-10 h-10 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300 overflow-hidden">
+                    <img 
+                      src="/Logo.png" 
+                      alt="Silver Surfers Logo" 
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
                 </div>
+
+              </Link>
+
                 <div className="flex flex-col">
                   <span className="text-xl text-white">
                     <span className="font-light">Silver</span><span className="font-bold">Surfers</span>
