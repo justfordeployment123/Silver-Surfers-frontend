@@ -1,69 +1,98 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { getSubscriptionPlans } from '../api';
 
 const Services = () => {
-  const packages = [
+  const [plans, setPlans] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [billingCycle, setBillingCycle] = useState('monthly');
+
+  useEffect(() => {
+    loadPlans();
+  }, []);
+
+  const loadPlans = async () => {
+    try {
+      const result = await getSubscriptionPlans();
+      if (result.plans) {
+        setPlans(result.plans);
+      }
+    } catch (error) {
+      console.error('Failed to load plans:', error);
+      // Fallback to default plans if API fails
+      setPlans(getDefaultPlans());
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getDefaultPlans = () => [
     {
-      id: 1,
+      id: 'starter',
       name: "SilverSurfers Starter",
       icon: "🚀",
-      originalPrice: "$69",
-      discountedPrice: "$29",
-      period: "month",
       description: "Perfect for small businesses starting their accessibility journey.",
-      features: [
-        "SilverSurfers Score",
-        "Limited scans",
-        "Basic reports",
-        "Single User"
-      ],
-      annualOffer: "$197 for one year – special offer",
-      cta: "Purchase Now",
-      popular: false,
-      gradient: "from-blue-500 to-green-500"
+      monthlyPrice: 2900,
+      yearlyPrice: 19700,
+      currency: 'usd',
+      limits: {
+        scansPerMonth: 10,
+        maxUsers: 1,
+        features: ["SilverSurfers Score", "Basic reports", "Email support", "PDF downloads"]
+      },
+      gradient: "from-blue-500 to-green-500",
+      popular: false
     },
     {
-      id: 2,
+      id: 'pro',
       name: "SilverSurfers Pro",
       icon: "⭐",
-      originalPrice: "$399",
-      discountedPrice: "$99",
-      period: "month",
       description: "Comprehensive accessibility solution for growing businesses.",
-      features: [
-        "SilverSurfers Score",
-        "Increased scans",
-        "Detailed reports",
-        "Multi-users",
-        "SilverSurfers Seal of Approval"
-      ],
-      annualOffer: "$899 for one year – special offer",
-      cta: "Purchase Now",
-      popular: true,
-      highlight: "Most Popular",
-      gradient: "from-green-500 to-teal-500"
+      monthlyPrice: 9900,
+      yearlyPrice: 89900,
+      currency: 'usd',
+      limits: {
+        scansPerMonth: 50,
+        maxUsers: 5,
+        features: ["SilverSurfers Score", "Detailed reports", "SilverSurfers Seal", "Priority support", "Multi-user access"]
+      },
+      gradient: "from-green-500 to-teal-500",
+      popular: true
     },
     {
-      id: 3,
+      id: 'custom',
       name: "SilverSurfers Custom",
       icon: "🏆",
-      price: "Contact us for pricing",
-      period: "",
       description: "Tailored solutions for enterprise-level accessibility needs.",
-      features: [
-        "SilverSurfers Score",
-        "Unlimited scans",
-        "SilverSurfers Seal of Approval",
-        "Advanced analytics",
-        "API access",
-        "White labeling options",
-        "Dedicated support",
-        "And much more!"
-      ],
-      cta: "Contact Us",
+      monthlyPrice: null,
+      yearlyPrice: null,
+      currency: 'usd',
+      limits: {
+        scansPerMonth: -1,
+        maxUsers: -1,
+        features: ["Unlimited scans", "API access", "White labeling", "Dedicated support"]
+      },
+      gradient: "from-purple-500 to-blue-500",
       popular: false,
-      gradient: "from-purple-500 to-blue-500"
+      contactSales: true
     }
   ];
+
+  const formatPrice = (price) => {
+    if (!price) return 'Contact us';
+    return `$${(price / 100).toFixed(0)}`;
+  };
+
+  const getCurrentPrice = (plan) => {
+    return billingCycle === 'yearly' ? plan.yearlyPrice : plan.monthlyPrice;
+  };
+
+  const getSavings = (plan) => {
+    if (!plan.monthlyPrice || !plan.yearlyPrice) return null;
+    const monthlyTotal = plan.monthlyPrice * 12;
+    const yearlyTotal = plan.yearlyPrice;
+    const savings = monthlyTotal - yearlyTotal;
+    return savings > 0 ? Math.round(savings / 100) : 0;
+  };
 
   const freeAudit = {
     name: "Quick Scan Report",
@@ -79,18 +108,6 @@ const Services = () => {
     highlight: "Start here - No cost",
     gradient: "from-green-500 to-teal-500"
   };
-
-  const comparisonData = [
-    { feature: "AI Visibility Score", free: "Basic", report: "Detailed", optimization: "Detailed + Implementation", premium: "Detailed + Ongoing" },
-    { feature: "Content Analysis", free: "✓", report: "✓", optimization: "✓", premium: "✓" },
-    { feature: "Technical Analysis", free: "✓", report: "✓", optimization: "✓", premium: "✓" },
-    { feature: "Detailed Recommendations", free: "✗", report: "✓", optimization: "✓", premium: "✓" },
-    { feature: "Content Optimization", free: "✗", report: "✗", optimization: "✓", premium: "✓" },
-    { feature: "Technical Implementation", free: "✗", report: "✗", optimization: "✓", premium: "✓" },
-    { feature: "Ongoing Support", free: "✗", report: "30 days", optimization: "3 months", premium: "Ongoing" },
-    { feature: "Strategy Calls", free: "✗", report: "✗", optimization: "✗", premium: "Quarterly" },
-    { feature: "Custom Solutions", free: "✗", report: "✗", optimization: "✗", premium: "✓" }
-  ];
 
 
   return (
@@ -172,7 +189,7 @@ const Services = () => {
                   {freeAudit.cta}
                   <svg className="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
                 </a>
-                <p className="text-lg text-gray-500 mt-4 leading-relaxed">No credit card required • Takes 30 seconds</p>
+                <p className="text-lg text-gray-500 mt-4 leading-relaxed">No credit card required</p>
               </div>
             </div>
           </div>
@@ -183,68 +200,129 @@ const Services = () => {
       <section className="py-20 bg-gradient-to-br from-gray-50 to-green-50/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">Our Packages</h2>
-            <p className="text-xl text-gray-600">Focused, value-packed deliverables designed for real impact</p>
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">Our Subscription Plans</h2>
+            <p className="text-xl text-gray-600 mb-8">Choose the plan that fits your business needs</p>
+            
+            {/* Billing Cycle Toggle */}
+            <div className="flex items-center justify-center mb-8">
+              <span className={`text-sm font-medium ${billingCycle === 'monthly' ? 'text-gray-900' : 'text-gray-500'}`}>
+                Monthly
+              </span>
+              <button
+                onClick={() => setBillingCycle(billingCycle === 'monthly' ? 'yearly' : 'monthly')}
+                className={`mx-3 relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                  billingCycle === 'yearly' ? 'bg-blue-600' : 'bg-gray-200'
+                }`}
+              >
+                <span
+                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                    billingCycle === 'yearly' ? 'translate-x-6' : 'translate-x-1'
+                  }`}
+                />
+              </button>
+              <span className={`text-sm font-medium ${billingCycle === 'yearly' ? 'text-gray-900' : 'text-gray-500'}`}>
+                Yearly
+              </span>
+              {billingCycle === 'yearly' && (
+                <span className="ml-2 text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">
+                  Save up to 20%
+                </span>
+              )}
+            </div>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {packages.map((pkg) => (
-              <div key={pkg.id} className={`relative bg-white rounded-3xl p-8 shadow-xl border-2 transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 ${pkg.popular ? 'border-blue-500 scale-105' : 'border-gray-200'}`}>
-                {pkg.popular && (
-                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                    <span className="bg-blue-500 text-white px-4 py-2 rounded-full text-sm font-semibold">
-                      {pkg.highlight}
-                    </span>
-                  </div>
-                )}
+          {loading ? (
+            <div className="flex justify-center items-center py-12">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+              {plans.map((plan) => {
+                const currentPrice = getCurrentPrice(plan);
+                const savings = getSavings(plan);
                 
-                <div className="text-center mb-6">
-                  <div className="text-5xl mb-4">{pkg.icon}</div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-4">{pkg.name}</h3>
-                  
-                  {pkg.price ? (
-                    <div className="text-3xl font-bold text-gray-900 mb-2">{pkg.price}</div>
-                  ) : (
-                    <div className="mb-2">
-                      <div className="text-lg text-gray-500 line-through">{pkg.originalPrice}/{pkg.period}</div>
-                      <div className={`text-3xl font-bold bg-gradient-to-r ${pkg.gradient} bg-clip-text text-transparent`}>
-                        {pkg.discountedPrice}/{pkg.period}
+                return (
+                  <div key={plan.id} className={`relative bg-white rounded-3xl p-8 shadow-xl border-2 transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 flex flex-col h-full ${plan.popular ? 'border-blue-500 scale-105' : 'border-gray-200'}`}>
+                    {plan.popular && (
+                      <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                        <span className="bg-blue-500 text-white px-4 py-2 rounded-full text-sm font-semibold">
+                          Most Popular
+                        </span>
                       </div>
-                      <div className="text-sm text-gray-500 italic">limited time offer</div>
+                    )}
+                    
+                    <div className="flex-grow flex flex-col">
+                      <div className="text-center mb-6">
+                        <div className="text-5xl mb-4">{plan.icon}</div>
+                        <h3 className="text-2xl font-bold text-gray-900 mb-4">{plan.name}</h3>
+                        
+                        {plan.contactSales ? (
+                          <div className="text-3xl font-bold text-gray-900 mb-2">Contact us</div>
+                        ) : (
+                          <div className="mb-2">
+                            <div className={`text-3xl font-bold bg-gradient-to-r ${plan.gradient} bg-clip-text text-transparent`}>
+                              {formatPrice(currentPrice)}
+                            </div>
+                            <div className="text-sm text-gray-500">
+                              per {billingCycle === 'yearly' ? 'year' : 'month'}
+                            </div>
+                            {billingCycle === 'yearly' && savings && savings > 0 && (
+                              <div className="text-xs text-green-600 font-medium mt-1">
+                                Save ${savings} annually
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="mb-6 flex-grow">
+                        <p className="text-gray-600 mb-4 text-center">{plan.description}</p>
+                        
+                        {/* Usage Limits */}
+                        <div className="mb-4 p-3 bg-gray-50 rounded-lg">
+                          <div className="text-sm text-gray-600">
+                            <strong>Scans per month:</strong> {plan.limits.scansPerMonth === -1 ? 'Unlimited' : plan.limits.scansPerMonth}
+                          </div>
+                          <div className="text-sm text-gray-600">
+                            <strong>Users:</strong> {plan.limits.maxUsers === -1 ? 'Unlimited' : plan.limits.maxUsers}
+                          </div>
+                        </div>
+
+                        <ul className="space-y-3">
+                          {plan.limits.features.map((feature, index) => (
+                            <li key={index} className="flex items-start text-gray-700">
+                              <svg className="w-5 h-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                              </svg>
+                              {feature}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
                     </div>
-                  )}
-                </div>
 
-                <div className="mb-6">
-                  <ul className="space-y-3">
-                    {pkg.features.map((feature, index) => (
-                      <li key={index} className="flex items-start text-gray-700">
-                        <svg className="w-5 h-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                        </svg>
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                {pkg.annualOffer && (
-                  <div className="text-center mb-6">
-                    <div className="text-sm text-gray-600 italic">{pkg.annualOffer}</div>
+                    <div className="text-center mt-auto">
+                      {plan.contactSales ? (
+                        <a 
+                          href="/contact"
+                          className={`inline-block px-8 py-4 bg-gradient-to-r ${plan.gradient} text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300`}
+                        >
+                          Contact Sales
+                        </a>
+                      ) : (
+                        <a 
+                          href={`/subscription?plan=${plan.id}&cycle=${billingCycle}`}
+                          className={`inline-block px-8 py-4 bg-gradient-to-r ${plan.gradient} text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300`}
+                        >
+                          Subscribe Now
+                        </a>
+                      )}
+                    </div>
                   </div>
-                )}
-
-                <div className="text-center">
-                  <a 
-                    href={pkg.id === 3 ? "/contact" : `/checkout?pkg=${pkg.id}`}
-                    className={`inline-block px-8 py-4 bg-gradient-to-r ${pkg.gradient} text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300`}
-                  >
-                    {pkg.cta}
-                  </a>
-                </div>
-              </div>
-            ))}
-          </div>
+                );
+              })}
+            </div>
+          )}
         </div>
       </section>
 
@@ -258,8 +336,8 @@ const Services = () => {
           
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-3xl mx-auto items-stretch">
             {[
-              { title: "Start with a Quick Scan", desc: "Get a quick snapshot of your digital experience in 30 seconds.", cta: "Get Quick Scan Report", link: "/?openScan=1" },
-              { title: "SilverSurfers Starter", desc: "Want a simple analysis? Perfect for small businesses.", cta: "Purchase Report", link: `/checkout?pkg=${packages[0].id}` }
+              { title: "Start with a Quick Scan", desc: "Get a quick snapshot of your digital experience.", cta: "Get Quick Scan Report", link: "/?openScan=1" },
+              { title: "SilverSurfers Starter", desc: "Want a simple analysis? Perfect for small businesses.", cta: "Purchase Report", link: `/subscription?plan=starter&cycle=monthly` }
             ].map((item, index) => (
               <div key={index} className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 text-center flex flex-col h-full">
                 <h3 className="text-lg font-semibold text-gray-900 mb-3">{item.title}</h3>

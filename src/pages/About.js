@@ -35,33 +35,6 @@ const About = () => {
     { number: "85%", label: "Better Usability", description: "Average improvement in older adult digital experiences" }
   ];
 
-  const timeline = [
-    {
-      year: "2019",
-      title: "The Beginning",
-      description: "Founded as traditional SEO consultancy, noticing early shifts in search behavior"
-    },
-    {
-      year: "2020",
-      title: "The Beginning",
-      description: "Started with accessibility audits focused on readability and contrast"
-    },
-    {
-      year: "2022",
-      title: "User Testing at Scale",
-      description: "Ran studies with senior users to refine our recommendations"
-    },
-    {
-      year: "2023",
-      title: "Certification Program",
-      description: "Launched the SilverSurfers seal of approval for compliant sites"
-    },
-    {
-      year: "2024",
-      title: "Growing Impact",
-      description: "Helped 500+ businesses improve senior user satisfaction"
-    }
-  ];
 
   return (
     <div className="min-h-screen relative  bg-white">
@@ -93,7 +66,7 @@ const About = () => {
               <h2 className="text-xl sm:text-2xl text-gray-200 font-light leading-relaxed max-w-4xl mx-auto">
                 Experts in Creating Inclusive Digital Experiences
                 <br />
-                We help businesses make their digital experiences welcoming and easy to use for older adults.
+                We help businesses make their digital experiences welcoming and easy to use for everyone.
               </h2>
             </div>
           </div>
@@ -179,8 +152,8 @@ const About = () => {
           <div className="flex flex-col gap-6 max-w-4xl mx-auto">
             {[
               { letter: 'S', title: 'Serve', description: 'We put people first and lead with purpose' },
-              { letter: 'I', title: 'Innovation', description: 'We spark fresh ideas to shape the future' },
-              { letter: 'L', title: 'Learning', description: 'We stay curious and grow through every challenge' },
+              { letter: 'I', title: 'Innovate', description: 'We spark fresh ideas to shape the future' },
+              { letter: 'L', title: 'Learn', description: 'We stay curious and grow through every challenge' },
               { letter: 'V', title: 'Value', description: 'We deliver meaningful impact for our clients and users' },
               { letter: 'E', title: 'Excellence', description: 'We pursue the highest standards in all we do' },
               { letter: 'R', title: 'Relationships', description: 'We build lasting connections based on trust and respect' }
@@ -201,7 +174,6 @@ const About = () => {
 
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-br from-blue-950 via-green-950 via-teal-950 to-cyan-900 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-tl from-blue-500/20 via-transparent to-green-500/10"></div>
         
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-8">

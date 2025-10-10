@@ -12,6 +12,9 @@ import Blog from './pages/Blog';
 import BlogPost from './pages/BlogPost';
 import Success from './pages/Success';
 import Checkout from './pages/Checkout';
+import Subscription from './pages/Subscription';
+import SubscriptionSuccess from './pages/SubscriptionSuccess';
+import AcceptTeamInvite from './pages/AcceptTeamInvite';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import ResendVerification from './pages/ResendVerification';
@@ -49,6 +52,9 @@ function App() {
             <Route path="/blog/:id" element={<BlogPost />} />
             <Route path="/success" element={<Success />} />
             <Route path="/checkout" element={<Checkout />} />
+            <Route path="/subscription" element={<ProtectedRoute><Subscription /></ProtectedRoute>} />
+            <Route path="/subscription-success" element={<SubscriptionSuccess />} />
+            <Route path="/team/accept" element={<AcceptTeamInvite />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/signup" element={<Register />} />

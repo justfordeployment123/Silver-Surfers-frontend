@@ -180,7 +180,7 @@ const handleScanSubmit = async (e) => {
              </h1>
              
              <h2 className="text-xl sm:text-2xl text-gray-200 font-light leading-relaxed max-w-4xl mx-auto">
-               Earn the SilverSurfers Seal of Approval through expert audits that score your site and deliver actionable reports to create more delightful digital experiences for older adults.
+             <b>Reach 124 million older adults with $8.3 trillion in buying power.</b> <br />Unlock your SilverSurfers Score today.
              </h2>
            </div>
 
@@ -241,8 +241,9 @@ const handleScanSubmit = async (e) => {
                  </button>
                </form>
 
-               <p className="text-gray-200 text-large sm:text-xl mt-6 leading-relaxed text-center font-medium">
-                 <b>Reach 124 million older adults with $8.3 trillion in buying power.</b> <br />Unlock your SilverSurfers Score today.
+               <p className="text-gray-200 text-small sm:text-xl mt-6 leading-relaxed text-center font-medium">
+               Earn the SilverSurfers Seal of Approval through expert audits that score your site and deliver actionable reports to create more delightful digital experiences for older adults.
+
                </p>
 
                {error && (

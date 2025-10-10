@@ -70,10 +70,10 @@ const Footer = () => {
             <div className="space-y-4">
               <h3 className="text-xl font-semibold text-white">Plans</h3>
               <ul className="space-y-3">
-                <li><Link to="/services" className="text-gray-300 hover:text-white transition-colors duration-300 text-lg">Basic</Link></li>
-                <li><Link to="/services" className="text-gray-300 hover:text-white transition-colors duration-300 text-lg">Professional</Link></li>
-                <li><Link to="/services" className="text-gray-300 hover:text-white transition-colors duration-300 text-lg">Enterprise</Link></li>
-                <li><Link to="/services" className="text-gray-300 hover:text-white transition-colors duration-300 text-lg">Consulting</Link></li>
+                <li><Link to="/checkout?pkg=1" className="text-gray-300 hover:text-white transition-colors duration-300 text-lg">Starter</Link></li>
+                <li><Link to="/checkout?pkg=2" className="text-gray-300 hover:text-white transition-colors duration-300 text-lg">Pro</Link></li>
+                <li><Link to="/contact" className="text-gray-300 hover:text-white transition-colors duration-300 text-lg">Custom</Link></li>
+                <li><a href="https://calendly.com/silversurfers-info/30min" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-white transition-colors duration-300 text-lg">Consulting</a></li>
               </ul>
             </div>
 

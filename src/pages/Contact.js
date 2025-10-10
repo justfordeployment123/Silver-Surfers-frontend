@@ -14,10 +14,11 @@ const Contact = () => {
 
   const contactInfo = {
   email: "hello@silversurfers.ai",
-  phone: "+1 914-623-8747",
+  phone: "+19146238747",
+  phoneDisplay: "+1 914-623-8747",
   address: "2320 E Marshall Ave, Phoenix, AZ 85016",
     officeHours: "Monday - Friday: 9:00 AM - 5:00 PM EST",
-    responseTime: "We typically respond within 4-6 hours during business hours"
+    responseTime: "We typically respond within 4-6 hours on weekdays"
   };
 
   const contactMethods = [
@@ -25,16 +26,17 @@ const Contact = () => {
       icon: "📧",
       title: "Email Us",
       description: "Send us a detailed message about your accessibility needs",
-  action: "hello@silversurfers.ai",
-  link: "mailto:hello@silversurfers.ai",
-      gradient: "from-blue-500 to-green-500"
+      action: "hello@silversurfers.ai",
+      link: "https://mail.google.com/mail/?view=cm&fs=1&to=hello@silversurfers.ai",
+      gradient: "from-blue-500 to-green-500",
+      target: "_blank"
     },
     {
       icon: "📞",
       title: "Call Sales",
-  description: "Speak with one of our experts",
-  action: " +1 914 623 8747",
-  link: "tel:+19146238747",
+      description: "Speak with one of our experts",
+      action: "+1 914-623-8747",
+      link: "tel:+19146238747",
       gradient: "from-green-500 to-teal-500"
     },
     {
@@ -42,7 +44,7 @@ const Contact = () => {
       title: "Schedule Consultation",
       description: "Book a 30-minute consultation call with our team",
       action: "Book Now",
-      link: "https://calendly.com/beprompted/consultation",
+      link: "https://calendly.com/silversurfers-info/30min",
       gradient: "from-blue-500 to-green-500"
     }
   ];
@@ -131,15 +133,19 @@ const Contact = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {contactMethods.map((method, index) => (
-              <div key={index} className="group relative bg-white rounded-3xl p-8 shadow-lg border-2 border-gray-200 hover:border-purple-200 transition-all duration-300 hover:shadow-2xl hover:scale-105 text-center">
-                <div className={`w-20 h-20 bg-gradient-to-br ${method.gradient} rounded-2xl mx-auto mb-6 flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 text-2xl`}>
-                  {method.icon}
+              <div key={index} className="group relative bg-white rounded-3xl p-8 shadow-lg border-2 border-gray-200 hover:border-purple-200 transition-all duration-300 hover:shadow-2xl hover:scale-105 text-center flex flex-col h-full">
+                <div className="flex-grow flex flex-col">
+                  <div className={`w-20 h-20 bg-gradient-to-br ${method.gradient} rounded-2xl mx-auto mb-6 flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 text-2xl`}>
+                    {method.icon}
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-4">{method.title}</h3>
+                  <p className="text-gray-600 mb-6 text-lg leading-relaxed flex-grow">{method.description}</p>
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-4">{method.title}</h3>
-                <p className="text-gray-600 mb-6 text-lg leading-relaxed">{method.description}</p>
                 <a 
                   href={method.link} 
-                  className={`inline-flex items-center px-6 py-3 bg-gradient-to-r ${method.gradient} text-white font-semibold rounded-xl hover:shadow-lg transform hover:scale-105 transition-all duration-300 text-lg`}
+                  target={method.target || "_self"}
+                  rel={method.target === "_blank" ? "noopener noreferrer" : undefined}
+                  className={`inline-flex items-center px-6 py-3 bg-gradient-to-r ${method.gradient} text-white font-semibold rounded-xl hover:shadow-lg transform hover:scale-105 transition-all duration-300 text-lg mt-auto`}
                 >
                   {method.action}
                   <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -290,7 +296,7 @@ const Contact = () => {
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Email</h3>
               <p className="text-sm text-gray-600 mb-3">For general inquiries and support</p>
-              <a href={`mailto:${contactInfo.email}`} className="text-purple-600 hover:text-purple-700 font-medium">
+              <a href={`https://mail.google.com/mail/?view=cm&fs=1&to=${contactInfo.email}`} target="_blank" rel="noopener noreferrer" className="text-purple-600 hover:text-purple-700 font-medium">
                 {contactInfo.email}
               </a>
             </div>
@@ -301,8 +307,8 @@ const Contact = () => {
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Phone</h3>
               <p className="text-sm text-gray-600 mb-3">For sales and urgent inquiries</p>
-              <a href={`tel:${contactInfo.phone.replace(/[^+\d]/g, '')}`} className="text-purple-600 hover:text-purple-700 font-medium">
-                {contactInfo.phone}
+              <a href={`tel:${contactInfo.phone}`} className="text-purple-600 hover:text-purple-700 font-medium">
+                {contactInfo.phoneDisplay}
               </a>
             </div>
             
@@ -367,7 +373,7 @@ const Contact = () => {
               View Services
             </a>
             <a 
-              href="https://calendly.com/beprompted/consultation" 
+              href="https://calendly.com/silversurfers-info/30min" 
               className="px-8 py-4 bg-white/10 backdrop-blur-sm text-white border-2 border-white/30 font-semibold rounded-xl hover:bg-white/20 hover:border-white/50 transition-all duration-300"
             >
               Schedule Call

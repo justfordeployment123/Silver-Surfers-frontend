@@ -122,10 +122,93 @@ export const cleanupReport = async (folderPath) => {
   }
 };
 
-export const createCheckoutSession = async (email, url, packageId = 1) => {
+export const createCheckoutSession = async (planId, billingCycle = 'monthly') => {
   try {
-    const response = await api.post('/create-checkout-session', { email, url, packageId });
+    const response = await api.post('/create-checkout-session', { planId, billingCycle });
     return response.data; // { url }
+  } catch (error) {
+    return { error: error.response?.data?.error || error.message };
+  }
+};
+
+// Subscription management API
+export const getSubscription = async () => {
+  try {
+    const response = await api.get('/subscription');
+    return response.data;
+  } catch (error) {
+    return { error: error.response?.data?.error || error.message };
+  }
+};
+
+export const updateSubscription = async (planId, billingCycle = 'monthly') => {
+  try {
+    const response = await api.post('/subscription/update', { planId, billingCycle });
+    return response.data;
+  } catch (error) {
+    return { error: error.response?.data?.error || error.message };
+  }
+};
+
+export const cancelSubscription = async (cancelAtPeriodEnd = true) => {
+  try {
+    const response = await api.post('/subscription/cancel', { cancelAtPeriodEnd });
+    return response.data;
+  } catch (error) {
+    return { error: error.response?.data?.error || error.message };
+  }
+};
+
+export const getSubscriptionPlans = async () => {
+  try {
+    const response = await api.get('/subscription/plans');
+    return response.data;
+  } catch (error) {
+    return { error: error.response?.data?.error || error.message };
+  }
+};
+
+export const confirmSubscriptionSuccess = async (sessionId) => {
+  try {
+    const response = await api.get('/subscription-success', { params: { session_id: sessionId } });
+    return response.data;
+  } catch (error) {
+    return { error: error.response?.data?.error || error.message };
+  }
+};
+
+// Team management API
+export const inviteTeamMember = async (email) => {
+  try {
+    const response = await api.post('/subscription/team/add', { email });
+    return response.data;
+  } catch (error) {
+    return { error: error.response?.data?.error || error.message };
+  }
+};
+
+export const removeTeamMember = async (email) => {
+  try {
+    const response = await api.post('/subscription/team/remove', { email });
+    return response.data;
+  } catch (error) {
+    return { error: error.response?.data?.error || error.message };
+  }
+};
+
+export const getTeamMembers = async () => {
+  try {
+    const response = await api.get('/subscription/team');
+    return response.data;
+  } catch (error) {
+    return { error: error.response?.data?.error || error.message };
+  }
+};
+
+export const acceptTeamInvitation = async (token) => {
+  try {
+    const response = await api.post('/subscription/team/accept', { token });
+    return response.data;
   } catch (error) {
     return { error: error.response?.data?.error || error.message };
   }
