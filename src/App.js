@@ -39,11 +39,11 @@ function App() {
         <main>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/admin" element={<ProtectedRoute><Navigate to="/admin/content" replace /></ProtectedRoute>} />
-            <Route path="/admin/content" element={<ProtectedRoute><AdminContentManager /></ProtectedRoute>} />
-            <Route path="/admin/blog" element={<ProtectedRoute><AdminBlog /></ProtectedRoute>} />
-            <Route path="/admin/services" element={<ProtectedRoute><AdminServices /></ProtectedRoute>} />
-            <Route path="/admin/faqs" element={<ProtectedRoute><AdminFaqs /></ProtectedRoute>} />
+            <Route path="/admin" element={<ProtectedRoute role="admin"><Navigate to="/admin/content" replace /></ProtectedRoute>} />
+            <Route path="/admin/content" element={<ProtectedRoute role="admin"><AdminContentManager /></ProtectedRoute>} />
+            <Route path="/admin/blog" element={<ProtectedRoute role="admin"><AdminBlog /></ProtectedRoute>} />
+            <Route path="/admin/services" element={<ProtectedRoute role="admin"><AdminServices /></ProtectedRoute>} />
+            <Route path="/admin/faqs" element={<ProtectedRoute role="admin"><AdminFaqs /></ProtectedRoute>} />
             <Route path="/services" element={<Services />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
