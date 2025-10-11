@@ -15,6 +15,8 @@ import Checkout from './pages/Checkout';
 import Subscription from './pages/Subscription';
 import SubscriptionSuccess from './pages/SubscriptionSuccess';
 import AcceptTeamInvite from './pages/AcceptTeamInvite';
+import TermsOfUse from './pages/TermsOfUse';
+import PrivacyPolicy from './pages/PrivacyPolicy';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import ResendVerification from './pages/ResendVerification';
@@ -28,6 +30,7 @@ import AdminBlog from './pages/AdminBlog';
 import AdminServices from './pages/AdminServices';
 import AdminFaqs from './pages/AdminFaqs';
 import AdminContentManager from './pages/AdminContentManager';
+import AdminLegal from './pages/AdminLegal';
 import './App.css';
 
 function App() {
@@ -44,6 +47,7 @@ function App() {
             <Route path="/admin/blog" element={<ProtectedRoute role="admin"><AdminBlog /></ProtectedRoute>} />
             <Route path="/admin/services" element={<ProtectedRoute role="admin"><AdminServices /></ProtectedRoute>} />
             <Route path="/admin/faqs" element={<ProtectedRoute role="admin"><AdminFaqs /></ProtectedRoute>} />
+            <Route path="/admin/legal" element={<ProtectedRoute role="admin"><AdminLegal /></ProtectedRoute>} />
             <Route path="/services" element={<Services />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
@@ -55,6 +59,10 @@ function App() {
             <Route path="/subscription" element={<ProtectedRoute><Subscription /></ProtectedRoute>} />
             <Route path="/subscription-success" element={<SubscriptionSuccess />} />
             <Route path="/team/accept" element={<AcceptTeamInvite />} />
+            <Route path="/terms" element={<TermsOfUse />} />
+            <Route path="/terms-of-use" element={<TermsOfUse />} />
+            <Route path="/privacy" element={<PrivacyPolicy />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/signup" element={<Register />} />

@@ -42,6 +42,7 @@ const MainScreen = () => {
  const [success, setSuccess] = useState('');
 const [showResultsModal, setShowResultsModal] = useState(false);
 const [scanResult, setScanResult] = useState(null);
+const [formHighlighted, setFormHighlighted] = useState(false);
 
  const handleInputChange = (e) => {
    setScanData({
@@ -146,8 +147,27 @@ const handleScanSubmit = async (e) => {
  // If navigated from Services with openScan=1, scroll into view
  useEffect(() => {
    const params = new URLSearchParams(window.location.search);
-   if (params.get('openScan') === '1' && formRef.current) {
-     formRef.current.scrollIntoView({ behavior: 'smooth' });
+   if (params.get('openScan') === '1') {
+     // Add a small delay to ensure the page is fully rendered
+     setTimeout(() => {
+       if (formRef.current) {
+         // Scroll to center the form in the viewport
+         formRef.current.scrollIntoView({ 
+           behavior: 'smooth', 
+           block: 'center',
+           inline: 'center'
+         });
+         
+         // Highlight the form briefly to draw attention
+         setFormHighlighted(true);
+         setTimeout(() => setFormHighlighted(false), 3000);
+         
+         // Clear the URL parameter after scrolling
+         const url = new URL(window.location);
+         url.searchParams.delete('openScan');
+         window.history.replaceState({}, '', url);
+       }
+     }, 500);
    }
  }, []);
 
@@ -186,7 +206,9 @@ const handleScanSubmit = async (e) => {
 
            {/* Scan form */}
            <div className="max-w-2xl mx-auto">
-             <div className="bg-white/8 backdrop-blur-xl rounded-2xl p-6 sm:p-8 border border-white/20 shadow-2xl shadow-green-500/10">
+             <div className={`bg-white/8 backdrop-blur-xl rounded-2xl p-6 sm:p-8 border border-white/20 shadow-2xl shadow-green-500/10 transition-all duration-1000 ${
+               formHighlighted ? 'ring-4 ring-green-400/50 ring-opacity-75 shadow-green-400/30 shadow-2xl' : ''
+             }`}>
                <form ref={formRef} onSubmit={handleScanSubmit} noValidate className="space-y-4">
                  <div className="grid gap-4 sm:grid-cols-2">
                    <div className="relative">

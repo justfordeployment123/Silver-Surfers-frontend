@@ -223,6 +223,71 @@ export const getTeamScans = async () => {
   }
 };
 
+// Legal Documents API
+export const getLegalDocument = async (type, language = 'en', region = 'US') => {
+  try {
+    const response = await api.get(`/legal/${type}?language=${language}&region=${region}`);
+    return response.data;
+  } catch (error) {
+    return { error: error.response?.data?.error || error.message };
+  }
+};
+
+export const getAllLegalDocuments = async (language = 'en', region = 'US') => {
+  try {
+    const response = await api.get(`/legal?language=${language}&region=${region}`);
+    return response.data;
+  } catch (error) {
+    return { error: error.response?.data?.error || error.message };
+  }
+};
+
+export const acceptLegalDocument = async (type) => {
+  try {
+    const response = await api.post(`/legal/${type}/accept`);
+    return response.data;
+  } catch (error) {
+    return { error: error.response?.data?.error || error.message };
+  }
+};
+
+export const getUserLegalAcceptances = async () => {
+  try {
+    const response = await api.get('/legal/acceptances');
+    return response.data;
+  } catch (error) {
+    return { error: error.response?.data?.error || error.message };
+  }
+};
+
+// Admin Legal Documents API
+export const createLegalDocument = async (documentData) => {
+  try {
+    const response = await api.post('/admin/legal', documentData);
+    return response.data;
+  } catch (error) {
+    return { error: error.response?.data?.error || error.message };
+  }
+};
+
+export const updateLegalDocument = async (id, updateData) => {
+  try {
+    const response = await api.put(`/admin/legal/${id}`, updateData);
+    return response.data;
+  } catch (error) {
+    return { error: error.response?.data?.error || error.message };
+  }
+};
+
+export const publishLegalDocument = async (id) => {
+  try {
+    const response = await api.post(`/admin/legal/${id}/publish`);
+    return response.data;
+  } catch (error) {
+    return { error: error.response?.data?.error || error.message };
+  }
+};
+
 export const acceptTeamInvitation = async (token) => {
   try {
     const response = await api.post('/subscription/team/accept', { token });

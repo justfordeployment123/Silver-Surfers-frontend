@@ -14,10 +14,24 @@ const Subscription = () => {
   const [newMemberEmail, setNewMemberEmail] = useState('');
   const [teamScans, setTeamScans] = useState([]);
   const [scansLoading, setScansLoading] = useState(false);
+  const [billingCycle, setBillingCycle] = useState('monthly');
   const navigate = useNavigate();
   const [params] = useSearchParams();
   const selectedPlan = params.get('plan');
   const selectedCycle = params.get('cycle') || 'monthly';
+
+  // Helper functions for pricing
+  const getCurrentPrice = (plan) => {
+    return billingCycle === 'yearly' ? plan.yearlyPrice : plan.monthlyPrice;
+  };
+
+  const getSavings = (plan) => {
+    if (!plan.monthlyPrice || !plan.yearlyPrice) return null;
+    const monthlyTotal = plan.monthlyPrice * 12;
+    const yearlyTotal = plan.yearlyPrice;
+    const savings = monthlyTotal - yearlyTotal;
+    return savings > 0 ? Math.round(savings / 100) : 0;
+  };
 
   useEffect(() => {
     loadData();
@@ -564,7 +578,37 @@ const Subscription = () => {
             {/* Available Plans Section - Only for subscription owners */}
             {!currentSubscription.isTeamMember && (
               <div className="bg-white rounded-3xl p-8 shadow-xl">
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">Available Plans</h2>
+                <div className="text-center mb-8">
+                  <h2 className="text-2xl font-bold text-gray-900 mb-4">Available Plans</h2>
+                  <p className="text-lg text-gray-600 mb-6">Upgrade or change your subscription</p>
+                  
+                  {/* Billing Cycle Toggle */}
+                  <div className="flex items-center justify-center mb-8">
+                    <span className={`text-sm font-medium ${billingCycle === 'monthly' ? 'text-gray-900' : 'text-gray-500'}`}>
+                      Monthly
+                    </span>
+                    <button
+                      onClick={() => setBillingCycle(billingCycle === 'monthly' ? 'yearly' : 'monthly')}
+                      className={`mx-3 relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                        billingCycle === 'yearly' ? 'bg-blue-600' : 'bg-gray-200'
+                      }`}
+                    >
+                      <span
+                        className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                          billingCycle === 'yearly' ? 'translate-x-6' : 'translate-x-1'
+                        }`}
+                      />
+                    </button>
+                    <span className={`text-sm font-medium ${billingCycle === 'yearly' ? 'text-gray-900' : 'text-gray-500'}`}>
+                      Yearly
+                    </span>
+                    {billingCycle === 'yearly' && (
+                      <span className="ml-2 text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">
+                        Save up to 20%
+                      </span>
+                    )}
+                  </div>
+                </div>
               
               <div className="space-y-4">
                 {availablePlans.map((plan) => {
@@ -585,8 +629,13 @@ const Subscription = () => {
                       <div className="flex items-center justify-between">
                         <div>
                           <div className="font-bold text-lg text-gray-900">
-                            {formatPrice(plan.monthlyPrice)}/month
+                            {formatPrice(getCurrentPrice(plan))}/{billingCycle === 'yearly' ? 'year' : 'month'}
                           </div>
+                          {billingCycle === 'yearly' && getSavings(plan) && getSavings(plan) > 0 && (
+                            <div className="text-xs text-green-600 font-medium">
+                              Save ${getSavings(plan)} annually
+                            </div>
+                          )}
                           <div className="text-xs text-gray-700">
                             {plan.limits.scansPerMonth === -1 ? 'Unlimited' : plan.limits.scansPerMonth} scans/month
                           </div>
@@ -594,7 +643,7 @@ const Subscription = () => {
                         
                         {canUpgrade && (
                           <button
-                            onClick={() => handleUpdatePlan(plan.id, 'monthly')}
+                            onClick={() => handleUpdatePlan(plan.id, billingCycle)}
                             disabled={actionLoading}
                             className="px-4 py-2 bg-blue-500 hover:bg-blue-600 disabled:bg-gray-300 text-white text-sm font-semibold rounded-lg transition-colors"
                           >
@@ -613,7 +662,37 @@ const Subscription = () => {
         ) : (
           // No Subscription - Show Plans
           <div className="bg-white rounded-3xl p-8 shadow-xl">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">Choose Your Plan</h2>
+            <div className="text-center mb-8">
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">Choose Your Plan</h2>
+              <p className="text-lg text-gray-600 mb-6">Select the plan that fits your business needs</p>
+              
+              {/* Billing Cycle Toggle */}
+              <div className="flex items-center justify-center mb-8">
+                <span className={`text-sm font-medium ${billingCycle === 'monthly' ? 'text-gray-900' : 'text-gray-500'}`}>
+                  Monthly
+                </span>
+                <button
+                  onClick={() => setBillingCycle(billingCycle === 'monthly' ? 'yearly' : 'monthly')}
+                  className={`mx-3 relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                    billingCycle === 'yearly' ? 'bg-blue-600' : 'bg-gray-200'
+                  }`}
+                >
+                  <span
+                    className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                      billingCycle === 'yearly' ? 'translate-x-6' : 'translate-x-1'
+                    }`}
+                  />
+                </button>
+                <span className={`text-sm font-medium ${billingCycle === 'yearly' ? 'text-gray-900' : 'text-gray-500'}`}>
+                  Yearly
+                </span>
+                {billingCycle === 'yearly' && (
+                  <span className="ml-2 text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">
+                    Save up to 20%
+                  </span>
+                )}
+              </div>
+            </div>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {availablePlans.map((plan) => {
@@ -646,8 +725,13 @@ const Subscription = () => {
                     <p className="text-gray-700 mb-4">{plan.description}</p>
                     
                     <div className="mb-4">
-                      <div className="text-3xl font-bold text-gray-900">{formatPrice(plan.monthlyPrice)}</div>
-                      <div className="text-sm text-gray-700">per month</div>
+                      <div className="text-3xl font-bold text-gray-900">{formatPrice(getCurrentPrice(plan))}</div>
+                      <div className="text-sm text-gray-700">per {billingCycle === 'yearly' ? 'year' : 'month'}</div>
+                      {billingCycle === 'yearly' && getSavings(plan) && getSavings(plan) > 0 && (
+                        <div className="text-xs text-green-600 font-medium mt-1">
+                          Save ${getSavings(plan)} annually
+                        </div>
+                      )}
                     </div>
                     
                     <div className="mb-6">
@@ -660,7 +744,7 @@ const Subscription = () => {
                     </div>
                     
                     <button
-                      onClick={() => handleSubscribe(plan.id, 'monthly')}
+                      onClick={() => handleSubscribe(plan.id, billingCycle)}
                       disabled={actionLoading}
                       className={`w-full py-3 px-6 font-semibold rounded-lg transition-all ${
                         plan.popular 

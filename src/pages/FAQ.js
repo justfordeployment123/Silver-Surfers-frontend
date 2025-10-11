@@ -36,7 +36,7 @@ const FAQ = () => {
   };
 
   const navigateToHome = () => {
-    window.location.href = '/';
+    window.location.href = '/?openScan=1';
   };
 
   return (
