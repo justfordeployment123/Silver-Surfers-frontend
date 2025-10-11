@@ -214,6 +214,15 @@ export const getTeamMembers = async () => {
   }
 };
 
+export const getTeamScans = async () => {
+  try {
+    const response = await api.get('/subscription/team/scans');
+    return response.data;
+  } catch (error) {
+    return { error: error.response?.data?.error || error.message };
+  }
+};
+
 export const acceptTeamInvitation = async (token) => {
   try {
     const response = await api.post('/subscription/team/accept', { token });

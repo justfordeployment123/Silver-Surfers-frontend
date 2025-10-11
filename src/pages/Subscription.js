@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { createCheckoutSession, getSubscription, getSubscriptionPlans, updateSubscription, cancelSubscription, inviteTeamMember, removeTeamMember, getTeamMembers, leaveTeam } from '../api';
+import { createCheckoutSession, getSubscription, getSubscriptionPlans, updateSubscription, cancelSubscription, inviteTeamMember, removeTeamMember, getTeamMembers, leaveTeam, getTeamScans } from '../api';
 
 const Subscription = () => {
   const [currentSubscription, setCurrentSubscription] = useState(null);
@@ -12,6 +12,8 @@ const Subscription = () => {
   const [teamMembers, setTeamMembers] = useState([]);
   const [teamLoading, setTeamLoading] = useState(false);
   const [newMemberEmail, setNewMemberEmail] = useState('');
+  const [teamScans, setTeamScans] = useState([]);
+  const [scansLoading, setScansLoading] = useState(false);
   const navigate = useNavigate();
   const [params] = useSearchParams();
   const selectedPlan = params.get('plan');
@@ -34,9 +36,13 @@ const Subscription = () => {
       } else {
         setCurrentSubscription(subscriptionResult.subscription);
         
-        // Load team members if user has active subscription
+        // Load team members and scans if user has active subscription
         if (subscriptionResult.subscription) {
           loadTeamMembers();
+          // Load team scans if user is subscription owner (not team member)
+          if (!subscriptionResult.subscription.isTeamMember) {
+            loadTeamScans();
+          }
         }
       }
 
@@ -65,6 +71,22 @@ const Subscription = () => {
       }
     } catch (err) {
       console.error('Failed to load team members:', err);
+    }
+  };
+
+  const loadTeamScans = async () => {
+    try {
+      setScansLoading(true);
+      const result = await getTeamScans();
+      if (result.error) {
+        console.error('Failed to load team scans:', result.error);
+      } else {
+        setTeamScans(result.scans || []);
+      }
+    } catch (err) {
+      console.error('Failed to load team scans:', err);
+    } finally {
+      setScansLoading(false);
     }
   };
 
@@ -404,7 +426,7 @@ const Subscription = () => {
                       value={newMemberEmail}
                       onChange={(e) => setNewMemberEmail(e.target.value)}
                       placeholder="Enter email address"
-                      className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
                       disabled={teamLoading || (currentSubscription.limits.maxUsers !== -1 && teamMembers.length >= currentSubscription.limits.maxUsers)}
                     />
                     <button
@@ -450,6 +472,92 @@ const Subscription = () => {
                     )}
                   </div>
                 </div>
+              </div>
+            )}
+
+            {/* Team Scan History Section - Only for subscription owners */}
+            {!currentSubscription.isTeamMember && (
+              <div className="bg-white rounded-3xl p-8 shadow-xl">
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">Team Scan History</h2>
+                
+                {scansLoading ? (
+                  <div className="flex items-center justify-center py-8">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+                    <span className="ml-3 text-gray-600">Loading team scans...</span>
+                  </div>
+                ) : teamScans.length === 0 ? (
+                  <div className="text-center py-8">
+                    <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                      </svg>
+                    </div>
+                    <p className="text-gray-500">No scans performed by team members yet.</p>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    {teamScans.map((scan) => (
+                      <div key={scan.id} className="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 transition-colors">
+                        <div className="flex items-start justify-between">
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-2">
+                              <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                                scan.status === 'completed' ? 'bg-green-100 text-green-800' :
+                                scan.status === 'failed' ? 'bg-red-100 text-red-800' :
+                                scan.status === 'processing' ? 'bg-yellow-100 text-yellow-800' :
+                                'bg-gray-100 text-gray-800'
+                              }`}>
+                                {scan.status.charAt(0).toUpperCase() + scan.status.slice(1)}
+                              </span>
+                              {scan.isOwner && (
+                                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                  Owner
+                                </span>
+                              )}
+                            </div>
+                            
+                            <div className="mb-2">
+                              <p className="text-sm font-medium text-gray-900 truncate">
+                                {scan.url}
+                              </p>
+                              <p className="text-sm text-gray-600">
+                                by {scan.email}
+                              </p>
+                            </div>
+                            
+                            <div className="flex items-center gap-4 text-xs text-gray-500">
+                              <span>{new Date(scan.createdAt).toLocaleDateString()} at {new Date(scan.createdAt).toLocaleTimeString()}</span>
+                              {scan.attachmentCount > 0 && (
+                                <span>{scan.attachmentCount} file{scan.attachmentCount !== 1 ? 's' : ''} generated</span>
+                              )}
+                            </div>
+                            
+                            {scan.failureReason && (
+                              <p className="text-xs text-red-600 mt-2">
+                                Error: {scan.failureReason}
+                              </p>
+                            )}
+                          </div>
+                          
+                          <div className="ml-4 flex-shrink-0">
+                            {scan.status === 'completed' && (
+                              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                            )}
+                            {scan.status === 'failed' && (
+                              <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                            )}
+                            {scan.status === 'processing' && (
+                              <div className="w-2 h-2 bg-yellow-500 rounded-full animate-pulse"></div>
+                            )}
+                            {scan.status === 'queued' && (
+                              <div className="w-2 h-2 bg-gray-400 rounded-full"></div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             )}
 
