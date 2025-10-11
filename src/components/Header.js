@@ -134,6 +134,18 @@ const Header = () => {
             >
               Contact
             </Link>
+            {user && (
+              <Link 
+                to="/subscription" 
+                className={`nav-link transition-colors duration-300 font-medium hover:scale-105 transform transition-transform ${
+                  isActive('/subscription') 
+                    ? (isScrolled ? 'text-green-600' : 'text-white font-semibold') 
+                    : (isScrolled ? 'text-gray-700 hover:text-green-600' : 'text-gray-200 hover:text-white')
+                }`}
+              >
+                Subscription
+              </Link>
+            )}
             <Link 
               to="/faq" 
               className={`nav-link transition-colors duration-300 font-medium hover:scale-105 transform transition-transform ${
@@ -275,6 +287,19 @@ const Header = () => {
             >
               Contact
             </Link>
+            {user && (
+              <Link 
+                to="/subscription" 
+                className={`block py-2 px-4 rounded-lg transition-colors duration-300 font-medium ${
+                  isActive('/subscription') 
+                    ? 'bg-blue-100 text-green-600' 
+                    : (isScrolled ? 'text-gray-700 hover:bg-gray-100' : 'text-gray-200 hover:bg-white/10')
+                }`}
+                onClick={closeMobileMenu}
+              >
+                Subscription
+              </Link>
+            )}
             <Link 
               to="/faq" 
               className={`block py-2 px-4 rounded-lg transition-colors duration-300 font-medium ${

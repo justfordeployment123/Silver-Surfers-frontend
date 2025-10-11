@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { createCheckoutSession, getSubscription, getSubscriptionPlans, updateSubscription, cancelSubscription, inviteTeamMember, removeTeamMember, getTeamMembers } from '../api';
+import { createCheckoutSession, getSubscription, getSubscriptionPlans, updateSubscription, cancelSubscription, inviteTeamMember, removeTeamMember, getTeamMembers, leaveTeam } from '../api';
 
 const Subscription = () => {
   const [currentSubscription, setCurrentSubscription] = useState(null);
@@ -129,6 +129,31 @@ const Subscription = () => {
       }
     } catch (err) {
       setError('Failed to cancel subscription');
+    } finally {
+      setActionLoading(false);
+    }
+  };
+
+  const handleLeaveTeam = async () => {
+    if (!window.confirm('Are you sure you want to leave this team? You will lose access to the subscription benefits.')) {
+      return;
+    }
+
+    try {
+      setActionLoading(true);
+      setError('');
+      const result = await leaveTeam();
+      
+      if (result.error) {
+        setError(result.error);
+      } else {
+        setSuccess('Successfully left the team. You will be redirected to the subscription page.');
+        setTimeout(() => {
+          loadData();
+        }, 2000);
+      }
+    } catch (err) {
+      setError('Failed to leave team');
     } finally {
       setActionLoading(false);
     }
@@ -299,24 +324,60 @@ const Subscription = () => {
                 )}
               </div>
 
-              <div className="mt-8 space-y-3">
-                <button
-                  onClick={() => handleCancelSubscription(false)}
-                  disabled={actionLoading || currentSubscription.cancelAtPeriodEnd}
-                  className="w-full py-2 px-4 bg-yellow-500 hover:bg-yellow-600 disabled:bg-gray-300 text-white font-semibold rounded-lg transition-colors"
-                >
-                  {currentSubscription.cancelAtPeriodEnd ? 'Cancellation Scheduled' : 'Cancel at Period End'}
-                </button>
-                
-                <button
-                  onClick={() => handleCancelSubscription(true)}
-                  disabled={actionLoading}
-                  className="w-full py-2 px-4 bg-red-500 hover:bg-red-600 disabled:bg-gray-300 text-white font-semibold rounded-lg transition-colors"
-                >
-                  Cancel Immediately
-                </button>
-              </div>
+              {/* Show different options for subscription owners vs team members */}
+              {currentSubscription.isTeamMember ? (
+                <div className="mt-8">
+                  <button
+                    onClick={() => handleLeaveTeam()}
+                    disabled={actionLoading}
+                    className="w-full py-2 px-4 bg-red-500 hover:bg-red-600 disabled:bg-gray-300 text-white font-semibold rounded-lg transition-colors"
+                  >
+                    {actionLoading ? 'Leaving...' : 'Leave Team'}
+                  </button>
+                  <p className="text-sm text-gray-600 mt-2 text-center">
+                    You're using a team plan. Contact the plan owner to manage the subscription.
+                  </p>
+                </div>
+              ) : (
+                <div className="mt-8 space-y-3">
+                  <button
+                    onClick={() => handleCancelSubscription(false)}
+                    disabled={actionLoading || currentSubscription.cancelAtPeriodEnd}
+                    className="w-full py-2 px-4 bg-yellow-500 hover:bg-yellow-600 disabled:bg-gray-300 text-white font-semibold rounded-lg transition-colors"
+                  >
+                    {currentSubscription.cancelAtPeriodEnd ? 'Cancellation Scheduled' : 'Cancel at Period End'}
+                  </button>
+                  
+                  <button
+                    onClick={() => handleCancelSubscription(true)}
+                    disabled={actionLoading}
+                    className="w-full py-2 px-4 bg-red-500 hover:bg-red-600 disabled:bg-gray-300 text-white font-semibold rounded-lg transition-colors"
+                  >
+                    Cancel Immediately
+                  </button>
+                </div>
+              )}
             </div>
+
+            {/* Team Member Info - Only for team members */}
+            {currentSubscription.isTeamMember && (
+              <div className="bg-blue-50 rounded-3xl p-8 shadow-xl border border-blue-200">
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">Team Plan Member</h3>
+                  <p className="text-gray-600 mb-4">
+                    You're using a team plan. Only the plan owner can upgrade, downgrade, or cancel the subscription.
+                  </p>
+                  <p className="text-sm text-gray-500">
+                    Contact your team owner if you need changes to the plan or have questions.
+                  </p>
+                </div>
+              </div>
+            )}
 
             {/* Team Management Section - Only for subscription owners */}
             {currentSubscription && currentSubscription.limits?.maxUsers > 1 && !currentSubscription.isTeamMember && (
@@ -392,8 +453,10 @@ const Subscription = () => {
               </div>
             )}
 
-            <div className="bg-white rounded-3xl p-8 shadow-xl">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Available Plans</h2>
+            {/* Available Plans Section - Only for subscription owners */}
+            {!currentSubscription.isTeamMember && (
+              <div className="bg-white rounded-3xl p-8 shadow-xl">
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">Available Plans</h2>
               
               <div className="space-y-4">
                 {availablePlans.map((plan) => {
@@ -436,6 +499,7 @@ const Subscription = () => {
                 })}
               </div>
             </div>
+            )}
           </div>
           </>
         ) : (

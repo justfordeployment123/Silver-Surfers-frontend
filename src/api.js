@@ -196,6 +196,15 @@ export const removeTeamMember = async (email) => {
   }
 };
 
+export const leaveTeam = async () => {
+  try {
+    const response = await api.post('/subscription/team/leave');
+    return response.data;
+  } catch (error) {
+    return { error: error.response?.data?.error || error.message };
+  }
+};
+
 export const getTeamMembers = async () => {
   try {
     const response = await api.get('/subscription/team');
