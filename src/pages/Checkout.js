@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getMe } from '../api';
+import { getMe, startAudit, precheckUrl } from '../api';
 
 const Checkout = () => {
   const navigate = useNavigate();
   const [url, setUrl] = useState('');
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
+  const [precheckLoading, setPrecheckLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
@@ -39,23 +40,42 @@ const Checkout = () => {
     }
 
     setLoading(true);
+    setPrecheckLoading(true);
     setError('');
     setSuccess('');
 
     try {
-      // Here you would typically call your audit API
-      // For now, we'll simulate a successful submission
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // First, precheck the URL
+      setPrecheckLoading(true);
+      const precheckResult = await precheckUrl(url);
       
-      setSuccess('Audit request submitted successfully! You will receive an email with your results shortly.');
+      if (precheckResult.error || precheckResult.success === false) {
+        setError(precheckResult.error || 'URL not reachable. Please check the domain and try again.');
+        return;
+      }
+
+      setPrecheckLoading(false);
+      setSuccess('✅ URL validated successfully! Starting audit...');
+
+      // Now start the actual audit
+      const auditResult = await startAudit(email, url);
       
-      // Clear the form
-      setUrl('');
+      if (auditResult.error) {
+        setError(auditResult.error);
+        setSuccess('');
+      } else {
+        setSuccess('🎉 Audit request submitted successfully! You will receive an email with your comprehensive accessibility report shortly.');
+        
+        // Clear the form
+        setUrl('');
+      }
       
     } catch (err) {
       setError('Failed to submit audit request. Please try again.');
+      setSuccess('');
     } finally {
       setLoading(false);
+      setPrecheckLoading(false);
     }
   };
 
@@ -86,7 +106,6 @@ const Checkout = () => {
                 Website URL
               </label>
               <input
-                type="url"
                 id="url"
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
@@ -122,7 +141,7 @@ const Checkout = () => {
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>
-                  Processing...
+                  {precheckLoading ? 'Validating URL...' : 'Starting Audit...'}
                 </>
               ) : (
                 'Start Full Audit'
