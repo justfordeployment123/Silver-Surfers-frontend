@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { getSubscriptionPlans } from '../api';
+import { getSubscriptionPlans, getSubscription } from '../api';
 
 const Services = () => {
   const [plans, setPlans] = useState([]);
   const [loading, setLoading] = useState(true);
   const [billingCycle, setBillingCycle] = useState('monthly');
+  const [currentSubscription, setCurrentSubscription] = useState(null);
 
   useEffect(() => {
     loadPlans();
@@ -12,9 +13,17 @@ const Services = () => {
 
   const loadPlans = async () => {
     try {
-      const result = await getSubscriptionPlans();
-      if (result.plans) {
-        setPlans(result.plans);
+      const [plansResult, subscriptionResult] = await Promise.all([
+        getSubscriptionPlans(),
+        getSubscription().catch(() => ({ error: 'No subscription' })) // Don't fail if no subscription
+      ]);
+      
+      if (plansResult.plans) {
+        setPlans(plansResult.plans);
+      }
+      
+      if (subscriptionResult.subscription) {
+        setCurrentSubscription(subscriptionResult.subscription);
       }
     } catch (error) {
       console.error('Failed to load plans:', error);
@@ -92,6 +101,60 @@ const Services = () => {
     const yearlyTotal = plan.yearlyPrice;
     const savings = monthlyTotal - yearlyTotal;
     return savings > 0 ? Math.round(savings / 100) : 0;
+  };
+
+  const getPlanButtonInfo = (plan) => {
+    const isCurrentPlan = currentSubscription && currentSubscription.planId === plan.id;
+    const hasActiveSubscription = currentSubscription && currentSubscription.status === 'active';
+    const isTeamMember = currentSubscription && currentSubscription.isTeamMember;
+    
+    if (plan.contactSales) {
+      return {
+        text: 'Contact Sales',
+        link: '/contact',
+        isDisabled: false
+      };
+    }
+    
+    if (isCurrentPlan && hasActiveSubscription) {
+      return {
+        text: 'Start Audit',
+        link: '/checkout',
+        isDisabled: false
+      };
+    }
+    
+    // Team members can only use their assigned plan, not upgrade
+    if (hasActiveSubscription && !isCurrentPlan) {
+      if (isTeamMember) {
+        return {
+          text: 'Contact Owner',
+          link: '/subscription',
+          isDisabled: false
+        };
+      }
+      
+      return {
+        text: 'Upgrade Plan',
+        link: `/subscription?plan=${plan.id}&cycle=${billingCycle}`,
+        isDisabled: false
+      };
+    }
+    
+    // Team members shouldn't see subscribe button
+    if (isTeamMember) {
+      return {
+        text: 'Contact Owner',
+        link: '/subscription',
+        isDisabled: false
+      };
+    }
+    
+    return {
+      text: 'Subscribe Now',
+      link: `/subscription?plan=${plan.id}&cycle=${billingCycle}`,
+      isDisabled: false
+    };
   };
 
   const freeAudit = {
@@ -240,10 +303,22 @@ const Services = () => {
               {plans.map((plan) => {
                 const currentPrice = getCurrentPrice(plan);
                 const savings = getSavings(plan);
+                const isCurrentPlan = currentSubscription && currentSubscription.planId === plan.id && currentSubscription.status === 'active';
+                const isTeamMember = currentSubscription && currentSubscription.isTeamMember;
                 
                 return (
-                  <div key={plan.id} className={`relative bg-white rounded-3xl p-8 shadow-xl border-2 transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 flex flex-col h-full ${plan.popular ? 'border-blue-500 scale-105' : 'border-gray-200'}`}>
-                    {plan.popular && (
+                  <div key={plan.id} className={`relative bg-white rounded-3xl p-8 shadow-xl border-2 transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 flex flex-col h-full ${
+                    isCurrentPlan ? 'border-green-500 scale-105 bg-green-50' : 
+                    plan.popular ? 'border-blue-500 scale-105' : 'border-gray-200'
+                  }`}>
+                    {isCurrentPlan && (
+                      <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                        <span className="bg-green-500 text-white px-4 py-2 rounded-full text-sm font-semibold">
+                          {isTeamMember ? 'Team Plan' : 'Your Plan'}
+                        </span>
+                      </div>
+                    )}
+                    {!isCurrentPlan && plan.popular && (
                       <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
                         <span className="bg-blue-500 text-white px-4 py-2 rounded-full text-sm font-semibold">
                           Most Popular
@@ -302,21 +377,17 @@ const Services = () => {
                     </div>
 
                     <div className="text-center mt-auto">
-                      {plan.contactSales ? (
-                        <a 
-                          href="/contact"
-                          className={`inline-block px-8 py-4 bg-gradient-to-r ${plan.gradient} text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300`}
-                        >
-                          Contact Sales
-                        </a>
-                      ) : (
-                        <a 
-                          href={`/subscription?plan=${plan.id}&cycle=${billingCycle}`}
-                          className={`inline-block px-8 py-4 bg-gradient-to-r ${plan.gradient} text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300`}
-                        >
-                          Subscribe Now
-                        </a>
-                      )}
+                      {(() => {
+                        const buttonInfo = getPlanButtonInfo(plan);
+                        return (
+                          <a 
+                            href={buttonInfo.link}
+                            className={`inline-block px-8 py-4 bg-gradient-to-r ${plan.gradient} text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 ${buttonInfo.isDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+                          >
+                            {buttonInfo.text}
+                          </a>
+                        );
+                      })()}
                     </div>
                   </div>
                 );
@@ -337,7 +408,16 @@ const Services = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-3xl mx-auto items-stretch">
             {[
               { title: "Start with a Quick Scan", desc: "Get a quick snapshot of your digital experience.", cta: "Get Quick Scan Report", link: "/?openScan=1" },
-              { title: "SilverSurfers Starter", desc: "Want a simple analysis? Perfect for small businesses.", cta: "Purchase Report", link: `/subscription?plan=starter&cycle=monthly` }
+              (() => {
+                const starterPlan = plans.find(p => p.id === 'starter') || { id: 'starter' };
+                const buttonInfo = getPlanButtonInfo(starterPlan);
+                return { 
+                  title: "SilverSurfers Starter", 
+                  desc: "Want a simple analysis? Perfect for small businesses.", 
+                  cta: buttonInfo.text, 
+                  link: buttonInfo.link 
+                };
+              })()
             ].map((item, index) => (
               <div key={index} className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 text-center flex flex-col h-full">
                 <h3 className="text-lg font-semibold text-gray-900 mb-3">{item.title}</h3>

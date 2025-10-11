@@ -234,34 +234,58 @@ const Subscription = () => {
         )}
 
         {currentSubscription ? (
-          // Current Subscription
-          <div className={`grid grid-cols-1 gap-8 ${currentSubscription.limits?.maxUsers > 1 ? 'lg:grid-cols-3' : 'lg:grid-cols-2'}`}>
+          <>
+            {/* Start Audit Button for Active Subscribers */}
+            {currentSubscription.status === 'active' && (
+              <div className="mb-8 text-center">
+                <div className={`bg-white rounded-2xl p-6 shadow-xl border-2 ${currentSubscription.isTeamMember ? 'border-yellow-300' : 'border-green-200'}`}>
+                  {currentSubscription.isTeamMember && (
+                    <div className="mb-4 inline-block px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-semibold">
+                      👥 Team Member
+                    </div>
+                  )}
+                  <h3 className="text-xl font-bold text-gray-900 mb-4">Ready to Start Your Audit?</h3>
+                  <p className="text-gray-600 mb-6">
+                    You have {currentSubscription.isTeamMember ? 'team access to an' : 'an'} active subscription. Start auditing your website now!
+                  </p>
+                  <button
+                    onClick={() => navigate('/checkout')}
+                    className="bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white font-semibold px-8 py-3 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+                  >
+                    Start Full Audit
+                  </button>
+                </div>
+              </div>
+            )}
+            
+            {/* Current Subscription */}
+            <div className={`grid grid-cols-1 gap-8 ${currentSubscription.limits?.maxUsers > 1 ? 'lg:grid-cols-3' : 'lg:grid-cols-2'}`}>
             <div className="bg-white rounded-3xl p-8 shadow-xl">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">Current Subscription</h2>
               
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <span className="text-gray-600">Plan:</span>
-                  <span className="font-semibold">{currentSubscription.plan?.name}</span>
+                  <span className="text-gray-700">Plan:</span>
+                  <span className="font-semibold text-gray-900">{currentSubscription.plan?.name}</span>
                 </div>
                 
                 <div className="flex items-center justify-between">
-                  <span className="text-gray-600">Status:</span>
+                  <span className="text-gray-700">Status:</span>
                   <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(currentSubscription.status)}`}>
                     {currentSubscription.status.charAt(0).toUpperCase() + currentSubscription.status.slice(1)}
                   </span>
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <span className="text-gray-600">Current Period:</span>
-                  <span className="font-semibold">
+                  <span className="text-gray-700">Current Period:</span>
+                  <span className="font-semibold text-gray-900 text-sm">
                     {formatDate(currentSubscription.currentPeriodStart)} - {formatDate(currentSubscription.currentPeriodEnd)}
                   </span>
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <span className="text-gray-600">Scans This Month:</span>
-                  <span className="font-semibold">
+                  <span className="text-gray-700">Scans This Month:</span>
+                  <span className="font-semibold text-gray-900">
                     {currentSubscription.usage?.scansThisMonth || 0} / {currentSubscription.limits?.scansPerMonth === -1 ? '∞' : currentSubscription.limits?.scansPerMonth}
                   </span>
                 </div>
@@ -294,8 +318,8 @@ const Subscription = () => {
               </div>
             </div>
 
-            {/* Team Management Section */}
-            {currentSubscription && currentSubscription.limits?.maxUsers > 1 && (
+            {/* Team Management Section - Only for subscription owners */}
+            {currentSubscription && currentSubscription.limits?.maxUsers > 1 && !currentSubscription.isTeamMember && (
               <div className="bg-white rounded-3xl p-8 shadow-xl">
                 <h2 className="text-2xl font-bold text-gray-900 mb-6">Team Management</h2>
                 
@@ -389,10 +413,10 @@ const Subscription = () => {
                       
                       <div className="flex items-center justify-between">
                         <div>
-                          <div className="font-bold text-lg">
+                          <div className="font-bold text-lg text-gray-900">
                             {formatPrice(plan.monthlyPrice)}/month
                           </div>
-                          <div className="text-xs text-gray-500">
+                          <div className="text-xs text-gray-700">
                             {plan.limits.scansPerMonth === -1 ? 'Unlimited' : plan.limits.scansPerMonth} scans/month
                           </div>
                         </div>
@@ -413,6 +437,7 @@ const Subscription = () => {
               </div>
             </div>
           </div>
+          </>
         ) : (
           // No Subscription - Show Plans
           <div className="bg-white rounded-3xl p-8 shadow-xl">
@@ -425,7 +450,7 @@ const Subscription = () => {
                     <div key={plan.id} className="p-6 border-2 border-gray-200 rounded-xl text-center">
                       <div className="text-4xl mb-4">{plan.icon}</div>
                       <h3 className="text-xl font-bold text-gray-900 mb-2">{plan.name}</h3>
-                      <p className="text-gray-600 mb-4">{plan.description}</p>
+                      <p className="text-gray-700 mb-4">{plan.description}</p>
                       <a
                         href="/contact"
                         className="inline-block px-6 py-3 bg-gradient-to-r from-purple-500 to-blue-500 text-white font-semibold rounded-lg hover:shadow-lg transition-all"
@@ -446,18 +471,18 @@ const Subscription = () => {
                     
                     <div className="text-4xl mb-4">{plan.icon}</div>
                     <h3 className="text-xl font-bold text-gray-900 mb-2">{plan.name}</h3>
-                    <p className="text-gray-600 mb-4">{plan.description}</p>
+                    <p className="text-gray-700 mb-4">{plan.description}</p>
                     
                     <div className="mb-4">
                       <div className="text-3xl font-bold text-gray-900">{formatPrice(plan.monthlyPrice)}</div>
-                      <div className="text-sm text-gray-500">per month</div>
+                      <div className="text-sm text-gray-700">per month</div>
                     </div>
                     
                     <div className="mb-6">
-                      <div className="text-sm text-gray-600 mb-2">
+                      <div className="text-sm text-gray-700 mb-2">
                         {plan.limits.scansPerMonth === -1 ? 'Unlimited' : plan.limits.scansPerMonth} scans/month
                       </div>
-                      <div className="text-sm text-gray-600">
+                      <div className="text-sm text-gray-700">
                         {plan.limits.maxUsers === -1 ? 'Unlimited' : plan.limits.maxUsers} users
                       </div>
                     </div>

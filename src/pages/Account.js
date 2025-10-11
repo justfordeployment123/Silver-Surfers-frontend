@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { listMyAnalysis, getMe } from '../api';
+import { listMyAnalysis, getMe, getSubscription } from '../api';
+import { useNavigate } from 'react-router-dom';
 import './About.css';
 
 const StatusPill = ({ value }) => {
@@ -19,6 +20,8 @@ export default function Account() {
   const [error, setError] = useState('');
   const [q, setQ] = useState('');
   const [status, setStatus] = useState('all');
+  const [subscription, setSubscription] = useState(null);
+  const navigate = useNavigate();
 
   const load = async () => {
     setLoading(true); setError('');
@@ -33,6 +36,17 @@ export default function Account() {
       const me = await getMe();
       if (!me?.user) { setUser(null); setLoading(false); return; }
       setUser(me.user);
+      
+      // Load subscription data
+      try {
+        const subResult = await getSubscription();
+        if (subResult.subscription) {
+          setSubscription(subResult.subscription);
+        }
+      } catch (err) {
+        console.log('No subscription found');
+      }
+      
       await load();
     })();
   }, []);
@@ -54,8 +68,36 @@ export default function Account() {
           <div className="p-4 rounded-xl bg-black/30 border border-white/10 text-sm">Please log in to view your account.</div>
         )}
         {user && (
-          <section className='space-y-4'>
-            <div className='flex flex-col sm:flex-row gap-3 items-stretch sm:items-center'>
+          <>
+            {/* Start Audit Button for Active Subscribers */}
+            {subscription && subscription.status === 'active' && (
+              <div className="mb-8">
+                <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+                  <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div className="text-center sm:text-left">
+                      <h3 className="text-xl font-bold text-white mb-2">Ready to Start Your Audit?</h3>
+                      <p className="text-gray-300 text-sm">
+                        You have {subscription.isTeamMember ? 'team access to' : 'an active'} <span className="font-semibold text-green-400">{subscription.plan?.name}</span> subscription
+                      </p>
+                      {subscription.isTeamMember && (
+                        <p className="text-yellow-300 text-xs mt-1">
+                          👥 You're using a team plan
+                        </p>
+                      )}
+                    </div>
+                    <button
+                      onClick={() => navigate('/checkout')}
+                      className="bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white font-semibold px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 whitespace-nowrap"
+                    >
+                      Start Full Audit
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            <section className='space-y-4'>
+              <div className='flex flex-col sm:flex-row gap-3 items-stretch sm:items-center'>
               <input value={q} onChange={e=> setQ(e.target.value)} placeholder='Search URL or taskId...' className='flex-1 px-3 py-2 rounded-lg bg-white/10 text-sm outline-none focus:ring-2 ring-green-500/50' />
               <select value={status} onChange={e=> setStatus(e.target.value)} className='px-3 py-2 rounded-lg bg-white/10 text-sm outline-none focus:ring-2 ring-green-500/50 text-white'>
                 <option value='all' className='text-black'>All</option>
@@ -96,6 +138,7 @@ export default function Account() {
               ))}
             </div>
           </section>
+          </>
         )}
       </div>
     </div>
