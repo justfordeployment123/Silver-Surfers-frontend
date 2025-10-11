@@ -495,7 +495,7 @@ const Subscription = () => {
                     <p className="text-gray-500">No scans performed by team members yet.</p>
                   </div>
                 ) : (
-                  <div className="space-y-4">
+                  <div className="max-h-96 overflow-y-auto space-y-4 pr-2">
                     {teamScans.map((scan) => (
                       <div key={scan.id} className="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 transition-colors">
                         <div className="flex items-start justify-between">
