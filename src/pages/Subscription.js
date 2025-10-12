@@ -691,14 +691,36 @@ const Subscription = () => {
                       
                       <div className="flex items-center justify-between">
                         <div>
+                          {/* Original Price (Crossed Out) */}
+                          {plan.id !== 'custom' && (
+                            <div className="text-sm text-gray-400 line-through mb-1">
+                              {plan.id === 'starter' ? '$69/month' : plan.id === 'pro' ? '$399/month' : formatPrice(getCurrentPrice(plan))}
+                            </div>
+                          )}
+                          
+                          {/* Current Price */}
                           <div className="font-bold text-lg text-gray-900">
                             {formatPrice(getCurrentPrice(plan))}/{billingCycle === 'yearly' ? 'year' : 'month'}
                           </div>
+                          
+                          {/* Limited Time Offer */}
+                          {plan.id !== 'custom' && (
+                            <div className="text-xs text-gray-500 mb-1">limited time offer</div>
+                          )}
+                          
                           {billingCycle === 'yearly' && getSavings(plan) && getSavings(plan) > 0 && (
                             <div className="text-xs text-green-600 font-medium">
                               Save ${getSavings(plan)} annually
                             </div>
                           )}
+                          
+                          {/* Annual Offer */}
+                          {billingCycle === 'monthly' && plan.id !== 'custom' && (
+                            <div className="text-xs text-gray-500 mt-1">
+                              {plan.id === 'starter' ? '$197 for one year - special offer' : '$899 for one year - special offer'}
+                            </div>
+                          )}
+                          
                           <div className="text-xs text-gray-700">
                             {plan.limits.scansPerMonth === -1 ? 'Unlimited' : plan.limits.scansPerMonth} scans/month
                           </div>
@@ -761,62 +783,88 @@ const Subscription = () => {
               {availablePlans.map((plan) => {
                 if (plan.contactSales) {
                   return (
-                    <div key={plan.id} className="p-6 border-2 border-gray-200 rounded-xl text-center">
-                      <div className="text-4xl mb-4">{plan.icon}</div>
-                      <h3 className="text-xl font-bold text-gray-900 mb-2">{plan.name}</h3>
-                      <p className="text-gray-700 mb-4">{plan.description}</p>
-                      <a
-                        href="/contact"
-                        className="inline-block px-6 py-3 bg-gradient-to-r from-purple-500 to-blue-500 text-white font-semibold rounded-lg hover:shadow-lg transition-all"
-                      >
-                        Contact Sales
-                      </a>
+                    <div key={plan.id} className="p-6 border-2 border-gray-200 rounded-xl text-center flex flex-col h-full">
+                      <div className="flex-grow flex flex-col">
+                        <div className="text-4xl mb-4">{plan.icon}</div>
+                        <h3 className="text-xl font-bold text-gray-900 mb-2">{plan.name}</h3>
+                        <p className="text-gray-700 mb-4">{plan.description}</p>
+                      </div>
+                      <div className="mt-auto">
+                        <a
+                          href="/contact"
+                          className="inline-block px-6 py-3 bg-gradient-to-r from-purple-500 to-blue-500 text-white font-semibold rounded-lg hover:shadow-lg transition-all"
+                        >
+                          Contact Sales
+                        </a>
+                      </div>
                     </div>
                   );
                 }
 
                 return (
-                  <div key={plan.id} className={`p-6 border-2 rounded-xl text-center ${plan.popular ? 'border-blue-500 bg-blue-50' : 'border-gray-200'}`}>
-                    {plan.popular && (
-                      <div className="text-xs bg-blue-500 text-white px-3 py-1 rounded-full mb-4 inline-block">
-                        Most Popular
-                      </div>
-                    )}
-                    
-                    <div className="text-4xl mb-4">{plan.icon}</div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">{plan.name}</h3>
-                    <p className="text-gray-700 mb-4">{plan.description}</p>
-                    
-                    <div className="mb-4">
-                      <div className="text-3xl font-bold text-gray-900">{formatPrice(getCurrentPrice(plan))}</div>
-                      <div className="text-sm text-gray-700">per {billingCycle === 'yearly' ? 'year' : 'month'}</div>
-                      {billingCycle === 'yearly' && getSavings(plan) && getSavings(plan) > 0 && (
-                        <div className="text-xs text-green-600 font-medium mt-1">
-                          Save ${getSavings(plan)} annually
+                  <div key={plan.id} className={`p-6 border-2 rounded-xl text-center flex flex-col h-full ${plan.popular ? 'border-blue-500 bg-blue-50' : 'border-gray-200'}`}>
+                    <div className="flex-grow flex flex-col">
+                      {plan.popular && (
+                        <div className="text-xs bg-blue-500 text-white px-3 py-1 rounded-full mb-4 inline-block">
+                          Most Popular
                         </div>
                       )}
+                      
+                      <div className="text-4xl mb-4">{plan.icon}</div>
+                      <h3 className="text-xl font-bold text-gray-900 mb-2">{plan.name}</h3>
+                      <p className="text-gray-700 mb-4">{plan.description}</p>
+                      
+                      <div className="mb-4">
+                        {/* Original Price (Crossed Out) */}
+                        <div className="text-lg text-gray-400 line-through mb-1">
+                          {plan.id === 'starter' ? '$69/month' : plan.id === 'pro' ? '$399/month' : formatPrice(getCurrentPrice(plan))}
+                        </div>
+                        
+                        {/* Current Price */}
+                        <div className="text-3xl font-bold text-gray-900">{formatPrice(getCurrentPrice(plan))}</div>
+                        
+                        {/* Limited Time Offer */}
+                        <div className="text-xs text-gray-500 mb-1">limited time offer</div>
+                        
+                        <div className="text-sm text-gray-700">per {billingCycle === 'yearly' ? 'year' : 'month'}</div>
+                        
+                        {/* Annual Offer */}
+                        {billingCycle === 'monthly' && (
+                          <div className="text-xs text-gray-500 mt-1">
+                            {plan.id === 'starter' ? '$197 for one year - special offer' : '$899 for one year - special offer'}
+                          </div>
+                        )}
+                        
+                        {billingCycle === 'yearly' && getSavings(plan) && getSavings(plan) > 0 && (
+                          <div className="text-xs text-green-600 font-medium mt-1">
+                            Save ${getSavings(plan)} annually
+                          </div>
+                        )}
+                      </div>
+                      
+                      <div className="mb-6">
+                        <div className="text-sm text-gray-700 mb-2">
+                          {plan.limits.scansPerMonth === -1 ? 'Unlimited' : plan.limits.scansPerMonth} scans/month
+                        </div>
+                        <div className="text-sm text-gray-700">
+                          {plan.limits.maxUsers === -1 ? 'Unlimited' : plan.limits.maxUsers} users
+                        </div>
+                      </div>
                     </div>
                     
-                    <div className="mb-6">
-                      <div className="text-sm text-gray-700 mb-2">
-                        {plan.limits.scansPerMonth === -1 ? 'Unlimited' : plan.limits.scansPerMonth} scans/month
-                      </div>
-                      <div className="text-sm text-gray-700">
-                        {plan.limits.maxUsers === -1 ? 'Unlimited' : plan.limits.maxUsers} users
-                      </div>
+                    <div className="mt-auto">
+                      <button
+                        onClick={() => handleSubscribe(plan.id, billingCycle)}
+                        disabled={actionLoading}
+                        className={`w-full py-3 px-6 font-semibold rounded-lg transition-all ${
+                          plan.popular 
+                            ? 'bg-gradient-to-r from-blue-500 to-green-500 hover:shadow-lg text-white' 
+                            : 'bg-gray-900 hover:bg-gray-800 text-white'
+                        }`}
+                      >
+                        {actionLoading ? 'Processing...' : 'Subscribe Now'}
+                      </button>
                     </div>
-                    
-                    <button
-                      onClick={() => handleSubscribe(plan.id, billingCycle)}
-                      disabled={actionLoading}
-                      className={`w-full py-3 px-6 font-semibold rounded-lg transition-all ${
-                        plan.popular 
-                          ? 'bg-gradient-to-r from-blue-500 to-green-500 hover:shadow-lg text-white' 
-                          : 'bg-gray-900 hover:bg-gray-800 text-white'
-                      }`}
-                    >
-                      {actionLoading ? 'Processing...' : 'Subscribe Now'}
-                    </button>
                   </div>
                 );
               })}

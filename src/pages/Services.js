@@ -335,12 +335,30 @@ const Services = () => {
                           <div className="text-3xl font-bold text-gray-900 mb-2">Contact us</div>
                   ) : (
                     <div className="mb-2">
+                            {/* Original Price (Crossed Out) */}
+                            <div className="text-lg text-gray-400 line-through mb-1">
+                              {plan.id === 'starter' ? '$69/month' : plan.id === 'pro' ? '$399/month' : formatPrice(currentPrice)}
+                            </div>
+                            
+                            {/* Current Price */}
                             <div className={`text-3xl font-bold bg-gradient-to-r ${plan.gradient} bg-clip-text text-transparent`}>
                               {formatPrice(currentPrice)}
                             </div>
+                            
+                            {/* Limited Time Offer */}
+                            <div className="text-xs text-gray-500 mb-1">limited time offer</div>
+                            
                             <div className="text-sm text-gray-500">
                               per {billingCycle === 'yearly' ? 'year' : 'month'}
                             </div>
+                            
+                            {/* Annual Offer */}
+                            {billingCycle === 'monthly' && plan.id !== 'custom' && (
+                              <div className="text-xs text-gray-500 mt-2">
+                                {plan.id === 'starter' ? '$197 for one year - special offer' : '$899 for one year - special offer'}
+                              </div>
+                            )}
+                            
                             {billingCycle === 'yearly' && savings && savings > 0 && (
                               <div className="text-xs text-green-600 font-medium mt-1">
                                 Save ${savings} annually
