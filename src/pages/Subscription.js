@@ -266,12 +266,75 @@ const Subscription = () => {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-950 via-green-950 via-teal-950 to-cyan-900">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
+  // Loading Skeleton Component
+  const LoadingSkeleton = () => (
+    <div className="min-h-screen bg-gradient-to-br from-blue-950 via-green-950 via-teal-950 to-cyan-900 pt-24 pb-10 px-4">
+      <div className="max-w-6xl mx-auto">
+        {/* Header Skeleton */}
+        <div className="text-center mb-12">
+          <div className="h-10 bg-white/10 rounded-lg w-96 mx-auto mb-4 animate-pulse"></div>
+          <div className="h-6 bg-white/10 rounded-lg w-64 mx-auto animate-pulse"></div>
+        </div>
+
+        {/* Main Content Skeleton */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Card 1 Skeleton */}
+          <div className="bg-white/5 backdrop-blur-sm rounded-3xl p-8 shadow-xl animate-pulse">
+            <div className="h-8 bg-white/10 rounded w-48 mb-6"></div>
+            <div className="space-y-4">
+              <div className="h-4 bg-white/10 rounded w-full"></div>
+              <div className="h-4 bg-white/10 rounded w-5/6"></div>
+              <div className="h-4 bg-white/10 rounded w-4/6"></div>
+            </div>
+            <div className="mt-6 h-10 bg-white/10 rounded-lg w-32"></div>
+          </div>
+
+          {/* Card 2 Skeleton */}
+          <div className="bg-white/5 backdrop-blur-sm rounded-3xl p-8 shadow-xl animate-pulse">
+            <div className="h-8 bg-white/10 rounded w-48 mb-6"></div>
+            <div className="space-y-4">
+              <div className="h-4 bg-white/10 rounded w-full"></div>
+              <div className="h-4 bg-white/10 rounded w-5/6"></div>
+              <div className="h-4 bg-white/10 rounded w-4/6"></div>
+            </div>
+            <div className="mt-6 h-10 bg-white/10 rounded-lg w-32"></div>
+          </div>
+        </div>
+
+        {/* Plans Skeleton */}
+        <div className="mt-8">
+          <div className="bg-white/5 backdrop-blur-sm rounded-3xl p-8 shadow-xl animate-pulse">
+            <div className="h-8 bg-white/10 rounded w-56 mb-6"></div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="bg-white/5 rounded-2xl p-6">
+                  <div className="h-6 bg-white/10 rounded w-32 mb-4"></div>
+                  <div className="h-10 bg-white/10 rounded w-24 mb-4"></div>
+                  <div className="space-y-2 mb-6">
+                    <div className="h-3 bg-white/10 rounded w-full"></div>
+                    <div className="h-3 bg-white/10 rounded w-5/6"></div>
+                    <div className="h-3 bg-white/10 rounded w-4/6"></div>
+                  </div>
+                  <div className="h-10 bg-white/10 rounded-lg"></div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Loading Text */}
+        <div className="text-center mt-8">
+          <div className="inline-flex items-center gap-3 text-white/80">
+            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+            <span className="text-lg">Loading your subscription details...</span>
+          </div>
+        </div>
       </div>
-    );
+    </div>
+  );
+
+  if (loading) {
+    return <LoadingSkeleton />;
   }
 
   return (

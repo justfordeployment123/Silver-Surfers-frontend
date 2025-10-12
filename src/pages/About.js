@@ -151,12 +151,12 @@ const About = () => {
           </div>
           <div className="flex flex-col gap-6 max-w-4xl mx-auto">
             {[
-              { letter: 'S', title: 'Serve', description: 'We put people first and lead with purpose' },
-              { letter: 'I', title: 'Innovate', description: 'We spark fresh ideas to shape the future' },
-              { letter: 'L', title: 'Learn', description: 'We stay curious and grow through every challenge' },
-              { letter: 'V', title: 'Value', description: 'We deliver meaningful impact for our clients and users' },
-              { letter: 'E', title: 'Excellence', description: 'We pursue the highest standards in all we do' },
-              { letter: 'R', title: 'Relationships', description: 'We build lasting connections based on trust and respect' }
+              { letter: 'S', title: 'Supportive', description: 'We design digital experiences that guide and assist older adults with clarity.' },
+              { letter: 'I', title: 'Inclusive', description: 'Our platforms welcome all users, regardless of ability or background.' },
+              { letter: 'L', title: 'Legible', description: 'We prioritize readability with clear fonts, contrast, and layouts.' },
+              { letter: 'V', title: 'Value', description: 'We create meaningful tools that enhance everyday life for older adults.' },
+              { letter: 'E', title: 'Empowering', description: 'We enable confidence and independence through intuitive design.' },
+              { letter: 'R', title: 'Respectful', description: 'We treat older adults as capable, valued users deserving of excellent digital experiences.' }
             ].map((val, i) => (
               <div key={i} className="bg-gradient-to-br from-gray-50 to-green-50/40 rounded-2xl p-8 shadow-lg border border-green-100 hover:shadow-xl transition-all duration-300 hover:scale-105 flex items-center space-x-6 w-full">
                 <div className="w-16 h-16 flex-shrink-0 bg-gradient-to-br from-blue-500 via-blue-600 to-green-500 rounded-2xl flex items-center justify-center text-white text-3xl font-bold shadow-md">

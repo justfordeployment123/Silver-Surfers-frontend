@@ -16,7 +16,13 @@ export default function Login() {
     if (urlParams.get('from') === 'checkout') redirectTo = '/checkout';
     else {
       const stored = typeof window !== 'undefined' ? localStorage.getItem('lastRoute') : null;
-      redirectTo = stored && !['/login','/signup','/verify-email','/resend-verification','/forgot-password','/reset-password'].includes(stored) ? stored : '/';
+      // Validate the stored route - must start with / and not contain /api or invalid paths
+      const isValidRoute = stored && 
+        stored.startsWith('/') && 
+        !stored.includes('/api') && 
+        !stored.includes('undefined') &&
+        !['/login','/signup','/verify-email','/resend-verification','/forgot-password','/reset-password'].includes(stored);
+      redirectTo = isValidRoute ? stored : '/';
     }
   }
   // Auto-admin redirect handled after token decode; no manual admin mode toggle.
@@ -29,6 +35,15 @@ export default function Login() {
   const [googleReady, setGoogleReady] = useState(false);
   const googleDivRef = useRef(null);
   const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+
+  // Clean up invalid lastRoute on mount
+  useEffect(() => {
+    const lastRoute = localStorage.getItem('lastRoute');
+    if (lastRoute && (lastRoute.includes('/api') || lastRoute.includes('undefined') || !lastRoute.startsWith('/'))) {
+      console.warn('Clearing invalid lastRoute:', lastRoute);
+      localStorage.removeItem('lastRoute');
+    }
+  }, []);
 
   // Load Google Identity Services script
   useEffect(() => {

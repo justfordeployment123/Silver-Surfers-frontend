@@ -95,7 +95,23 @@ const FAQ = () => {
                   <h3 className="question-text">{faq.question}</h3>
                 </div>
                 <div className="faq-icon">
-                  <span className="icon-plus">{expandedFaq === (faq._id || idx) ? '−' : '+'}</span>
+                  <svg 
+                    className="icon-arrow" 
+                    width="24" 
+                    height="24" 
+                    viewBox="0 0 24 24" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    strokeWidth="2" 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round"
+                    style={{ 
+                      transform: expandedFaq === (faq._id || idx) ? 'rotate(180deg)' : 'rotate(0deg)',
+                      transition: 'transform 0.3s ease'
+                    }}
+                  >
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
                 </div>
               </button>
               
