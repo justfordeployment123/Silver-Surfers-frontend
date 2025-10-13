@@ -552,15 +552,15 @@ const Subscription = () => {
               </div>
             )}
 
-            {/* Team Scan History Section - Only for subscription owners */}
+            {/* Scan History Section - Only for subscription owners */}
             {!currentSubscription.isTeamMember && (
               <div className="bg-white rounded-3xl p-8 shadow-xl">
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">Team Scan History</h2>
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">{currentSubscription.limits?.maxUsers > 1 ? 'Team Scan History' : 'Scan History'}</h2>
                 
                 {scansLoading ? (
                   <div className="flex items-center justify-center py-8">
                     <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
-                    <span className="ml-3 text-gray-600">Loading team scans...</span>
+                    <span className="ml-3 text-gray-600">{currentSubscription.limits?.maxUsers > 1 ? 'Loading team scans...' : 'Loading scans...'}</span>
                   </div>
                 ) : teamScans.length === 0 ? (
                   <div className="text-center py-8">
@@ -569,7 +569,7 @@ const Subscription = () => {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                       </svg>
                     </div>
-                    <p className="text-gray-500">No scans performed by team members yet.</p>
+                    <p className="text-gray-500">{currentSubscription.limits?.maxUsers > 1 ? 'No scans performed by team members yet.' : 'No scans performed yet.'}</p>
                   </div>
                 ) : (
                   <div className="max-h-96 overflow-y-auto space-y-4 pr-2">

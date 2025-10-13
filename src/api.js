@@ -29,6 +29,25 @@ export const login = async (email, password) => {
   }
 };
 
+export const adminLogin = async (email, password) => {
+  try {
+    const res = await api.post('/auth/login', { email, password });
+    if (res.data?.token) {
+      // Verify user is admin
+      if (res.data.user.role !== 'admin') {
+        return { error: 'Access denied. Admin privileges required.' };
+      }
+      localStorage.setItem('token', res.data.token);
+      localStorage.setItem('authToken', res.data.token);
+      localStorage.setItem('userRole', 'admin');
+      localStorage.setItem('adminUser', JSON.stringify(res.data.user));
+    }
+    return res.data;
+  } catch (error) {
+    return { error: error.response?.data?.error || error.message };
+  }
+};
+
 export const register = async (email, password) => {
   try {
     const res = await api.post('/auth/register', { email, password });

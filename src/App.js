@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
@@ -25,56 +25,81 @@ import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import Account from './pages/Account';
 import ProtectedRoute from './components/ProtectedRoute';
-import AdminDashboard from './pages/AdminDashboard';
-import AdminBlog from './pages/AdminBlog';
-import AdminServices from './pages/AdminServices';
-import AdminFaqs from './pages/AdminFaqs';
+import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminBlog from './pages/admin/AdminBlog';
+import AdminFAQs from './pages/admin/AdminFAQs';
+import AdminAnalysis from './pages/admin/AdminAnalysis';
+import AdminContact from './pages/admin/AdminContact';
+import AdminUsers from './pages/admin/AdminUsers';
 import AdminContentManager from './pages/AdminContentManager';
 import AdminLegal from './pages/AdminLegal';
+import AdminLogin from './pages/AdminLogin';
+import AdminLayout from './layouts/AdminLayout';
 import './App.css';
+
+function AppContent() {
+  const location = useLocation();
+  const isAdminRoute = location.pathname.startsWith('/admin');
+
+  return (
+    <div className="App">
+      <ScrollToTop />
+      {!isAdminRoute && <Header />}
+      <main>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          
+          {/* Admin Routes - No Header/Footer */}
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin" element={<ProtectedRoute role="admin"><AdminLayout /></ProtectedRoute>}>
+            <Route index element={<Navigate to="/admin/dashboard" replace />} />
+            <Route path="dashboard" element={<AdminDashboard />} />
+            <Route path="users" element={<AdminUsers />} />
+            <Route path="blog" element={<AdminBlog />} />
+            <Route path="faqs" element={<AdminFAQs />} />
+            <Route path="analysis" element={<AdminAnalysis />} />
+            <Route path="contact" element={<AdminContact />} />
+            <Route path="legal" element={<AdminLegal />} />
+          </Route>
+          
+          {/* Legacy Admin Routes (for backward compatibility) */}
+          <Route path="/admin/content" element={<ProtectedRoute role="admin"><AdminContentManager /></ProtectedRoute>} />
+          
+          {/* Public Routes - With Header/Footer */}
+          <Route path="/services" element={<Services />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/faq" element={<FAQ />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:id" element={<BlogPost />} />
+          <Route path="/success" element={<Success />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/subscription" element={<ProtectedRoute><Subscription /></ProtectedRoute>} />
+          <Route path="/subscription-success" element={<SubscriptionSuccess />} />
+          <Route path="/team/accept" element={<AcceptTeamInvite />} />
+          <Route path="/terms" element={<TermsOfUse />} />
+          <Route path="/terms-of-use" element={<TermsOfUse />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/signup" element={<Register />} />
+          <Route path="/verify-email" element={<VerifyEmail />} />
+          <Route path="/resend-verification" element={<ResendVerification />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/account" element={<ProtectedRoute><Account /></ProtectedRoute>} />
+        </Routes>
+      </main>
+      {!isAdminRoute && <Footer />}
+    </div>
+  );
+}
 
 function App() {
   return (
     <Router>
-      <div className="App">
-        <ScrollToTop />
-        <Header />
-        <main>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/admin" element={<ProtectedRoute role="admin"><Navigate to="/admin/content" replace /></ProtectedRoute>} />
-            <Route path="/admin/content" element={<ProtectedRoute role="admin"><AdminContentManager /></ProtectedRoute>} />
-            <Route path="/admin/blog" element={<ProtectedRoute role="admin"><AdminBlog /></ProtectedRoute>} />
-            <Route path="/admin/services" element={<ProtectedRoute role="admin"><AdminServices /></ProtectedRoute>} />
-            <Route path="/admin/faqs" element={<ProtectedRoute role="admin"><AdminFaqs /></ProtectedRoute>} />
-            <Route path="/admin/legal" element={<ProtectedRoute role="admin"><AdminLegal /></ProtectedRoute>} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/faq" element={<FAQ />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/blog/:id" element={<BlogPost />} />
-            <Route path="/success" element={<Success />} />
-            <Route path="/checkout" element={<Checkout />} />
-            <Route path="/subscription" element={<ProtectedRoute><Subscription /></ProtectedRoute>} />
-            <Route path="/subscription-success" element={<SubscriptionSuccess />} />
-            <Route path="/team/accept" element={<AcceptTeamInvite />} />
-            <Route path="/terms" element={<TermsOfUse />} />
-            <Route path="/terms-of-use" element={<TermsOfUse />} />
-            <Route path="/privacy" element={<PrivacyPolicy />} />
-            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/signup" element={<Register />} />
-            <Route path="/verify-email" element={<VerifyEmail />} />
-            <Route path="/resend-verification" element={<ResendVerification />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/reset-password" element={<ResetPassword />} />
-            <Route path="/account" element={<ProtectedRoute><Account /></ProtectedRoute>} />
-          </Routes>
-        </main>
-        <Footer />
-      </div>
+      <AppContent />
     </Router>
   );
 }
