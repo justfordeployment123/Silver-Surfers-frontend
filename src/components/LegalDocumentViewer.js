@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getLegalDocument, acceptLegalDocument } from '../api';
+import SimpleTextFormatter from './SimpleTextFormatter';
 
 const LegalDocumentViewer = ({ type, onAccept, showAcceptButton = true, className = '' }) => {
   const [document, setDocument] = useState(null);
@@ -146,10 +147,7 @@ const LegalDocumentViewer = ({ type, onAccept, showAcceptButton = true, classNam
 
       {/* Document Content */}
       <div className="bg-white border-x border-b border-gray-200 rounded-b-xl p-6">
-        <div 
-          className="prose prose-lg max-w-none prose-headings:text-gray-900 prose-p:text-gray-700 prose-li:text-gray-700 prose-strong:text-gray-900"
-          dangerouslySetInnerHTML={{ __html: document.content }}
-        />
+        <SimpleTextFormatter text={document.content} />
       </div>
 
       {/* Document Footer */}

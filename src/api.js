@@ -254,7 +254,7 @@ export const getLegalDocument = async (type, language = 'en', region = 'US') => 
 
 export const getAllLegalDocuments = async (language = 'en', region = 'US') => {
   try {
-    const response = await api.get(`/legal?language=${language}&region=${region}`);
+    const response = await api.get(`/admin/legal`);
     return response.data;
   } catch (error) {
     return { error: error.response?.data?.error || error.message };
@@ -392,6 +392,25 @@ export const submitContact = async (payload) => {
 // User: list my analysis records (auth)
 export const listMyAnalysis = async (params = {}) => {
   try { const res = await api.get('/auth/my-analysis', { params }); return res.data; } catch (e) { return { error: e.response?.data?.error || e.message }; }
+};
+
+// Admin: User management
+export const adminListUsers = async (params = {}) => {
+  try { 
+    const res = await api.get('/admin/users', { params }); 
+    return res.data; 
+  } catch (e) { 
+    return { error: e.response?.data?.error || e.message }; 
+  }
+};
+
+export const adminGetUser = async (id) => {
+  try { 
+    const res = await api.get(`/admin/users/${id}`); 
+    return res.data; 
+  } catch (e) { 
+    return { error: e.response?.data?.error || e.message }; 
+  }
 };
 
 // Admin: Contact management

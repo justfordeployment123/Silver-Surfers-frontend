@@ -17,7 +17,7 @@ const Contact = () => {
   phone: "+19146238747",
   phoneDisplay: "+1 914-623-8747",
   address: "2320 E Marshall Ave, Phoenix, AZ 85016",
-    officeHours: "Monday - Friday: 9:00 AM - 5:00 PM EST",
+    officeHours: "Monday - Friday: 9:00 AM - 7:00 PM EST",
     responseTime: "We typically respond within 4-6 hours on weekdays"
   };
 
@@ -237,7 +237,7 @@ const Contact = () => {
                   value={formData.message}
                   onChange={handleInputChange}
                   rows="6"
-                  placeholder="Tell us about your business, current AI visibility challenges, and what you'd like to achieve. We're here to help!"
+                  placeholder=""
                   required
                   className="w-full px-4 py-3 bg-white/90 backdrop-blur-sm rounded-xl border border-gray-300 text-gray-800 placeholder-gray-500 focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-200 shadow-sm resize-none"
                 ></textarea>

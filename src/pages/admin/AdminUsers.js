@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getMe } from '../../api';
+import { adminListUsers, adminGetUser } from '../../api';
 
 const AdminUsers = () => {
   const [users, setUsers] = useState([]);
@@ -10,6 +10,20 @@ const AdminUsers = () => {
   const [filterSubscription, setFilterSubscription] = useState('all');
   const [showUserDetail, setShowUserDetail] = useState(null);
 
+  // Helper function to get usage count from subscription
+  const getUsageCount = (subscription) => {
+    if (!subscription || !subscription.usage) return 0;
+    return typeof subscription.usage === 'object' 
+      ? subscription.usage.scansThisMonth || 0
+      : subscription.usage || 0;
+  };
+
+  // Helper function to get limit from subscription
+  const getUsageLimit = (subscription) => {
+    if (!subscription) return 0;
+    return subscription.limit || subscription.scansPerMonth || 0;
+  };
+
   useEffect(() => {
     loadUsers();
   }, []);
@@ -17,18 +31,13 @@ const AdminUsers = () => {
   const loadUsers = async () => {
     try {
       setLoading(true);
-      // TODO: Replace with actual admin API call
-      const response = await fetch('/api/admin/users', {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
-      });
+      setError('');
       
-      if (response.ok) {
-        const data = await response.json();
-        setUsers(data.users || []);
-      } else {
-        // Mock data for now
+      const response = await adminListUsers();
+      
+      if (response.error) {
+        setError(response.error);
+        // Fallback to mock data if API fails
         setUsers([
           {
             _id: '1',
@@ -70,6 +79,8 @@ const AdminUsers = () => {
             subscription: null
           }
         ]);
+      } else {
+        setUsers(response.users || []);
       }
     } catch (err) {
       setError('Failed to load users');
@@ -136,7 +147,7 @@ const AdminUsers = () => {
               placeholder="Search by email or name..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 bg-white"
             />
           </div>
           <div>
@@ -144,11 +155,11 @@ const AdminUsers = () => {
             <select
               value={filterRole}
               onChange={(e) => setFilterRole(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 bg-white"
             >
-              <option value="all">All Roles</option>
-              <option value="user">User</option>
-              <option value="admin">Admin</option>
+              <option value="all" className="text-gray-900">All Roles</option>
+              <option value="user" className="text-gray-900">User</option>
+              <option value="admin" className="text-gray-900">Admin</option>
             </select>
           </div>
           <div>
@@ -156,11 +167,11 @@ const AdminUsers = () => {
             <select
               value={filterSubscription}
               onChange={(e) => setFilterSubscription(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 bg-white"
             >
-              <option value="all">All</option>
-              <option value="active">Active</option>
-              <option value="none">No Subscription</option>
+              <option value="all" className="text-gray-900">All</option>
+              <option value="active" className="text-gray-900">Active</option>
+              <option value="none" className="text-gray-900">No Subscription</option>
             </select>
           </div>
         </div>
@@ -215,12 +226,6 @@ const AdminUsers = () => {
                   Subscription
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Usage
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Status
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Joined
                 </th>
                 <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -231,7 +236,7 @@ const AdminUsers = () => {
             <tbody className="bg-white divide-y divide-gray-200">
               {filteredUsers.length === 0 ? (
                 <tr>
-                  <td colSpan="7" className="px-6 py-12 text-center text-sm text-gray-500">
+                  <td colSpan="5" className="px-6 py-12 text-center text-sm text-gray-500">
                     No users found
                   </td>
                 </tr>
@@ -248,7 +253,9 @@ const AdminUsers = () => {
                           </div>
                         </div>
                         <div className="ml-4">
-                          <div className="text-sm font-medium text-gray-900">{user.name || 'N/A'}</div>
+                          <div className="text-sm font-medium text-gray-900">
+                            {user.name || user.email.split('@')[0] || 'Unknown User'}
+                          </div>
                           <div className="text-sm text-gray-500">{user.email}</div>
                         </div>
                       </div>
@@ -261,47 +268,18 @@ const AdminUsers = () => {
                     <td className="px-6 py-4 whitespace-nowrap">
                       {user.subscription ? (
                         <div>
-                          <div className="text-sm font-medium text-gray-900 capitalize">{user.subscription.plan}</div>
+                          <div className="text-sm font-medium text-gray-900 capitalize">
+                            {user.subscription.planId || user.subscription.plan || 'Unknown Plan'}
+                          </div>
                           <div className="text-xs text-gray-500">
-                            Until {new Date(user.subscription.currentPeriodEnd).toLocaleDateString()}
+                            {user.subscription.currentPeriodEnd && new Date(user.subscription.currentPeriodEnd).getTime() > 0
+                              ? `Until ${new Date(user.subscription.currentPeriodEnd).toLocaleDateString()}`
+                              : 'No expiry date'
+                            }
                           </div>
                         </div>
                       ) : (
                         <span className="text-sm text-gray-400">No subscription</span>
-                      )}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {user.subscription ? (
-                        <div>
-                          <div className="text-sm text-gray-900">
-                            {user.subscription.usage} / {user.subscription.limit}
-                          </div>
-                          <div className="w-full bg-gray-200 rounded-full h-2 mt-1">
-                            <div
-                              className={`h-2 rounded-full ${
-                                user.subscription.usage / user.subscription.limit > 0.8
-                                  ? 'bg-red-500'
-                                  : user.subscription.usage / user.subscription.limit > 0.5
-                                  ? 'bg-yellow-500'
-                                  : 'bg-green-500'
-                              }`}
-                              style={{ width: `${(user.subscription.usage / user.subscription.limit) * 100}%` }}
-                            ></div>
-                          </div>
-                        </div>
-                      ) : (
-                        <span className="text-sm text-gray-400">-</span>
-                      )}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {user.subscription ? (
-                        <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusBadge(user.subscription.status)}`}>
-                          {user.subscription.status}
-                        </span>
-                      ) : (
-                        <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800">
-                          inactive
-                        </span>
                       )}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -310,12 +288,9 @@ const AdminUsers = () => {
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <button
                         onClick={() => setShowUserDetail(user)}
-                        className="text-indigo-600 hover:text-indigo-900 mr-3"
+                        className="text-indigo-600 hover:text-indigo-900"
                       >
                         View
-                      </button>
-                      <button className="text-gray-600 hover:text-gray-900">
-                        Edit
                       </button>
                     </td>
                   </tr>
@@ -349,7 +324,9 @@ const AdminUsers = () => {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Name</label>
-                  <p className="mt-1 text-sm text-gray-900">{showUserDetail.name || 'N/A'}</p>
+                  <p className="mt-1 text-sm text-gray-900">
+                    {showUserDetail.name || showUserDetail.email.split('@')[0] || 'Unknown User'}
+                  </p>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Role</label>
@@ -366,22 +343,27 @@ const AdminUsers = () => {
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-700">Plan</label>
-                      <p className="mt-1 text-sm text-gray-900 capitalize">{showUserDetail.subscription.plan}</p>
+                      <p className="mt-1 text-sm text-gray-900 capitalize">
+                        {showUserDetail.subscription.planId || showUserDetail.subscription.plan || 'Unknown Plan'}
+                      </p>
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700">Status</label>
                       <p className="mt-1 text-sm text-gray-900 capitalize">{showUserDetail.subscription.status}</p>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700">Usage</label>
+                      <label className="block text-sm font-medium text-gray-700">Period End</label>
                       <p className="mt-1 text-sm text-gray-900">
-                        {showUserDetail.subscription.usage} / {showUserDetail.subscription.limit} scans
+                        {showUserDetail.subscription.currentPeriodEnd && new Date(showUserDetail.subscription.currentPeriodEnd).getTime() > 0
+                          ? new Date(showUserDetail.subscription.currentPeriodEnd).toLocaleDateString()
+                          : 'No expiry date'
+                        }
                       </p>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700">Period End</label>
-                      <p className="mt-1 text-sm text-gray-900">
-                        {new Date(showUserDetail.subscription.currentPeriodEnd).toLocaleDateString()}
+                      <label className="block text-sm font-medium text-gray-700">Billing Cycle</label>
+                      <p className="mt-1 text-sm text-gray-900 capitalize">
+                        {showUserDetail.subscription.billingCycle || 'Unknown'}
                       </p>
                     </div>
                   </div>
