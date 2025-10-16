@@ -413,6 +413,34 @@ export const adminGetUser = async (id) => {
   }
 };
 
+export const adminResetUserUsage = async (userId) => {
+  try { 
+    const res = await api.post(`/admin/users/${userId}/reset-usage`); 
+    return res.data; 
+  } catch (e) { 
+    return { error: e.response?.data?.error || e.message }; 
+  }
+};
+
+export const adminUpdateUserSubscription = async (userId, planId, billingCycle = 'monthly') => {
+  try { 
+    const res = await api.post('/admin/subscription/update', { userId, planId, billingCycle }); 
+    return res.data; 
+  } catch (e) { 
+    return { error: e.response?.data?.error || e.message }; 
+  }
+};
+
+// User subscription management
+export const createPortalSession = async () => {
+  try { 
+    const res = await api.post('/create-portal-session'); 
+    return res.data; 
+  } catch (e) { 
+    return { error: e.response?.data?.error || e.message }; 
+  }
+};
+
 // Admin: Contact management
 export const adminListContact = async (params = {}) => {
   try { const res = await api.get('/admin/contact', { params }); return res.data; } catch (e) { return { error: e.response?.data?.error || e.message }; }

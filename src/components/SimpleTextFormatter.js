@@ -52,3 +52,4 @@ const SimpleTextFormatter = ({ text }) => {
 };
 
 export default SimpleTextFormatter;
+

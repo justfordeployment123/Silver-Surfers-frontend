@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { adminListUsers, adminGetUser } from '../../api';
+import { adminListUsers, adminGetUser, adminResetUserUsage, adminUpdateUserSubscription } from '../../api';
 
 const AdminUsers = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [filterRole, setFilterRole] = useState('all');
   const [filterSubscription, setFilterSubscription] = useState('all');
   const [showUserDetail, setShowUserDetail] = useState(null);
+  const [showPlanModal, setShowPlanModal] = useState(null);
 
   // Helper function to get usage count from subscription
   const getUsageCount = (subscription) => {
@@ -116,6 +118,41 @@ const AdminUsers = () => {
       : 'bg-blue-100 text-blue-800';
   };
 
+  const handleResetUsage = async (userId) => {
+    if (!window.confirm('Are you sure you want to reset this user\'s monthly usage?')) {
+      return;
+    }
+
+    try {
+      const result = await adminResetUserUsage(userId);
+      if (result.error) {
+        setError(result.error);
+      } else {
+        setSuccess('Usage reset successfully');
+        loadUsers(); // Reload users
+        setTimeout(() => setSuccess(''), 3000);
+      }
+    } catch (err) {
+      setError('Failed to reset usage');
+    }
+  };
+
+  const handleUpdatePlan = async (userId, planId) => {
+    try {
+      const result = await adminUpdateUserSubscription(userId, planId);
+      if (result.error) {
+        setError(result.error);
+      } else {
+        setSuccess('Plan updated successfully');
+        loadUsers(); // Reload users
+        setShowPlanModal(null);
+        setTimeout(() => setSuccess(''), 3000);
+      }
+    } catch (err) {
+      setError('Failed to update plan');
+    }
+  };
+
   if (loading) {
     return (
       <div className="space-y-6">
@@ -203,12 +240,19 @@ const AdminUsers = () => {
         </div>
       </div>
 
-      {/* Error Message */}
-      {error && (
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-          <p className="text-sm text-red-800">{error}</p>
-        </div>
-      )}
+       {/* Success Message */}
+       {success && (
+         <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+           <p className="text-sm text-green-800">{success}</p>
+         </div>
+       )}
+
+       {/* Error Message */}
+       {error && (
+         <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+           <p className="text-sm text-red-800">{error}</p>
+         </div>
+       )}
 
       {/* Users Table */}
       <div className="bg-white shadow rounded-lg overflow-hidden">
@@ -360,22 +404,79 @@ const AdminUsers = () => {
                         }
                       </p>
                     </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700">Billing Cycle</label>
-                      <p className="mt-1 text-sm text-gray-900 capitalize">
-                        {showUserDetail.subscription.billingCycle || 'Unknown'}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-};
+                     <div>
+                       <label className="block text-sm font-medium text-gray-700">Billing Cycle</label>
+                       <p className="mt-1 text-sm text-gray-900 capitalize">
+                         {showUserDetail.subscription.billingCycle || 'Unknown'}
+                       </p>
+                     </div>
+                   </div>
+                 </div>
+               )}
 
-export default AdminUsers;
+               {/* Admin Actions */}
+               <div className="border-t pt-4">
+                 <h4 className="text-md font-medium text-gray-900 mb-3">Admin Actions</h4>
+                 <div className="space-y-2">
+                   <button
+                     onClick={() => handleResetUsage(showUserDetail._id)}
+                     className="w-full px-3 py-2 bg-yellow-500 hover:bg-yellow-600 text-white text-sm font-medium rounded-lg transition-colors"
+                   >
+                     Reset Monthly Usage
+                   </button>
+                   <button
+                     onClick={() => setShowPlanModal(showUserDetail)}
+                     className="w-full px-3 py-2 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium rounded-lg transition-colors"
+                   >
+                     Update Subscription Plan
+                   </button>
+                 </div>
+               </div>
+             </div>
+           </div>
+         </div>
+       )}
+
+       {/* Plan Update Modal */}
+       {showPlanModal && (
+         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+           <div className="relative top-20 mx-auto p-5 border w-11/12 max-w-md shadow-lg rounded-lg bg-white">
+             <div className="flex justify-between items-center mb-4">
+               <h3 className="text-lg font-medium text-gray-900">Update Plan</h3>
+               <button
+                 onClick={() => setShowPlanModal(null)}
+                 className="text-gray-400 hover:text-gray-600"
+               >
+                 <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                 </svg>
+               </button>
+             </div>
+             <div className="space-y-4">
+               <p className="text-sm text-gray-600">
+                 Update subscription plan for <strong>{showPlanModal.email}</strong>
+               </p>
+               <div className="space-y-2">
+                 <button
+                   onClick={() => handleUpdatePlan(showPlanModal._id, 'starter')}
+                   className="w-full px-3 py-2 bg-green-500 hover:bg-green-600 text-white text-sm font-medium rounded-lg transition-colors"
+                 >
+                   Set to Starter Plan (5 scans/month)
+                 </button>
+                 <button
+                   onClick={() => handleUpdatePlan(showPlanModal._id, 'pro')}
+                   className="w-full px-3 py-2 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium rounded-lg transition-colors"
+                 >
+                   Set to Pro Plan (12 scans/month)
+                 </button>
+               </div>
+             </div>
+           </div>
+         </div>
+       )}
+     </div>
+   );
+ };
+ 
+ export default AdminUsers;
 

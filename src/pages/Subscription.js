@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { createCheckoutSession, getSubscription, getSubscriptionPlans, updateSubscription, cancelSubscription, inviteTeamMember, removeTeamMember, getTeamMembers, leaveTeam, getTeamScans } from '../api';
+import { createCheckoutSession, getSubscription, getSubscriptionPlans, createPortalSession, cancelSubscription, inviteTeamMember, removeTeamMember, getTeamMembers, leaveTeam, getTeamScans } from '../api';
 
 const Subscription = () => {
   const [currentSubscription, setCurrentSubscription] = useState(null);
@@ -122,23 +122,20 @@ const Subscription = () => {
     }
   };
 
-  const handleUpdatePlan = async (planId, billingCycle = 'monthly') => {
+  const handleManageSubscription = async () => {
     try {
       setActionLoading(true);
       setError('');
-      const result = await updateSubscription(planId, billingCycle);
+      const result = await createPortalSession();
       
       if (result.error) {
         setError(result.error);
       } else {
-        setSuccess('Subscription updated successfully!');
-        setTimeout(() => {
-          setSuccess('');
-          loadData();
-        }, 3000);
+        // Redirect to Stripe Customer Portal
+        window.location.href = result.url;
       }
     } catch (err) {
-      setError('Failed to update subscription');
+      setError('Failed to open subscription management portal');
     } finally {
       setActionLoading(false);
     }
@@ -412,6 +409,19 @@ const Subscription = () => {
                   <span className="font-semibold text-gray-900">
                     {currentSubscription.usage?.scansThisMonth || 0} / {currentSubscription.limits?.scansPerMonth === -1 ? '∞' : currentSubscription.limits?.scansPerMonth}
                   </span>
+                </div>
+
+                <div className="pt-4 border-t border-gray-200">
+                  <button
+                    onClick={handleManageSubscription}
+                    disabled={actionLoading}
+                    className="w-full px-4 py-2 bg-blue-500 hover:bg-blue-600 disabled:bg-gray-300 text-white font-semibold rounded-lg transition-colors"
+                  >
+                    {actionLoading ? 'Opening Portal...' : 'Manage Subscription'}
+                  </button>
+                  <p className="text-xs text-gray-500 mt-2 text-center">
+                    Change plan, update billing, or cancel subscription
+                  </p>
                 </div>
 
                 {currentSubscription.cancelAtPeriodEnd && (
@@ -728,11 +738,11 @@ const Subscription = () => {
                         
                         {canUpgrade && (
                           <button
-                            onClick={() => handleUpdatePlan(plan.id, billingCycle)}
+                            onClick={handleManageSubscription}
                             disabled={actionLoading}
                             className="px-4 py-2 bg-blue-500 hover:bg-blue-600 disabled:bg-gray-300 text-white text-sm font-semibold rounded-lg transition-colors"
                           >
-                            {actionLoading ? 'Updating...' : 'Upgrade'}
+                            {actionLoading ? 'Opening Portal...' : 'Manage Plan'}
                           </button>
                         )}
                       </div>
