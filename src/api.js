@@ -452,6 +452,15 @@ export const createPortalSession = async () => {
   }
 };
 
+export const upgradeSubscription = async (planId, billingCycle = 'monthly') => {
+  try { 
+    const res = await api.post('/subscription/upgrade', { planId, billingCycle }); 
+    return res.data; 
+  } catch (e) { 
+    return { error: e.response?.data?.error || e.message }; 
+  }
+};
+
 // Admin: Contact management
 export const adminListContact = async (params = {}) => {
   try { const res = await api.get('/admin/contact', { params }); return res.data; } catch (e) { return { error: e.response?.data?.error || e.message }; }

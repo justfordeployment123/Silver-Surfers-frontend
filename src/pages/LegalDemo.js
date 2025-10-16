@@ -25,7 +25,7 @@ const LegalDemo = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-green-900 to-teal-900 pt-24 pb-8"> {/* Dark background for header visibility */}
       <div className="container mx-auto px-4 max-w-6xl">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
