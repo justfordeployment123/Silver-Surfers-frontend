@@ -2,6 +2,7 @@
 import axios from 'axios';
 
 const BACKEND_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000';
+const API_BASE_URL = BACKEND_URL;
 
 // Create a single axios instance so we can attach auth headers automatically
 const api = axios.create({ baseURL: BACKEND_URL });
@@ -125,10 +126,20 @@ export const quickAudit = async (email, url) => {
       return { error: pre?.error || 'URL not reachable. Please check the domain and try again.' };
     }
     const normalized = pre?.finalUrl || pre?.normalizedUrl || url;
-    const response = await api.post('/quick-audit', { email, url: normalized });
-    return response.data;
+    
+    // Quick audit is FREE and doesn't require authentication
+    const response = await fetch(`${API_BASE_URL}/quick-audit`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, url: normalized })
+    });
+    
+    const data = await response.json();
+    return data;
   } catch (error) {
-    return { error: error.response?.data?.error || error.message };
+    return { error: error.message || 'Network error occurred' };
   }
 };
 

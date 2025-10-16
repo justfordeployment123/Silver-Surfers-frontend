@@ -132,7 +132,7 @@ const handleScanSubmit = async (e) => {
       setError(res.error);
     } else {
       // Backend typically returns a message like "Audit started"
-      setSuccess(res?.message || 'Your free scan has started. We\'ll email you the results shortly.');
+      setSuccess(res?.message || '🆓 Your FREE scan has started! We\'ll email you the results shortly - no subscription required!');
       // Optionally clear the form
       setScanData({ websiteUrl: '', email: '' });
     }
