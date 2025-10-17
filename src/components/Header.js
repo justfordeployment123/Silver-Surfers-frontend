@@ -197,7 +197,7 @@ const Header = () => {
                     <div className="py-1">
                       <div className={`px-4 py-2 text-xs ${isScrolled ? 'text-gray-600' : 'text-gray-300'}`}>{user.email}</div>
                       {user.role === 'admin' && (
-                        <Link to="/admin/content" onClick={() => setIsUserMenuOpen(false)} className={`block px-4 py-2 text-sm ${isScrolled ? 'text-gray-800 hover:bg-gray-100' : 'text-gray-200 hover:bg-white/10'}`}>Manage Content</Link>
+                        <Link to="/admin/dashboard" onClick={() => setIsUserMenuOpen(false)} className={`block px-4 py-2 text-sm ${isScrolled ? 'text-gray-800 hover:bg-gray-100' : 'text-gray-200 hover:bg-white/10'}`}>Switch to Admin Dashboard</Link>
                       )}
                       <Link to="/account" onClick={() => setIsUserMenuOpen(false)} className={`block px-4 py-2 text-sm ${isScrolled ? 'text-gray-800 hover:bg-gray-100' : 'text-gray-200 hover:bg-white/10'}`}>Account</Link>
                       <button onClick={() => { setIsUserMenuOpen(false); handleLogout(); }} className={`w-full text-left px-4 py-2 text-sm ${isScrolled ? 'text-red-600 hover:bg-red-50' : 'text-red-400 hover:bg-red-500/10'}`}>Logout</button>

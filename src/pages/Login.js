@@ -21,6 +21,7 @@ export default function Login() {
         stored.startsWith('/') && 
         !stored.includes('/api') && 
         !stored.includes('undefined') &&
+        !stored.includes('/dashboard/') && // Block dashboard sub-routes
         !['/login','/signup','/verify-email','/resend-verification','/forgot-password','/reset-password'].includes(stored);
       redirectTo = isValidRoute ? stored : '/';
     }
@@ -39,7 +40,7 @@ export default function Login() {
   // Clean up invalid lastRoute on mount
   useEffect(() => {
     const lastRoute = localStorage.getItem('lastRoute');
-    if (lastRoute && (lastRoute.includes('/api') || lastRoute.includes('undefined') || !lastRoute.startsWith('/'))) {
+    if (lastRoute && (lastRoute.includes('/api') || lastRoute.includes('undefined') || !lastRoute.startsWith('/') || lastRoute.includes('/dashboard/'))) {
       console.warn('Clearing invalid lastRoute:', lastRoute);
       localStorage.removeItem('lastRoute');
     }
