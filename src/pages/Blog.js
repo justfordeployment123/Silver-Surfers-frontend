@@ -29,11 +29,19 @@ const Blog = () => {
 
 
   const featuredPost = useMemo(() => {
-    // Pick the latest as featured if backend doesn't mark
     if (!posts.length) return null;
+    
+    // First, try to find a post explicitly marked as featured
+    const explicitlyFeatured = posts.find(post => post.featured === true);
+    if (explicitlyFeatured) {
+      return explicitlyFeatured;
+    }
+    
+    // If no explicitly featured post, pick the latest post as featured
     return posts[0];
   }, [posts]);
-  const regularPosts = posts.filter(post => !post.featured);
+  
+  const regularPosts = posts.filter(post => post !== featuredPost);
 
   const handleSubscribe = (e) => {
     e.preventDefault();
