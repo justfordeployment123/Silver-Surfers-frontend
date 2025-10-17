@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { confirmSubscriptionSuccess } from '../api';
+import { confirmSubscriptionSuccess, getSubscription } from '../api';
 
 const SubscriptionSuccess = () => {
   const [searchParams] = useSearchParams();
@@ -8,6 +8,8 @@ const SubscriptionSuccess = () => {
   const [loading, setLoading] = useState(true);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
+  const [subscription, setSubscription] = useState(null);
+  const [subscriptionLoading, setSubscriptionLoading] = useState(true);
 
   useEffect(() => {
     const sessionId = searchParams.get('session_id');
@@ -17,7 +19,23 @@ const SubscriptionSuccess = () => {
       setError('No session ID found');
       setLoading(false);
     }
+    
+    // Fetch subscription data to check if user is a team member
+    fetchSubscription();
   }, [searchParams]);
+
+  const fetchSubscription = async () => {
+    try {
+      const result = await getSubscription();
+      if (result && !result.error) {
+        setSubscription(result);
+      }
+    } catch (err) {
+      console.error('Failed to fetch subscription:', err);
+    } finally {
+      setSubscriptionLoading(false);
+    }
+  };
 
   const confirmSubscription = async (sessionId) => {
     try {
@@ -36,7 +54,7 @@ const SubscriptionSuccess = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-950 via-green-950 via-teal-950 to-cyan-900">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-950 via-green-950 via-teal-950 to-cyan-900 pt-24 pb-10">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
           <p className="text-white text-lg">Confirming your subscription...</p>
@@ -46,7 +64,7 @@ const SubscriptionSuccess = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-950 via-green-950 via-teal-950 to-cyan-900 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-950 via-green-950 via-teal-950 to-cyan-900 flex items-center justify-center pt-24 pb-10 px-4">
       <div className="max-w-2xl mx-auto text-center">
         {success ? (
           <div className="bg-white rounded-3xl p-12 shadow-2xl">
@@ -78,12 +96,24 @@ const SubscriptionSuccess = () => {
             </div>
 
             <div className="space-y-4">
-              <button
-                onClick={() => navigate('/subscription')}
-                className="w-full py-3 px-6 bg-gradient-to-r from-blue-500 via-green-600 to-teal-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
-              >
-                Manage Subscription
-              </button>
+              {/* Only show "Manage Subscription" button if user is not a team member */}
+              {!subscriptionLoading && subscription && !subscription.isTeamMember && (
+                <button
+                  onClick={() => navigate('/subscription')}
+                  className="w-full py-3 px-6 bg-gradient-to-r from-blue-500 via-green-600 to-teal-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+                >
+                  Manage Subscription
+                </button>
+              )}
+              
+              {/* Show team member message if they are a team member */}
+              {!subscriptionLoading && subscription && subscription.isTeamMember && (
+                <div className="p-4 bg-blue-50 border border-blue-200 rounded-xl">
+                  <p className="text-blue-800 text-sm text-center">
+                    You're using a team plan. Contact the plan owner to manage the subscription.
+                  </p>
+                </div>
+              )}
               
               <button
                 onClick={() => navigate('/')}
