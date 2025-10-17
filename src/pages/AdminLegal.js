@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { createLegalDocument, updateLegalDocument, publishLegalDocument, getAllLegalDocuments } from '../api';
+import { updateLegalDocument, publishLegalDocument, getAllLegalDocuments } from '../api';
 
 const AdminLegal = () => {
   const [documents, setDocuments] = useState([]);
@@ -79,17 +79,12 @@ const AdminLegal = () => {
     setSuccess('');
 
     try {
-      let result;
-      if (editingDocument) {
-        result = await updateLegalDocument(editingDocument._id, formData);
-      } else {
-        result = await createLegalDocument(formData);
-      }
+      const result = await updateLegalDocument(editingDocument._id, formData);
 
       if (result.error) {
         setError(result.error);
       } else {
-        setSuccess(editingDocument ? 'Document updated successfully!' : 'Document created successfully!');
+        setSuccess('Document updated successfully!');
         setShowForm(false);
         setEditingDocument(null);
         resetForm();
@@ -132,17 +127,6 @@ const AdminLegal = () => {
       region: document.region,
       acceptanceRequired: document.acceptanceRequired
     });
-    setShowForm(true);
-  };
-
-  const handleQuickCreate = (type) => {
-    const docType = documentTypes.find(t => t.value === type);
-    setFormData(prev => ({
-      ...prev,
-      type: type,
-      title: docType.label,
-      content: `# ${docType.label}\n\nEnter your ${docType.label.toLowerCase()} content here...\n\n## Section 1\nAdd your content here...\n\n## Section 2\nAdd more content here...`
-    }));
     setShowForm(true);
   };
 
@@ -272,32 +256,6 @@ const AdminLegal = () => {
         </div>
       )}
 
-      {/* Quick Create Section */}
-      <div className="bg-white shadow-md rounded-xl p-6">
-        <h3 className="text-xl font-bold text-gray-900 mb-4">Quick Create</h3>
-        <p className="text-sm text-gray-600 mb-6">Start with a template for your legal documents</p>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          {documentTypes.map(type => (
-            <button
-              key={type.value}
-              onClick={() => handleQuickCreate(type.value)}
-              className="p-6 text-left border-2 border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-all duration-200 group"
-            >
-              <div className="flex items-center mb-3">
-                <span className="text-3xl mr-4">{type.icon}</span>
-                <div>
-                  <h4 className="font-semibold text-gray-900 text-lg">{type.label}</h4>
-                  <p className="text-sm text-gray-500">{type.description}</p>
-                </div>
-              </div>
-              <div className="text-sm text-blue-600 font-medium">
-                Click to create template
-              </div>
-            </button>
-          ))}
-        </div>
-      </div>
-
       {/* Documents List */}
       <div className="bg-white shadow-md rounded-xl overflow-hidden">
         <div className="px-6 py-4 border-b border-gray-200 bg-gradient-to-r from-gray-50 to-gray-100">
@@ -310,8 +268,8 @@ const AdminLegal = () => {
             <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
-            <h3 className="mt-2 text-sm font-medium text-gray-900">No legal documents</h3>
-            <p className="mt-1 text-sm text-gray-500">Create your Terms of Service and Privacy Policy above.</p>
+            <h3 className="mt-2 text-sm font-medium text-gray-900">No legal documents found</h3>
+            <p className="mt-1 text-sm text-gray-500">Legal documents should be created in the database. Contact your developer if none are visible.</p>
           </div>
         ) : (
           <div className="divide-y divide-gray-200">
@@ -372,10 +330,10 @@ const AdminLegal = () => {
               <div className="flex justify-between items-center mb-6">
                 <div>
                   <h3 className="text-2xl font-bold text-gray-900">
-                    {editingDocument ? 'Edit Document' : 'Create New Document'}
+                    Edit Document
                   </h3>
                   <p className="text-sm text-gray-600 mt-1">
-                    {editingDocument ? 'Update your legal document' : 'Fill in the details to create a new legal document'}
+                    Update your legal document
                   </p>
                 </div>
                 <button
@@ -606,7 +564,7 @@ const AdminLegal = () => {
                         Saving...
                       </>
                     ) : (
-                      editingDocument ? 'Update Document' : 'Create Document'
+                      'Update Document'
                     )}
                   </button>
                 </div>

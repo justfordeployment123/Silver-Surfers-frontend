@@ -6,7 +6,6 @@ const AdminQuickScans = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
-  const [statusFilter, setStatusFilter] = useState('all');
   const [sortBy, setSortBy] = useState('scanDate');
   const [sortOrder, setSortOrder] = useState('desc');
   const [refreshing, setRefreshing] = useState(false);
@@ -20,7 +19,7 @@ const AdminQuickScans = () => {
 
   useEffect(() => {
     loadQuickScans();
-  }, [statusFilter, sortBy, sortOrder]);
+  }, [sortBy, sortOrder]);
 
   useEffect(() => {
     const delayedSearch = setTimeout(() => {
@@ -38,7 +37,6 @@ const AdminQuickScans = () => {
       
       const params = {
         limit: 100,
-        status: statusFilter !== 'all' ? statusFilter : undefined,
         search: searchQuery || undefined,
         sortBy,
         sortOrder
@@ -77,22 +75,6 @@ const AdminQuickScans = () => {
     setRefreshing(true);
     await loadQuickScans();
     setRefreshing(false);
-  };
-
-  const getStatusColor = (status) => {
-    switch (status) {
-      case 'completed':
-        return 'bg-green-100 text-green-800';
-      case 'failed':
-        return 'bg-red-100 text-red-800';
-      default:
-        return 'bg-gray-100 text-gray-800';
-    }
-  };
-
-  const formatDate = (dateString) => {
-    if (!dateString) return '';
-    return new Date(dateString).toLocaleString();
   };
 
   const handleSort = (field) => {
@@ -255,15 +237,6 @@ const AdminQuickScans = () => {
             />
           </div>
           <select
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
-            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
-          >
-            <option value="all">All Status</option>
-            <option value="completed">Completed</option>
-            <option value="failed">Failed</option>
-          </select>
-          <select
             value={`${sortBy}-${sortOrder}`}
             onChange={(e) => {
               const [field, order] = e.target.value.split('-');
@@ -282,7 +255,6 @@ const AdminQuickScans = () => {
           <button
             onClick={() => {
               setSearchQuery('');
-              setStatusFilter('all');
               setSortBy('scanDate');
               setSortOrder('desc');
             }}
@@ -348,22 +320,6 @@ const AdminQuickScans = () => {
                       )}
                     </button>
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Status
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    <button
-                      onClick={() => handleSort('scanDate')}
-                      className="hover:text-gray-700 flex items-center"
-                    >
-                      Scan Date
-                      {sortBy === 'scanDate' && (
-                        <span className="ml-1">
-                          {sortOrder === 'asc' ? '↑' : '↓'}
-                        </span>
-                      )}
-                    </button>
-                  </th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
@@ -376,14 +332,6 @@ const AdminQuickScans = () => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm text-gray-900">{scan.email}</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(scan.status)}`}>
-                        {scan.status}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {formatDate(scan.scanDate)}
                     </td>
                   </tr>
                 ))}

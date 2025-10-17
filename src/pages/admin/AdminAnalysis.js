@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { adminListAnalysis, adminRerunAnalysis } from '../../api';
+import { adminListAnalysis } from '../../api';
 
 const AdminAnalysis = () => {
   const [analysis, setAnalysis] = useState([]);
@@ -54,26 +54,6 @@ const AdminAnalysis = () => {
     setRefreshing(true);
     await loadAnalysis();
     setRefreshing(false);
-  };
-
-  const handleRerun = async (record) => {
-    if (!window.confirm(`Re-run analysis for ${record.url}?`)) {
-      return;
-    }
-    
-    try {
-      const idOrTaskId = record._id || record.taskId;
-      const result = await adminRerunAnalysis(idOrTaskId);
-      
-      if (result.error) {
-        alert(`Error: ${result.error}`);
-      } else {
-        alert('Analysis re-run queued successfully');
-        loadAnalysis(); // Refresh the list
-      }
-    } catch (err) {
-      alert('Failed to re-run analysis');
-    }
   };
 
   const getStatusColor = (status) => {
@@ -261,13 +241,6 @@ const AdminAnalysis = () => {
                           {typeof record.attachmentCount === 'number' && (
                             <p><span className="font-medium">PDFs:</span> {record.attachmentCount}</p>
                           )}
-                          {record.reportDirectory && (
-                            <p><span className="font-medium">Directory:</span> 
-                              <span className="font-mono text-xs bg-gray-100 px-2 py-1 rounded ml-1">
-                                {record.reportDirectory}
-                              </span>
-                            </p>
-                          )}
                         </div>
                         
                         {record.failureReason && (
@@ -284,17 +257,6 @@ const AdminAnalysis = () => {
                               <span className="font-medium">Email Error:</span> {record.emailError}
                             </p>
                           </div>
-                        )}
-                      </div>
-                      
-                      <div className="ml-4 flex-shrink-0">
-                        {record.email && record.url && (
-                          <button
-                            onClick={() => handleRerun(record)}
-                            className="bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded text-sm font-medium transition-colors"
-                          >
-                            Re-run
-                          </button>
                         )}
                       </div>
                     </div>

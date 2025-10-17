@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { adminListUsers, adminGetUser, adminResetUserUsage, adminUpdateUserSubscription } from '../../api';
+import { adminListUsers, adminGetUser, adminResetUserUsage, adminUpdateUserSubscription, adminUpdateUserRole } from '../../api';
 
 const AdminUsers = () => {
   const [users, setUsers] = useState([]);
@@ -11,6 +11,7 @@ const AdminUsers = () => {
   const [filterSubscription, setFilterSubscription] = useState('all');
   const [showUserDetail, setShowUserDetail] = useState(null);
   const [showPlanModal, setShowPlanModal] = useState(null);
+  const [currentUserId, setCurrentUserId] = useState(null);
 
   // Helper function to get usage count from subscription
   const getUsageCount = (subscription) => {
@@ -28,6 +29,16 @@ const AdminUsers = () => {
 
   useEffect(() => {
     loadUsers();
+    // Get current user ID from token
+    const token = localStorage.getItem('token');
+    if (token) {
+      try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        setCurrentUserId(payload.userId);
+      } catch (e) {
+        console.error('Failed to decode token:', e);
+      }
+    }
   }, []);
 
   const loadUsers = async () => {
@@ -150,6 +161,27 @@ const AdminUsers = () => {
       }
     } catch (err) {
       setError('Failed to update plan');
+    }
+  };
+
+  const handleUpdateRole = async (userId, newRole) => {
+    const action = newRole === 'admin' ? 'promote to admin' : 'remove admin privileges';
+    if (!window.confirm(`Are you sure you want to ${action} for this user?`)) {
+      return;
+    }
+
+    try {
+      const result = await adminUpdateUserRole(userId, newRole);
+      if (result.error) {
+        setError(result.error);
+      } else {
+        setSuccess(`User role updated to ${newRole}`);
+        loadUsers(); // Reload users
+        setShowUserDetail(null); // Close detail modal
+        setTimeout(() => setSuccess(''), 3000);
+      }
+    } catch (err) {
+      setError('Failed to update user role');
     }
   };
 
@@ -347,20 +379,21 @@ const AdminUsers = () => {
 
       {/* User Detail Modal */}
       {showUserDetail && (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
-          <div className="relative top-20 mx-auto p-5 border w-11/12 max-w-2xl shadow-lg rounded-lg bg-white">
-            <div className="flex justify-between items-center mb-4">
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50 flex items-center justify-center p-4">
+          <div className="relative mx-auto w-full max-w-2xl shadow-lg rounded-lg bg-white max-h-[90vh] flex flex-col">
+            <div className="flex justify-between items-center p-6 border-b border-gray-200 flex-shrink-0">
               <h3 className="text-lg font-medium text-gray-900">User Details</h3>
               <button
                 onClick={() => setShowUserDetail(null)}
-                className="text-gray-400 hover:text-gray-600"
+                className="text-gray-400 hover:text-gray-600 transition-colors"
               >
                 <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
             </div>
-            <div className="space-y-4">
+            <div className="overflow-y-auto flex-1 p-6">
+              <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Email</label>
@@ -430,29 +463,56 @@ const AdminUsers = () => {
                    >
                      Update Subscription Plan
                    </button>
+                   
+                   {/* Role Management */}
+                   <div className="border-t pt-3 mt-3">
+                     <h5 className="text-sm font-medium text-gray-700 mb-2">Role Management</h5>
+                     {showUserDetail.role === 'user' ? (
+                       <button
+                         onClick={() => handleUpdateRole(showUserDetail._id, 'admin')}
+                         className="w-full px-3 py-2 bg-green-500 hover:bg-green-600 text-white text-sm font-medium rounded-lg transition-colors"
+                       >
+                         Promote to Admin
+                       </button>
+                     ) : (
+                       <button
+                         onClick={() => handleUpdateRole(showUserDetail._id, 'user')}
+                         disabled={currentUserId === showUserDetail._id}
+                         className={`w-full px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                           currentUserId === showUserDetail._id
+                             ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                             : 'bg-red-500 hover:bg-red-600 text-white'
+                         }`}
+                         title={currentUserId === showUserDetail._id ? 'You cannot demote yourself' : 'Remove admin privileges'}
+                       >
+                         {currentUserId === showUserDetail._id ? 'Cannot Demote Yourself' : 'Remove Admin Privileges'}
+                       </button>
+                     )}
+                   </div>
                  </div>
                </div>
-             </div>
-           </div>
-         </div>
-       )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
        {/* Plan Update Modal */}
        {showPlanModal && (
-         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
-           <div className="relative top-20 mx-auto p-5 border w-11/12 max-w-md shadow-lg rounded-lg bg-white">
-             <div className="flex justify-between items-center mb-4">
+         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50 flex items-center justify-center p-4">
+           <div className="relative mx-auto w-full max-w-md shadow-lg rounded-lg bg-white">
+             <div className="flex justify-between items-center p-6 border-b border-gray-200">
                <h3 className="text-lg font-medium text-gray-900">Update Plan</h3>
                <button
                  onClick={() => setShowPlanModal(null)}
-                 className="text-gray-400 hover:text-gray-600"
+                 className="text-gray-400 hover:text-gray-600 transition-colors"
                >
                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                  </svg>
                </button>
              </div>
-             <div className="space-y-4">
+             <div className="p-6 space-y-4">
                <p className="text-sm text-gray-600">
                  Update subscription plan for <strong>{showPlanModal.email}</strong>
                </p>

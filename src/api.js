@@ -442,6 +442,15 @@ export const adminUpdateUserSubscription = async (userId, planId, billingCycle =
   }
 };
 
+export const adminUpdateUserRole = async (userId, role) => {
+  try { 
+    const res = await api.put(`/admin/users/${userId}/role`, { role }); 
+    return res.data; 
+  } catch (e) { 
+    return { error: e.response?.data?.error || e.message }; 
+  }
+};
+
 // User subscription management
 export const createPortalSession = async () => {
   try { 
