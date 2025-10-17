@@ -411,25 +411,30 @@ const Subscription = () => {
                   </span>
                 </div>
 
-                <div className="pt-4 border-t border-gray-200">
-                  <button
-                    onClick={handleManageSubscription}
-                    disabled={actionLoading}
-                    className="w-full px-4 py-2 bg-blue-500 hover:bg-blue-600 disabled:bg-gray-300 text-white font-semibold rounded-lg transition-colors"
-                  >
-                    {actionLoading ? 'Opening Portal...' : 'Manage Subscription'}
-                  </button>
-                  <p className="text-xs text-gray-500 mt-2 text-center">
-                    Change plan, update billing, or cancel subscription
-                  </p>
-                </div>
+                {/* Only show subscription management for subscription owners, not team members */}
+                {!currentSubscription.isTeamMember && (
+                  <>
+                    <div className="pt-4 border-t border-gray-200">
+                      <button
+                        onClick={handleManageSubscription}
+                        disabled={actionLoading}
+                        className="w-full px-4 py-2 bg-blue-500 hover:bg-blue-600 disabled:bg-gray-300 text-white font-semibold rounded-lg transition-colors"
+                      >
+                        {actionLoading ? 'Opening Portal...' : 'Manage Subscription'}
+                      </button>
+                      <p className="text-xs text-gray-500 mt-2 text-center">
+                        Change plan, update billing, or cancel subscription
+                      </p>
+                    </div>
 
-                {currentSubscription.cancelAtPeriodEnd && (
-                  <div className="p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
-                    <p className="text-yellow-800 text-sm">
-                      Your subscription will be canceled at the end of the current period.
-                    </p>
-                  </div>
+                    {currentSubscription.cancelAtPeriodEnd && (
+                      <div className="p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                        <p className="text-yellow-800 text-sm">
+                          Your subscription will be canceled at the end of the current period.
+                        </p>
+                      </div>
+                    )}
+                  </>
                 )}
               </div>
 
