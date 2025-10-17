@@ -29,6 +29,7 @@ import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminBlog from './pages/admin/AdminBlog';
 import AdminFAQs from './pages/admin/AdminFAQs';
 import AdminAnalysis from './pages/admin/AdminAnalysis';
+import AdminQuickScans from './pages/admin/AdminQuickScans';
 import AdminContact from './pages/admin/AdminContact';
 import AdminUsers from './pages/admin/AdminUsers';
 import AdminContentManager from './pages/AdminContentManager';
@@ -58,6 +59,7 @@ function AppContent() {
             <Route path="blog" element={<AdminBlog />} />
             <Route path="faqs" element={<AdminFAQs />} />
             <Route path="analysis" element={<AdminAnalysis />} />
+            <Route path="quick-scans" element={<AdminQuickScans />} />
             <Route path="contact" element={<AdminContact />} />
             <Route path="legal" element={<AdminLegal />} />
           </Route>

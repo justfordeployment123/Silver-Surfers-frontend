@@ -468,6 +468,16 @@ export const adminListContact = async (params = {}) => {
 export const adminGetContact = async (id) => {
   try { const res = await api.get(`/admin/contact/${id}`); return res.data; } catch (e) { return { error: e.response?.data?.error || e.message }; }
 };
+
+// Admin: Quick Scans management
+export const adminListQuickScans = async (params = {}) => {
+  try { 
+    const res = await api.get('/admin/quick-scans', { params }); 
+    return res.data; 
+  } catch (e) { 
+    return { error: e.response?.data?.error || e.message }; 
+  }
+};
 export const adminUpdateContact = async (id, payload) => {
   try { const res = await api.put(`/admin/contact/${id}`, payload); return res.data; } catch (e) { return { error: e.response?.data?.error || e.message }; }
 };
