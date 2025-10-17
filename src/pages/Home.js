@@ -209,6 +209,20 @@ const handleScanSubmit = async (e) => {
              <div className={`bg-white/8 backdrop-blur-xl rounded-2xl p-6 sm:p-8 border border-white/20 shadow-2xl shadow-green-500/10 transition-all duration-1000 ${
                formHighlighted ? 'ring-4 ring-green-400/50 ring-opacity-75 shadow-green-400/30 shadow-2xl' : ''
              }`}>
+               {/* Success message - moved above form for better visibility */}
+               {success && (
+                 <div className="mb-6 p-4 bg-green-500/20 border border-green-500/30 rounded-lg backdrop-blur-sm">
+                   <p className="text-green-100 text-base text-center">{success}</p>
+                 </div>
+               )}
+               
+               {/* Error message - also moved above form for better visibility */}
+               {error && (
+                 <div className="mb-6 p-4 bg-red-500/20 border border-red-500/30 rounded-lg backdrop-blur-sm">
+                   <p className="text-red-200 text-base text-center">{error}</p>
+                 </div>
+               )}
+               
                <form ref={formRef} onSubmit={handleScanSubmit} noValidate className="space-y-4">
                  <div className="grid gap-4 sm:grid-cols-2">
                    <div className="relative">
@@ -265,19 +279,7 @@ const handleScanSubmit = async (e) => {
 
                <p className="text-gray-200 text-small sm:text-xl mt-6 leading-relaxed text-center font-medium">
                Earn the SilverSurfers Seal of Approval through expert audits that score your site and deliver actionable reports to create more delightful digital experiences for older adults.
-
                </p>
-
-               {error && (
-                 <div className="mt-6 p-4 bg-red-500/20 border border-red-500/30 rounded-lg backdrop-blur-sm">
-                   <p className="text-red-200 text-base text-center">{error}</p>
-                 </div>
-               )}
-               {success && (
-                 <div className="mt-6 p-4 bg-green-500/20 border border-green-500/30 rounded-lg backdrop-blur-sm">
-                   <p className="text-green-100 text-base text-center">{success}</p>
-                 </div>
-               )}
              </div>
            </div>
            {/* Replacement descriptive text instead of buttons/cards */}
