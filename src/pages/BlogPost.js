@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { fetchJSON } from '../config/apiBase';
-import { RichTextPreview } from '../components/RichTextEditor';
+import { RichTextPreviewDark } from '../components/RichTextEditor';
 import './Blog.css';
 
 export default function BlogPost() {
@@ -125,7 +125,7 @@ export default function BlogPost() {
         <div className="bg-white/5 backdrop-blur-sm border-t border-white/10 border-b border-white/10">
           <div className="max-w-4xl mx-auto px-6 py-8">
             <div className="text-xl text-gray-100 leading-relaxed">
-              <RichTextPreview content={post.excerpt} />
+              <RichTextPreviewDark content={post.excerpt} />
             </div>
           </div>
         </div>
@@ -137,7 +137,7 @@ export default function BlogPost() {
           <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 md:p-12 border border-white/10">
             <article className="prose prose-lg prose-invert max-w-none">
               {post.content ? (
-                <RichTextPreview content={post.content} />
+                <RichTextPreviewDark content={post.content} />
               ) : (
                 <p className="text-gray-400 italic text-center py-8">
                   No content available for this post.

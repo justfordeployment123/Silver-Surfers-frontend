@@ -221,6 +221,57 @@ const RichTextPreview = ({ content }) => {
 export default RichTextEditor;
 export { RichTextPreview };
 
+// Dark version specifically for blog posts on dark backgrounds
+export const RichTextPreviewDark = ({ content }) => {
+  const formatContent = (text) => {
+    if (!text) return '';
+    
+    // Split content into lines for processing
+    const lines = text.split('\n');
+    const formattedLines = lines.map((line, index) => {
+      let formattedLine = line;
+      
+      // Handle headings
+      if (line.startsWith('### ')) {
+        return <h3 key={index} className="text-xl font-bold mt-6 mb-3 text-white border-b border-white/30 pb-2">{line.substring(4)}</h3>;
+      } else if (line.startsWith('## ')) {
+        return <h2 key={index} className="text-2xl font-bold mt-6 mb-4 text-white border-b-2 border-blue-400 pb-2">{line.substring(3)}</h2>;
+      } else if (line.startsWith('# ')) {
+        return <h1 key={index} className="text-3xl font-bold mt-6 mb-4 text-white border-b-2 border-blue-500 pb-3">{line.substring(2)}</h1>;
+      }
+      
+      // Handle quotes
+      if (line.startsWith('> ')) {
+        return <blockquote key={index} className="border-l-4 border-blue-400 pl-4 italic text-blue-100 my-4 bg-white/10 py-2 rounded-r">{line.substring(2)}</blockquote>;
+      }
+      
+      // Handle lists
+      if (line.startsWith('- ')) {
+        return <li key={index} className="ml-4 list-disc text-white mb-1">{line.substring(2)}</li>;
+      } else if (/^\d+\. /.test(line)) {
+        return <li key={index} className="ml-4 list-decimal text-white mb-1">{line.replace(/^\d+\. /, '')}</li>;
+      }
+      
+      // Handle inline formatting
+      if (line.trim()) {
+        formattedLine = formattedLine
+          .replace(/\*\*(.*?)\*\*/g, '<strong class="text-white font-bold">$1</strong>') // Bold
+          .replace(/\*(.*?)\*/g, '<em class="text-blue-100 italic">$1</em>') // Italic
+          .replace(/`(.*?)`/g, '<code class="bg-gray-800 text-green-300 px-2 py-1 rounded text-sm font-mono border border-gray-600">$1</code>') // Code
+          .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" class="text-blue-300 hover:text-blue-100 hover:underline transition-colors" target="_blank" rel="noopener noreferrer">$1</a>'); // Links
+        
+        return <p key={index} className="mb-4 text-white leading-relaxed text-lg" dangerouslySetInnerHTML={{ __html: formattedLine }} />;
+      }
+      
+      return <br key={index} />;
+    });
+    
+    return formattedLines;
+  };
+
+  return <div>{formatContent(content)}</div>;
+};
+
 // Light version for light backgrounds (like blog list page)
 export const RichTextPreviewLight = ({ content }) => {
   const formatContent = (text) => {
