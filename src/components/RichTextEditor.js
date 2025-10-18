@@ -209,7 +209,7 @@ const RichTextPreview = ({ content }) => {
         return <p key={index} className="mb-4 text-gray-800 leading-relaxed text-lg" dangerouslySetInnerHTML={{ __html: formattedLine }} />;
       }
       
-      return <br key={index} />;
+      return <br key={`br-light-${index}`} />;
     });
     
     return formattedLines;
@@ -263,7 +263,7 @@ export const RichTextPreviewDark = ({ content }) => {
         return <p key={index} className="mb-4 text-white leading-relaxed text-lg" dangerouslySetInnerHTML={{ __html: formattedLine }} />;
       }
       
-      return <br key={index} />;
+      return <br key={`br-light-${index}`} />;
     });
     
     return formattedLines;
@@ -284,23 +284,23 @@ export const RichTextPreviewLight = ({ content }) => {
       
       // Handle headings
       if (line.startsWith('### ')) {
-        return <h3 key={index} className="text-xl font-bold mt-6 mb-3 text-gray-900 border-b border-gray-200 pb-2">{line.substring(4)}</h3>;
+        return <h3 key={`h3-${index}-${line.substring(0, 10)}`} className="text-xl font-bold mt-6 mb-3 text-gray-900 border-b border-gray-200 pb-2">{line.substring(4)}</h3>;
       } else if (line.startsWith('## ')) {
-        return <h2 key={index} className="text-2xl font-bold mt-6 mb-4 text-gray-900 border-b-2 border-blue-200 pb-2">{line.substring(3)}</h2>;
+        return <h2 key={`h2-${index}-${line.substring(0, 10)}`} className="text-2xl font-bold mt-6 mb-4 text-gray-900 border-b-2 border-blue-200 pb-2">{line.substring(3)}</h2>;
       } else if (line.startsWith('# ')) {
-        return <h1 key={index} className="text-3xl font-bold mt-6 mb-4 text-gray-900 border-b-2 border-blue-300 pb-3">{line.substring(2)}</h1>;
+        return <h1 key={`h1-${index}-${line.substring(0, 10)}`} className="text-3xl font-bold mt-6 mb-4 text-gray-900 border-b-2 border-blue-300 pb-3">{line.substring(2)}</h1>;
       }
       
       // Handle quotes
       if (line.startsWith('> ')) {
-        return <blockquote key={index} className="border-l-4 border-gray-300 pl-4 italic text-gray-600 my-4 bg-gray-50 py-2 rounded-r">{line.substring(2)}</blockquote>;
+        return <blockquote key={`quote-${index}-${line.substring(0, 10)}`} className="border-l-4 border-gray-300 pl-4 italic text-gray-600 my-4 bg-gray-50 py-2 rounded-r">{line.substring(2)}</blockquote>;
       }
       
       // Handle lists
       if (line.startsWith('- ')) {
-        return <li key={index} className="ml-4 list-disc text-gray-700 mb-1">{line.substring(2)}</li>;
+        return <li key={`li-${index}-${line.substring(0, 10)}`} className="ml-4 list-disc text-gray-700 mb-1">{line.substring(2)}</li>;
       } else if (/^\d+\. /.test(line)) {
-        return <li key={index} className="ml-4 list-decimal text-gray-700 mb-1">{line.replace(/^\d+\. /, '')}</li>;
+        return <li key={`li-num-${index}-${line.substring(0, 10)}`} className="ml-4 list-decimal text-gray-700 mb-1">{line.replace(/^\d+\. /, '')}</li>;
       }
       
       // Handle inline formatting
@@ -311,10 +311,10 @@ export const RichTextPreviewLight = ({ content }) => {
           .replace(/`(.*?)`/g, '<code class="bg-gray-200 text-gray-800 px-2 py-1 rounded text-sm font-mono border border-gray-300">$1</code>') // Code
           .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" class="text-blue-600 hover:text-blue-800 hover:underline transition-colors" target="_blank" rel="noopener noreferrer">$1</a>'); // Links
         
-        return <p key={index} className="mb-4 text-gray-700 leading-relaxed" dangerouslySetInnerHTML={{ __html: formattedLine }} />;
+        return <p key={`p-${index}-${line.substring(0, 10)}`} className="mb-4 text-gray-700 leading-relaxed" dangerouslySetInnerHTML={{ __html: formattedLine }} />;
       }
       
-      return <br key={index} />;
+      return <br key={`br-light-${index}`} />;
     });
     
     return formattedLines;

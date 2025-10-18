@@ -151,8 +151,8 @@ const Blog = () => {
           {error && <p className="text-center text-red-400 text-sm">{String(error)}</p>}
           {!loading && !error && regularPosts.length > 0 ? (
             <div className="posts-grid">
-              {regularPosts.map((post) => (
-                <article key={post.id} className="post-card">
+              {regularPosts.map((post, index) => (
+                <article key={post._id || post.id || index} className="post-card">
                   <div className="post-category">
                     {(post.category || 'general').replace('-', ' ').toUpperCase()}
                   </div>

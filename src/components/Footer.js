@@ -8,10 +8,10 @@ const Footer = () => {
         <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-blue-900/20 to-green-900/20"></div>
       
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="py-16">
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+        <div className="py-12 lg:py-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-8">
             {/* Company Info */}
-            <div className="lg:col-span-2 space-y-6">
+            <div className="md:col-span-2 lg:col-span-2 space-y-4 lg:space-y-6">
               <div className="flex items-center space-x-3">
               <Link to="/" className="flex items-center space-x-3 group" >
                 <div className="relative">
@@ -27,14 +27,14 @@ const Footer = () => {
               </Link>
 
                 <div className="flex flex-col">
-                  <span className="text-xl text-white">
+                  <span className="text-lg lg:text-xl text-white">
                     <span className="font-light">Silver</span><span className="font-bold">Surfers</span>
                   </span>
                   <div className="h-0.5 w-full bg-gradient-to-r from-blue-500 via-green-600 to-teal-500 rounded-full"></div>
                 </div>
               </div>
               
-              <p className="text-gray-300 leading-relaxed max-w-md text-lg">
+              <p className="text-gray-300 leading-relaxed max-w-md text-base lg:text-lg">
                 Shaping an age-inclusive digital world. SilverSurfers provides expert digital experience assessments, certification, and actionable guidance to help businesses delight all generations of users.
               </p>
               
@@ -86,48 +86,48 @@ const Footer = () => {
             </div>
 
             {/* Services / Plans */}
-            <div className="space-y-4">
-              <h3 className="text-xl font-semibold text-white">Plans</h3>
-              <ul className="space-y-3">
-                <li><Link to="/checkout?pkg=1" className="text-gray-300 hover:text-white transition-colors duration-300 text-lg">Starter</Link></li>
-                <li><Link to="/checkout?pkg=2" className="text-gray-300 hover:text-white transition-colors duration-300 text-lg">Pro</Link></li>
-                <li><Link to="/contact" className="text-gray-300 hover:text-white transition-colors duration-300 text-lg">Custom</Link></li>
-                <li><a href="https://calendly.com/silversurfers-info/30min" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-white transition-colors duration-300 text-lg">Consulting</a></li>
+            <div className="space-y-3 lg:space-y-4">
+              <h3 className="text-lg lg:text-xl font-semibold text-white">Plans</h3>
+              <ul className="space-y-2 lg:space-y-3">
+                <li><Link to="/checkout?pkg=1" className="text-gray-300 hover:text-white transition-colors duration-300 text-base lg:text-lg">Starter</Link></li>
+                <li><Link to="/checkout?pkg=2" className="text-gray-300 hover:text-white transition-colors duration-300 text-base lg:text-lg">Pro</Link></li>
+                <li><Link to="/contact" className="text-gray-300 hover:text-white transition-colors duration-300 text-base lg:text-lg">Custom</Link></li>
+                <li><a href="https://calendly.com/silversurfers-info/30min" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-white transition-colors duration-300 text-base lg:text-lg">Consulting</a></li>
               </ul>
             </div>
 
             {/* Company */}
-            <div className="space-y-4">
-              <h3 className="text-xl font-semibold text-white">Company</h3>
-              <ul className="space-y-3">
-                <li><Link to="/about" className="text-gray-300 hover:text-white transition-colors duration-300 text-lg">About Us</Link></li>
-                <li><Link to="/contact" className="text-gray-300 hover:text-white transition-colors duration-300 text-lg">Contact</Link></li>
-                <li><Link to="/blog" className="text-gray-300 hover:text-white transition-colors duration-300 text-lg">Blog</Link></li>
-                <li><Link to="/faq" className="text-gray-300 hover:text-white transition-colors duration-300 text-lg">FAQ</Link></li>
+            <div className="space-y-3 lg:space-y-4">
+              <h3 className="text-lg lg:text-xl font-semibold text-white">Company</h3>
+              <ul className="space-y-2 lg:space-y-3">
+                <li><Link to="/about" className="text-gray-300 hover:text-white transition-colors duration-300 text-base lg:text-lg">About Us</Link></li>
+                <li><Link to="/contact" className="text-gray-300 hover:text-white transition-colors duration-300 text-base lg:text-lg">Contact</Link></li>
+                <li><Link to="/blog" className="text-gray-300 hover:text-white transition-colors duration-300 text-base lg:text-lg">Blog</Link></li>
+                <li><Link to="/faq" className="text-gray-300 hover:text-white transition-colors duration-300 text-base lg:text-lg">FAQ</Link></li>
               </ul>
             </div>
 
             {/* Resources */}
-            <div className="space-y-4">
-              <h3 className="text-xl font-semibold text-white">Resources</h3>
-              <ul className="space-y-3">
-                <li><Link to="/blog" className="text-gray-300 hover:text-white transition-colors duration-300 text-lg">Accessibility Guides</Link></li>
-                <li><Link to="/blog" className="text-gray-300 hover:text-white transition-colors duration-300 text-lg">Case Studies</Link></li>
-                <li><Link to="/contact" className="text-gray-300 hover:text-white transition-colors duration-300 text-lg">Support</Link></li>
+            <div className="space-y-3 lg:space-y-4">
+              <h3 className="text-lg lg:text-xl font-semibold text-white">Resources</h3>
+              <ul className="space-y-2 lg:space-y-3">
+                <li><Link to="/accessibility-guides" className="text-gray-300 hover:text-white transition-colors duration-300 text-base lg:text-lg">Accessibility Guides</Link></li>
+                <li><Link to="/blog" className="text-gray-300 hover:text-white transition-colors duration-300 text-base lg:text-lg">Case Studies</Link></li>
+                <li><Link to="/contact" className="text-gray-300 hover:text-white transition-colors duration-300 text-base lg:text-lg">Support</Link></li>
               </ul>
             </div>
           </div>
         </div>
 
         {/* Footer Bottom */}
-        <div className="border-t border-gray-800 py-8">
-          <div className="flex flex-col lg:flex-row justify-between items-center space-y-4 lg:space-y-0">
-            <p className="text-gray-400 text-base">&copy; 2025 SilverSurfers. All rights reserved.</p>
-            <div className="flex space-x-6">
-              <Link to="/privacy" className="text-gray-400 hover:text-white text-base transition-colors duration-300">
+        <div className="border-t border-gray-800 py-6 lg:py-8">
+          <div className="flex flex-col sm:flex-row justify-between items-center space-y-3 sm:space-y-0">
+            <p className="text-gray-400 text-sm lg:text-base text-center sm:text-left">&copy; 2025 SilverSurfers. All rights reserved.</p>
+            <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-6">
+              <Link to="/privacy" className="text-gray-400 hover:text-white text-sm lg:text-base transition-colors duration-300 text-center">
                 Privacy Policy
               </Link>
-              <Link to="/terms" className="text-gray-400 hover:text-white text-base transition-colors duration-300">
+              <Link to="/terms" className="text-gray-400 hover:text-white text-sm lg:text-base transition-colors duration-300 text-center">
                 Terms of Service
               </Link>
             </div>

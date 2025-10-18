@@ -37,6 +37,13 @@ const AdminLegal = () => {
       icon: '🔒',
       description: 'How we collect and use personal data',
       color: 'green'
+    },
+    { 
+      value: 'accessibility-guides', 
+      label: 'Accessibility Guides', 
+      icon: '♿',
+      description: 'Guidelines and resources for web accessibility',
+      color: 'purple'
     }
   ];
 

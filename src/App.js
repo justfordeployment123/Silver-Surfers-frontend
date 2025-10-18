@@ -17,6 +17,7 @@ import SubscriptionSuccess from './pages/SubscriptionSuccess';
 import AcceptTeamInvite from './pages/AcceptTeamInvite';
 import TermsOfUse from './pages/TermsOfUse';
 import PrivacyPolicy from './pages/PrivacyPolicy';
+import AccessibilityGuides from './pages/AccessibilityGuides';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import ResendVerification from './pages/ResendVerification';
@@ -83,6 +84,7 @@ function AppContent() {
           <Route path="/terms-of-use" element={<TermsOfUse />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/accessibility-guides" element={<AccessibilityGuides />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/signup" element={<Register />} />
