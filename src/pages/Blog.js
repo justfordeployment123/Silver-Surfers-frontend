@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import './Blog.css';
 import { API_BASE, fetchJSON } from '../config/apiBase';
+import { RichTextPreviewLight } from '../components/RichTextEditor';
 
 const Blog = () => {
   const [emailSubscribe, setEmailSubscribe] = useState('');
@@ -104,7 +105,9 @@ const Blog = () => {
             <div className="featured-card">
               <div className="featured-badge">Featured Insight</div>
               <h2 className="featured-title">{featuredPost.title}</h2>
-              <p className="featured-excerpt">{featuredPost.excerpt}</p>
+              <div className="featured-excerpt">
+                <RichTextPreviewLight content={featuredPost.excerpt} />
+              </div>
               <div className="featured-meta">
                 <div className="meta-item">
                   <svg className="meta-icon" fill="currentColor" viewBox="0 0 20 20">
@@ -154,7 +157,9 @@ const Blog = () => {
                     {(post.category || 'general').replace('-', ' ').toUpperCase()}
                   </div>
                   <h3 className="post-title">{post.title}</h3>
-                  <p className="post-excerpt">{post.excerpt}</p>
+                  <div className="post-excerpt">
+                    <RichTextPreviewLight content={post.excerpt} />
+                  </div>
                   <div className="post-meta">
                     {post.author && <span>By {post.author}</span>}
                     {(post.createdAt || post.date) && <span>{new Date(post.createdAt || post.date).toLocaleDateString()}</span>}

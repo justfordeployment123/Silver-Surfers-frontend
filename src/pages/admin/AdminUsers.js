@@ -154,7 +154,12 @@ const AdminUsers = () => {
       if (result.error) {
         setError(result.error);
       } else {
-        setSuccess('Plan updated successfully');
+        // Check if this was a new subscription creation or an update
+        if (result.created) {
+          setSuccess('New subscription created successfully');
+        } else {
+          setSuccess('Subscription plan updated successfully');
+        }
         loadUsers(); // Reload users
         setShowPlanModal(null);
         setTimeout(() => setSuccess(''), 3000);

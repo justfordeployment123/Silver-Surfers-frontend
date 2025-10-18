@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { adminListBlog, adminCreateBlog, adminDeleteBlog, adminUpdateBlog } from '../../api';
+import RichTextEditor from '../../components/RichTextEditor';
 
 const AdminBlog = () => {
   const [blogs, setBlogs] = useState([]);
@@ -556,35 +557,24 @@ const AdminBlog = () => {
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Excerpt
               </label>
-              <textarea
-                name="excerpt"
+              <RichTextEditor
                 value={formData.excerpt}
-                onChange={handleInputChange}
-                rows={3}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-colors resize-none text-gray-900 bg-white"
-                placeholder="Brief description of the post..."
+                onChange={(value) => setFormData(prev => ({ ...prev, excerpt: value }))}
+                placeholder="Brief description of the post... You can use **bold** and *italic* formatting here too!"
+                rows={4}
               />
-              <p className="mt-1 text-sm text-gray-500">
-                {formData.excerpt.length} characters
-              </p>
             </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Content *
               </label>
-              <textarea
-                name="content"
+              <RichTextEditor
                 value={formData.content}
-                onChange={handleInputChange}
-                rows={12}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-colors resize-none text-gray-900 bg-white"
-                placeholder="Write your blog post content here..."
-                required
+                onChange={(value) => setFormData(prev => ({ ...prev, content: value }))}
+                placeholder="Write your blog post content here... Use the formatting toolbar above to add headings, bold text, lists, and more!"
+                rows={15}
               />
-              <p className="mt-1 text-sm text-gray-500">
-                {formData.content.split(' ').filter(word => word.length > 0).length} words
-              </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">

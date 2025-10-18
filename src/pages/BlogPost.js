@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { fetchJSON } from '../config/apiBase';
+import { RichTextPreview } from '../components/RichTextEditor';
 import './Blog.css';
 
 export default function BlogPost() {
@@ -71,33 +72,97 @@ export default function BlogPost() {
   }
 
   return (
-      <div className="min-h-screen pt-32 pb-24 bg-gradient-to-br from-blue-950 via-green-950 via-teal-950 to-cyan-900 text-white">
-      <div className="max-w-3xl mx-auto px-6">
-        <div className="mb-8">
-          <Link to="/blog" className="text-sm text-blue-300 hover:text-blue-200">
-            &larr; Back to Blog
-          </Link>
+    <div className="min-h-screen bg-gradient-to-br from-blue-950 via-green-950 via-teal-950 to-cyan-900">
+      {/* Header Section */}
+      <div className="pt-32 pb-16">
+        <div className="max-w-4xl mx-auto px-6">
+          <div className="mb-8">
+            <Link to="/blog" className="inline-flex items-center text-blue-300 hover:text-blue-200 transition-colors">
+              <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+              Back to Blog
+            </Link>
+          </div>
+          
+          {/* Title */}
+          <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
+            {post.title}
+          </h1>
+          
+          {/* Meta Information */}
+          <div className="flex flex-wrap gap-4 mb-8">
+            {post.category && (
+              <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-600/20 text-blue-200 border border-blue-400/30">
+                {post.category}
+              </span>
+            )}
+            {post.author && (
+              <span className="text-gray-300 text-sm">
+                By <span className="font-medium text-white">{post.author}</span>
+              </span>
+            )}
+            {post.readTime && (
+              <span className="text-gray-300 text-sm">
+                {post.readTime}
+              </span>
+            )}
+            {post.date && (
+              <span className="text-gray-300 text-sm">
+                {new Date(post.date).toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
+                })}
+              </span>
+            )}
+          </div>
         </div>
-        <h1 className="heading-page font-bold mb-4">{post.title}</h1>
-        <div className="flex flex-wrap gap-4 text-caption text-gray-200 mb-8">
-          {post.category && <span className="uppercase tracking-wide bg-white/10 px-2 py-1 rounded">{post.category}</span>}
-          {post.author && <span>By {post.author}</span>}
-          {post.readTime && <span>{post.readTime}</span>}
-          {post.date && <span>{new Date(post.date).toLocaleDateString()}</span>}
+      </div>
+
+      {/* Excerpt Section */}
+      {post.excerpt && (
+        <div className="bg-white/5 backdrop-blur-sm border-t border-white/10 border-b border-white/10">
+          <div className="max-w-4xl mx-auto px-6 py-8">
+            <div className="text-xl text-gray-100 leading-relaxed">
+              <RichTextPreview content={post.excerpt} />
+            </div>
+          </div>
         </div>
-        {post.excerpt && <p className="text-lg text-gray-100/90 mb-10">{post.excerpt}</p>}
-        <article className="prose prose-invert max-w-none">
-          {post.content && post.content.split(/\n{2,}/).map((block, i) => {
-            const h2 = block.match(/^##\s+(.*)/);
-            const h3 = block.match(/^###\s+(.*)/);
-            if (h2) return <h2 key={i}>{h2[1]}</h2>;
-            if (h3) return <h3 key={i}>{h3[1]}</h3>;
-            return <p key={i}>{block}</p>;
-          })}
-          {!post.content && (
-            <p className="text-gray-400 italic">No content available for this post.</p>
-          )}
-        </article>
+      )}
+
+      {/* Content Section */}
+      <div className="py-16">
+        <div className="max-w-4xl mx-auto px-6">
+          <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 md:p-12 border border-white/10">
+            <article className="prose prose-lg prose-invert max-w-none">
+              {post.content ? (
+                <RichTextPreview content={post.content} />
+              ) : (
+                <p className="text-gray-400 italic text-center py-8">
+                  No content available for this post.
+                </p>
+              )}
+            </article>
+          </div>
+        </div>
+      </div>
+
+      {/* Footer Section */}
+      <div className="pb-16">
+        <div className="max-w-4xl mx-auto px-6">
+          <div className="border-t border-white/10 pt-8">
+            <Link 
+              to="/blog" 
+              className="inline-flex items-center text-blue-300 hover:text-blue-200 transition-colors"
+            >
+              <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+              Back to Blog
+            </Link>
+          </div>
+        </div>
       </div>
     </div>
   );
