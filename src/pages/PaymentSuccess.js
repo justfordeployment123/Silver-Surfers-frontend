@@ -24,7 +24,7 @@ const PaymentSuccess = () => {
     try {
       setLoading(true);
       
-      // Call the backend to confirm payment
+      // Call the backend to confirm payment and grant credit
       const token = localStorage.getItem('authToken') || localStorage.getItem('token');
       const response = await fetch(`${process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000'}/payment-success?session_id=${sessionId}`, {
         headers: {
@@ -43,10 +43,12 @@ const PaymentSuccess = () => {
           amount: data.purchaseDetails?.amount,
           date: data.purchaseDetails?.date
         });
+        
+        console.log('✅ Payment confirmed, credits granted:', data.oneTimeScans);
       }
     } catch (err) {
       console.error('Payment confirmation error:', err);
-      setError('Failed to confirm payment. Please contact support.');
+      setError('Failed to confirm payment. Please contact support if your credit was not added.');
     } finally {
       setLoading(false);
     }
