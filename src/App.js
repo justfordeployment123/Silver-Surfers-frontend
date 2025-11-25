@@ -14,6 +14,7 @@ import Success from './pages/Success';
 import Checkout from './pages/Checkout';
 import Subscription from './pages/Subscription';
 import SubscriptionSuccess from './pages/SubscriptionSuccess';
+import PaymentSuccess from './pages/PaymentSuccess';
 import AcceptTeamInvite from './pages/AcceptTeamInvite';
 import TermsOfUse from './pages/TermsOfUse';
 import PrivacyPolicy from './pages/PrivacyPolicy';
@@ -79,6 +80,7 @@ function AppContent() {
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/subscription" element={<ProtectedRoute><Subscription /></ProtectedRoute>} />
           <Route path="/subscription-success" element={<SubscriptionSuccess />} />
+          <Route path="/payment-success" element={<ProtectedRoute><PaymentSuccess /></ProtectedRoute>} />
           <Route path="/team/accept" element={<AcceptTeamInvite />} />
           <Route path="/terms" element={<TermsOfUse />} />
           <Route path="/terms-of-use" element={<TermsOfUse />} />

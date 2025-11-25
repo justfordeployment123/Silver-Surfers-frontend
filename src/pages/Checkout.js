@@ -12,6 +12,7 @@ const Checkout = () => {
   const [success, setSuccess] = useState('');
   const [subscription, setSubscription] = useState(null);
   const [subscriptionLoading, setSubscriptionLoading] = useState(true);
+  const [oneTimeScans, setOneTimeScans] = useState(0);
 
   // Load user data and subscription information
   useEffect(() => {
@@ -41,6 +42,11 @@ const Checkout = () => {
           setSubscription(subscriptionResult.subscription);
         }
         
+        // Set one-time scans
+        if (subscriptionResult.oneTimeScans !== undefined) {
+          setOneTimeScans(subscriptionResult.oneTimeScans);
+        }
+        
       } catch (error) {
         console.log('Could not load user data:', error);
         // Fallback to localStorage if available
@@ -68,6 +74,10 @@ const Checkout = () => {
 
   // Helper function to check if user can start audit
   const canStartAudit = () => {
+    // Check one-time scans first
+    if (oneTimeScans > 0) return true;
+    
+    // Check subscription
     if (!subscription || subscription.status !== 'active') return false;
     return getRemainingScans() > 0;
   };
@@ -89,9 +99,9 @@ const Checkout = () => {
 
     // Check if user can start audit
     if (!canStartAudit()) {
-      if (!subscription || subscription.status !== 'active') {
-        setError('You need an active subscription to start an audit. Please check your subscription status.');
-      } else {
+      if (oneTimeScans === 0 && (!subscription || subscription.status !== 'active')) {
+        setError('You need an active subscription or one-time scan credit to start an audit. Please purchase a plan or one-time scan.');
+      } else if (subscription && subscription.status === 'active') {
         setError(`You have reached your monthly scan limit (${subscription.limits?.scansPerMonth || 0} scans). Please upgrade your plan or wait for next month.`);
       }
       return;
@@ -216,6 +226,25 @@ const Checkout = () => {
                   <div className="font-medium text-red-800">No Active Subscription</div>
                   <div className="text-sm text-red-600">You need an active subscription to start audits.</div>
                 </div>
+              </div>
+            </div>
+          )}
+          
+          {/* One-time scans display */}
+          {oneTimeScans > 0 && (
+            <div className="mb-6 p-4 bg-orange-50 border border-orange-200 rounded-lg">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center">
+                  <svg className="w-5 h-5 mr-2 text-orange-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z" />
+                    <path fillRule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clipRule="evenodd" />
+                  </svg>
+                  <div>
+                    <div className="font-semibold text-orange-800">One-Time Scan Credits</div>
+                    <div className="text-sm text-orange-600">You have {oneTimeScans} one-time scan{oneTimeScans !== 1 ? 's' : ''} available</div>
+                  </div>
+                </div>
+                <div className="text-2xl font-bold text-orange-600">{oneTimeScans}</div>
               </div>
             </div>
           )}
