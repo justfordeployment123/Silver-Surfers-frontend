@@ -285,7 +285,7 @@ const handleScanSubmit = async (e) => {
            {/* Replacement descriptive text instead of buttons/cards */}
            <div className="mt-12 max-w-4xl mx-auto">
              <p className="text-gray-100 text-lg sm:text-xl leading-relaxed font-medium px-4">
-               SilverSurfers empowers organizations to create digital experiences that delight and engage SilverSurfers (adults 50+) as they surf the digital oceans.
+               SilverSurfers empowers organizations to create accessible and inclusive digital experiences that delight and engage SilverSurfers (adults 50+) as they surf the digital oceans.
              </p>
            </div>
          </div>
