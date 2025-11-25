@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getSubscriptionPlans, getSubscription } from '../api';
+import { getSubscriptionPlans, getSubscription, createCheckoutSession } from '../api';
 
 const Services = () => {
   const [plans, setPlans] = useState([]);
@@ -68,6 +68,33 @@ const Services = () => {
       popular: true
     },
     {
+      id: 'oneTime',
+      name: "One-Time Report",
+      icon: "📊",
+      description: "Get a comprehensive one-time accessibility report.",
+      price: 49700,
+      monthlyPrice: null,
+      yearlyPrice: null,
+      currency: 'usd',
+      type: 'one-time',
+      limits: {
+        scansPerMonth: 1,
+        maxUsers: 1,
+        features: [
+          "1 comprehensive audit",
+          "Choose ONE device type",
+          "All subpages scanned",
+          "Detailed PDF report",
+          "Visual annotations",
+          "17-category analysis",
+          "Email support"
+        ]
+      },
+      gradient: "from-orange-500 to-red-500",
+      popular: false,
+      isOneTime: true
+    },
+    {
       id: 'custom',
       name: "SilverSurfers Custom",
       icon: "🏆",
@@ -92,6 +119,9 @@ const Services = () => {
   };
 
   const getCurrentPrice = (plan) => {
+    if (plan.isOneTime || plan.type === 'one-time') {
+      return plan.price;
+    }
     return billingCycle === 'yearly' ? plan.yearlyPrice : plan.monthlyPrice;
   };
 
@@ -103,6 +133,27 @@ const Services = () => {
     return savings > 0 ? Math.round(savings / 100) : 0;
   };
 
+  const handleOneTimePurchase = async (planId) => {
+    try {
+      const token = localStorage.getItem('authToken') || localStorage.getItem('token');
+      if (!token) {
+        // Redirect to login if not authenticated
+        window.location.href = `/login?redirect=/services&plan=${planId}`;
+        return;
+      }
+
+      const result = await createCheckoutSession(planId, 'monthly'); // billing cycle doesn't matter for one-time
+      if (result.error) {
+        alert(`Error: ${result.error}`);
+      } else if (result.url) {
+        window.location.href = result.url;
+      }
+    } catch (error) {
+      console.error('Failed to create checkout session:', error);
+      alert('Failed to start checkout. Please try again.');
+    }
+  };
+
   const getPlanButtonInfo = (plan) => {
     const isCurrentPlan = currentSubscription && currentSubscription.planId === plan.id;
     const hasActiveSubscription = currentSubscription && currentSubscription.status === 'active';
@@ -112,6 +163,15 @@ const Services = () => {
       return {
         text: 'Contact Sales',
         link: '/contact',
+        isDisabled: false
+      };
+    }
+    
+    // Handle one-time purchases - direct to checkout
+    if (plan.isOneTime || plan.type === 'one-time') {
+      return {
+        text: 'Get Report',
+        link: '/checkout',
         isDisabled: false
       };
     }
@@ -263,7 +323,7 @@ const Services = () => {
       <section className="py-20 bg-gradient-to-br from-gray-50 to-green-50/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">Our Subscription Plans</h2>
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">Our Plans & Pricing</h2>
             <p className="text-xl text-gray-600 mb-8">Choose the plan that fits your business needs</p>
             
             {/* Billing Cycle Toggle */}
@@ -299,7 +359,7 @@ const Services = () => {
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
             </div>
           ) : (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
               {plans.map((plan) => {
                 const currentPrice = getCurrentPrice(plan);
                 const savings = getSavings(plan);
@@ -333,6 +393,17 @@ const Services = () => {
                   
                         {plan.contactSales ? (
                           <div className="text-3xl font-bold text-gray-900 mb-2">Contact us</div>
+                  ) : plan.isOneTime || plan.type === 'one-time' ? (
+                    <div className="mb-2">
+                            {/* One-Time Price */}
+                            <div className={`text-3xl font-bold bg-gradient-to-r ${plan.gradient} bg-clip-text text-transparent`}>
+                              {formatPrice(currentPrice)}
+                            </div>
+                            
+                            <div className="text-sm text-gray-500">
+                              one-time payment
+                            </div>
+                    </div>
                   ) : (
                     <div className="mb-2">
                             {/* Current Price */}
@@ -382,13 +453,27 @@ const Services = () => {
                     <div className="text-center mt-auto">
                       {(() => {
                         const buttonInfo = getPlanButtonInfo(plan);
+                        
+                        // For one-time purchases, use a button with click handler
+                        if (plan.isOneTime || plan.type === 'one-time') {
+                          return (
+                            <button
+                              onClick={() => handleOneTimePurchase(plan.id)}
+                              className={`inline-block px-8 py-4 bg-gradient-to-r ${plan.gradient} text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 ${buttonInfo.isDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            >
+                              {buttonInfo.text}
+                            </button>
+                          );
+                        }
+                        
+                        // For all other plans, use regular link
                         return (
-                  <a 
+                          <a 
                             href={buttonInfo.link}
                             className={`inline-block px-8 py-4 bg-gradient-to-r ${plan.gradient} text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 ${buttonInfo.isDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
-                  >
+                          >
                             {buttonInfo.text}
-                  </a>
+                          </a>
                         );
                       })()}
                 </div>
