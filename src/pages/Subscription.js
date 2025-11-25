@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { createCheckoutSession, getSubscription, getSubscriptionPlans, createPortalSession, cancelSubscription, inviteTeamMember, removeTeamMember, getTeamMembers, leaveTeam, getTeamScans } from '../api';
+import { createCheckoutSession, getSubscription, getSubscriptionPlans, createPortalSession, cancelSubscription, inviteTeamMember, removeTeamMember, getTeamMembers, leaveTeam, getTeamScans, upgradeSubscription } from '../api';
 
 const Subscription = () => {
   const [currentSubscription, setCurrentSubscription] = useState(null);
@@ -36,6 +36,31 @@ const Subscription = () => {
   useEffect(() => {
     loadData();
   }, []);
+
+  // Handle upgrade from URL parameters
+  useEffect(() => {
+    if (selectedPlan && currentSubscription && !loading) {
+      handleUpgradePlan(selectedPlan, selectedCycle);
+    }
+  }, [selectedPlan, currentSubscription, loading]);
+
+  const handleUpgradePlan = async (planId, cycle) => {
+    try {
+      setActionLoading(true);
+      const result = await upgradeSubscription(planId, cycle);
+      
+      if (result.error) {
+        setError(result.error);
+        setActionLoading(false);
+      } else if (result.url) {
+        // Redirect to Stripe checkout for upgrade (allows discount codes)
+        window.location.href = result.url;
+      }
+    } catch (err) {
+      setError('Failed to initiate upgrade');
+      setActionLoading(false);
+    }
+  };
 
   const loadData = async () => {
     try {
