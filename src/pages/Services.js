@@ -40,8 +40,8 @@ const Services = () => {
       name: "SilverSurfers Starter",
       icon: "🚀",
       description: "Perfect for small businesses starting their accessibility journey.",
-      monthlyPrice: 2900,
-      yearlyPrice: 19700,
+      monthlyPrice: 29700,
+      yearlyPrice: 297000,
       currency: 'usd',
       limits: {
         scansPerMonth: 10,
@@ -56,8 +56,8 @@ const Services = () => {
       name: "SilverSurfers Pro",
       icon: "⭐",
       description: "Comprehensive accessibility solution for growing businesses.",
-      monthlyPrice: 9900,
-      yearlyPrice: 89900,
+      monthlyPrice: 69700,
+      yearlyPrice: 697000,
       currency: 'usd',
       limits: {
         scansPerMonth: 50,
@@ -288,7 +288,7 @@ const Services = () => {
               </span>
               {billingCycle === 'yearly' && (
                 <span className="ml-2 text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">
-                  Save up to 20%
+                  Save 17%
                 </span>
               )}
             </div>
@@ -335,29 +335,14 @@ const Services = () => {
                           <div className="text-3xl font-bold text-gray-900 mb-2">Contact us</div>
                   ) : (
                     <div className="mb-2">
-                            {/* Original Price (Crossed Out) */}
-                            <div className="text-lg text-gray-400 line-through mb-1">
-                              {plan.id === 'starter' ? '$69/month' : plan.id === 'pro' ? '$399/month' : formatPrice(currentPrice)}
-                            </div>
-                            
                             {/* Current Price */}
                             <div className={`text-3xl font-bold bg-gradient-to-r ${plan.gradient} bg-clip-text text-transparent`}>
                               {formatPrice(currentPrice)}
                             </div>
                             
-                            {/* Limited Time Offer */}
-                            <div className="text-xs text-gray-500 mb-1">limited time offer</div>
-                            
                             <div className="text-sm text-gray-500">
                               per {billingCycle === 'yearly' ? 'year' : 'month'}
                             </div>
-                            
-                            {/* Annual Offer */}
-                            {billingCycle === 'monthly' && plan.id !== 'custom' && (
-                              <div className="text-xs text-gray-500 mt-2">
-                                {plan.id === 'starter' ? '$197 for one year - special offer' : '$899 for one year - special offer'}
-                              </div>
-                            )}
                             
                             {billingCycle === 'yearly' && savings && savings > 0 && (
                               <div className="text-xs text-green-600 font-medium mt-1">
