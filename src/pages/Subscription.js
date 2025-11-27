@@ -768,11 +768,11 @@ const Subscription = () => {
                         
                         {canUpgrade && (
                           <button
-                            onClick={handleManageSubscription}
+                            onClick={() => handleUpgradePlan(plan.id, billingCycle)}
                             disabled={actionLoading}
                             className="px-4 py-2 bg-blue-500 hover:bg-blue-600 disabled:bg-gray-300 text-white text-sm font-semibold rounded-lg transition-colors"
                           >
-                            {actionLoading ? 'Opening Portal...' : 'Manage Plan'}
+                            {actionLoading ? 'Processing...' : 'Upgrade Plan'}
                           </button>
                         )}
                       </div>
