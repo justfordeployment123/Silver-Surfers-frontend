@@ -6,6 +6,9 @@ const Checkout = () => {
   const navigate = useNavigate();
   const [url, setUrl] = useState('');
   const [email, setEmail] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [selectedDevice, setSelectedDevice] = useState('desktop'); // Default device selection
   const [loading, setLoading] = useState(false);
   const [precheckLoading, setPrecheckLoading] = useState(false);
   const [error, setError] = useState('');
@@ -125,8 +128,8 @@ const Checkout = () => {
       setPrecheckLoading(false);
       setSuccess('✅ URL validated successfully! Starting audit...');
 
-      // Now start the actual audit
-      const auditResult = await startAudit(email, url);
+      // Now start the actual audit with device selection
+      const auditResult = await startAudit(email, url, selectedDevice, firstName, lastName);
       
       if (auditResult.error) {
         setError(auditResult.error);
@@ -134,7 +137,7 @@ const Checkout = () => {
       } else {
         setSuccess('🎉 Audit request submitted successfully! You will receive an email with your comprehensive accessibility report shortly.');
         
-        // Clear the form
+        // Clear the URL field only
         setUrl('');
       }
       
@@ -290,6 +293,111 @@ const Checkout = () => {
                 required
               />
             </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-2">
+                  First Name
+                </label>
+                <input
+                  type="text"
+                  id="firstName"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  placeholder="John"
+                  autoComplete="given-name"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                  required
+                />
+              </div>
+              <div>
+                <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-2">
+                  Last Name
+                </label>
+                <input
+                  type="text"
+                  id="lastName"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  placeholder="Doe"
+                  autoComplete="family-name"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                  required
+                />
+              </div>
+            </div>
+
+            {/* Device Selection - Show for Starter plan or when no subscription */}
+            {subscription && subscription.planId === 'starter' && (
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Select Device Type
+                </label>
+                <p className="text-xs text-gray-600 mb-3">
+                  Your Starter plan allows auditing for one device type per scan.
+                </p>
+                <div className="grid grid-cols-3 gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setSelectedDevice('desktop')}
+                    className={`p-4 border-2 rounded-lg transition-all ${
+                      selectedDevice === 'desktop'
+                        ? 'border-blue-500 bg-blue-50 text-blue-700'
+                        : 'border-gray-300 bg-white text-gray-700 hover:border-gray-400'
+                    }`}
+                  >
+                    <svg className="w-8 h-8 mx-auto mb-2" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M3 5a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2h-2.22l.123.489.804.804A1 1 0 0113 18H7a1 1 0 01-.707-1.707l.804-.804L7.22 15H5a2 2 0 01-2-2V5zm5.771 7H5V5h10v7H8.771z" clipRule="evenodd" />
+                    </svg>
+                    <div className="text-sm font-medium">Desktop</div>
+                  </button>
+                  
+                  <button
+                    type="button"
+                    onClick={() => setSelectedDevice('tablet')}
+                    className={`p-4 border-2 rounded-lg transition-all ${
+                      selectedDevice === 'tablet'
+                        ? 'border-blue-500 bg-blue-50 text-blue-700'
+                        : 'border-gray-300 bg-white text-gray-700 hover:border-gray-400'
+                    }`}
+                  >
+                    <svg className="w-8 h-8 mx-auto mb-2" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M7 2a2 2 0 00-2 2v12a2 2 0 002 2h6a2 2 0 002-2V4a2 2 0 00-2-2H7zm3 14a1 1 0 100-2 1 1 0 000 2z" />
+                    </svg>
+                    <div className="text-sm font-medium">Tablet</div>
+                  </button>
+                  
+                  <button
+                    type="button"
+                    onClick={() => setSelectedDevice('mobile')}
+                    className={`p-4 border-2 rounded-lg transition-all ${
+                      selectedDevice === 'mobile'
+                        ? 'border-blue-500 bg-blue-50 text-blue-700'
+                        : 'border-gray-300 bg-white text-gray-700 hover:border-gray-400'
+                    }`}
+                  >
+                    <svg className="w-8 h-8 mx-auto mb-2" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M7 2a2 2 0 00-2 2v12a2 2 0 002 2h6a2 2 0 002-2V4a2 2 0 00-2-2H7zm3 14a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
+                    </svg>
+                    <div className="text-sm font-medium">Mobile</div>
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Info message for Pro plan */}
+            {subscription && subscription.planId === 'pro' && (
+              <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
+                <div className="flex items-center">
+                  <svg className="w-5 h-5 mr-2 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  <div className="text-sm text-green-700">
+                    <strong>Pro Plan:</strong> Your audit will test all devices (Desktop, Tablet, and Mobile)
+                  </div>
+                </div>
+              </div>
+            )}
 
             <button
               type="submit"

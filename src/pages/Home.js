@@ -35,8 +35,11 @@ const ScanResultsModal = ({ result, isVisible, onClose }) => {
 const MainScreen = () => {
  const [scanData, setScanData] = useState({
    websiteUrl: '',
-   email: ''
+   email: '',
+   firstName: '',
+   lastName: ''
  });
+ const [selectedDevice, setSelectedDevice] = useState('desktop'); // Quick scan only supports desktop
  const [isScanning, setIsScanning] = useState(false);
  const [error, setError] = useState('');
  const [success, setSuccess] = useState('');
@@ -127,14 +130,14 @@ const handleScanSubmit = async (e) => {
       url = `https://${url}`;
     }
 
-    const res = await quickAudit(scanData.email.trim(), url);
+    const res = await quickAudit(scanData.email.trim(), url, scanData.firstName.trim(), scanData.lastName.trim());
     if (res?.error) {
       setError(res.error);
     } else {
       // Backend typically returns a message like "Audit started"
       setSuccess(res?.message || '🆓 Your FREE scan has started! We\'ll email you the results shortly - no subscription required!');
       // Optionally clear the form
-      setScanData({ websiteUrl: '', email: '' });
+      setScanData({ websiteUrl: '', email: '', firstName: '', lastName: '' });
     }
   } catch (err) {
     console.error('Scan error:', err);
@@ -259,6 +262,93 @@ const handleScanSubmit = async (e) => {
                        </svg>
                      </div>
                    </div>
+                 </div>
+                 <div className="grid gap-4 sm:grid-cols-2">
+                   <div className="relative">
+                     <input
+                       type="text"
+                       name="firstName"
+                       placeholder="First Name"
+                       value={scanData.firstName}
+                       onChange={handleInputChange}
+                       autoComplete="given-name"
+                       className="w-full px-5 py-5 bg-white/95 backdrop-blur-sm rounded-xl border border-white/30 text-gray-800 placeholder-gray-500 focus:ring-2 focus:ring-green-400 focus:border-transparent transition-all duration-200 text-base sm:text-lg shadow-lg"
+                       required
+                     />
+                     <div className="absolute inset-y-0 right-0 flex items-center pr-3">
+                       <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                       </svg>
+                     </div>
+                   </div>
+                   <div className="relative">
+                     <input
+                       type="text"
+                       name="lastName"
+                       placeholder="Last Name"
+                       value={scanData.lastName}
+                       onChange={handleInputChange}
+                       autoComplete="family-name"
+                       className="w-full px-5 py-5 bg-white/95 backdrop-blur-sm rounded-xl border border-white/30 text-gray-800 placeholder-gray-500 focus:ring-2 focus:ring-green-400 focus:border-transparent transition-all duration-200 text-base sm:text-lg shadow-lg"
+                       required
+                     />
+                     <div className="absolute inset-y-0 right-0 flex items-center pr-3">
+                       <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                       </svg>
+                     </div>
+                   </div>
+                 </div>
+                 
+                 {/* Device Selection for Quick Scan */}
+                 <div className="space-y-3">
+                   <label className="block text-sm font-medium text-white mb-2">
+                     Select Device Type
+                   </label>
+                   <div className="grid grid-cols-3 gap-3">
+                     <button
+                       type="button"
+                       onClick={() => setSelectedDevice('desktop')}
+                       className={`p-4 border-2 rounded-lg transition-all ${
+                         selectedDevice === 'desktop'
+                           ? 'border-green-400 bg-green-500/20 text-white'
+                           : 'border-white/30 bg-white/10 text-white hover:border-white/50'
+                       }`}
+                     >
+                       <svg className="w-8 h-8 mx-auto mb-2" fill="currentColor" viewBox="0 0 20 20">
+                         <path fillRule="evenodd" d="M3 5a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2h-2.22l.123.489.804.804A1 1 0 0113 18H7a1 1 0 01-.707-1.707l.804-.804L7.22 15H5a2 2 0 01-2-2V5zm5.771 7H5V5h10v7H8.771z" clipRule="evenodd" />
+                       </svg>
+                       <div className="text-sm font-medium">Desktop</div>
+                       <div className="text-xs text-green-300 mt-1">FREE</div>
+                     </button>
+                     
+                     <button
+                       type="button"
+                       disabled
+                       className="p-4 border-2 border-gray-500/30 bg-gray-600/20 text-gray-400 rounded-lg cursor-not-allowed opacity-60"
+                     >
+                       <svg className="w-8 h-8 mx-auto mb-2" fill="currentColor" viewBox="0 0 20 20">
+                         <path d="M7 2a2 2 0 00-2 2v12a2 2 0 002 2h6a2 2 0 002-2V4a2 2 0 00-2-2H7zm3 14a1 1 0 100-2 1 1 0 000 2z" />
+                       </svg>
+                       <div className="text-sm font-medium">Tablet</div>
+                       <div className="text-xs text-orange-300 mt-1">Subscription</div>
+                     </button>
+                     
+                     <button
+                       type="button"
+                       disabled
+                       className="p-4 border-2 border-gray-500/30 bg-gray-600/20 text-gray-400 rounded-lg cursor-not-allowed opacity-60"
+                     >
+                       <svg className="w-8 h-8 mx-auto mb-2" fill="currentColor" viewBox="0 0 20 20">
+                         <path fillRule="evenodd" d="M7 2a2 2 0 00-2 2v12a2 2 0 002 2h6a2 2 0 002-2V4a2 2 0 00-2-2H7zm3 14a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
+                       </svg>
+                       <div className="text-sm font-medium">Mobile</div>
+                       <div className="text-xs text-orange-300 mt-1">Subscription</div>
+                     </button>
+                   </div>
+                   <p className="text-xs text-gray-300 text-center">
+                     📱 Tablet and Mobile testing available with <a href="/services" className="underline hover:text-white">paid subscriptions</a>
+                   </p>
                  </div>
                  
                  <button

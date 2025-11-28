@@ -103,7 +103,7 @@ export const precheckUrl = async (url) => {
 };
 
 // Existing API calls (now use the axios instance) with precheck
-export const startAudit = async (email, url) => {
+export const startAudit = async (email, url, selectedDevice = null, firstName = '', lastName = '') => {
   try {
     // Precheck & normalize
     const pre = await precheckUrl(url);
@@ -111,14 +111,20 @@ export const startAudit = async (email, url) => {
       return { error: pre?.error || 'URL not reachable. Please check the domain and try again.' };
     }
     const normalized = pre?.finalUrl || pre?.normalizedUrl || url;
-    const response = await api.post('/start-audit', { email, url: normalized });
+    const response = await api.post('/start-audit', { 
+      email, 
+      url: normalized,
+      selectedDevice,
+      firstName,
+      lastName
+    });
     return response.data;
   } catch (error) {
     return { error: error.response?.data?.error || error.message };
   }
 };
 
-export const quickAudit = async (email, url) => {
+export const quickAudit = async (email, url, firstName = '', lastName = '') => {
   try {
     // Precheck & normalize
     const pre = await precheckUrl(url);
@@ -130,10 +136,13 @@ export const quickAudit = async (email, url) => {
     // Quick audit is FREE and doesn't require authentication
     const response = await fetch(`${API_BASE_URL}/quick-audit`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, url: normalized })
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ 
+        email, 
+        url: normalized,
+        firstName,
+        lastName
+      })
     });
     
     const data = await response.json();
