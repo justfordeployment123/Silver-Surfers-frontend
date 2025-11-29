@@ -735,13 +735,6 @@ const Subscription = () => {
                       
                       <div className="flex items-center justify-between">
                         <div>
-                          {/* Original Price (Crossed Out) */}
-                          {plan.id !== 'custom' && !(plan.type === 'one-time' || plan.isOneTime) && (
-                            <div className="text-sm text-gray-400 line-through mb-1">
-                              {plan.id === 'starter' ? '$69/month' : plan.id === 'pro' ? '$399/month' : formatPrice(getCurrentPrice(plan))}
-                            </div>
-                          )}
-                          
                           {/* Current Price */}
                           <div className="font-bold text-lg text-gray-900">
                             {formatPrice(getCurrentPrice(plan))}{plan.type === 'one-time' || plan.isOneTime ? ' one-time' : `/${billingCycle === 'yearly' ? 'year' : 'month'}`}
@@ -749,7 +742,7 @@ const Subscription = () => {
                           
                           {/* Limited Time Offer */}
                           {plan.id !== 'custom' && !(plan.type === 'one-time' || plan.isOneTime) && (
-                            <div className="text-xs text-gray-500 mb-1">limited time offer</div>
+                            <div className="text-xs text-gray-500 mb-1">per {billingCycle === 'yearly' ? 'year' : 'month'}</div>
                           )}
                           
                           {billingCycle === 'yearly' && getSavings(plan) && getSavings(plan) > 0 && (
@@ -758,14 +751,7 @@ const Subscription = () => {
                             </div>
                           )}
                           
-                          {/* Annual Offer */}
-                          {billingCycle === 'monthly' && plan.id !== 'custom' && !(plan.type === 'one-time' || plan.isOneTime) && (
-                            <div className="text-xs text-gray-500 mt-1">
-                              {plan.id === 'starter' ? '$197 for one year - special offer' : '$899 for one year - special offer'}
-                            </div>
-                          )}
-                          
-                          <div className="text-xs text-gray-700">
+                          <div className="text-xs text-gray-700 mt-2">
                             {plan.limits.scansPerMonth === -1 ? 'Unlimited' : plan.limits.scansPerMonth} scans/month
                           </div>
                         </div>
