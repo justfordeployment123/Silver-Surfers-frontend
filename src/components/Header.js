@@ -199,7 +199,7 @@ const Header = () => {
                 <svg className={`w-4 h-4 ${isScrolled ? 'text-gray-800' : 'text-white'}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M6 9l6 6 6-6"/></svg>
               </button>
               {isUserMenuOpen && (
-                <div role="menu" className={`absolute right-0 mt-2 w-56 rounded-xl overflow-hidden shadow-xl ${isScrolled ? 'bg-white border border-gray-200' : 'bg-gray-900/95 border border-white/10'} backdrop-blur`}> 
+                <div role="menu" className={`absolute right-0 mt-2 w-56 rounded-xl overflow-hidden shadow-xl z-50 ${isScrolled ? 'bg-white border border-gray-200' : 'bg-gray-900/95 border border-white/10'} backdrop-blur`}> 
                   {user ? (
                     <div className="py-1">
                       <div className={`px-4 py-2 text-xs ${isScrolled ? 'text-gray-600' : 'text-gray-300'}`}>{user.email}</div>

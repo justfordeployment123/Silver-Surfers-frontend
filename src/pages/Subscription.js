@@ -22,6 +22,10 @@ const Subscription = () => {
 
   // Helper functions for pricing
   const getCurrentPrice = (plan) => {
+    // Handle one-time plans
+    if (plan.type === 'one-time' || plan.isOneTime) {
+      return plan.price;
+    }
     return billingCycle === 'yearly' ? plan.yearlyPrice : plan.monthlyPrice;
   };
 
@@ -714,7 +718,7 @@ const Subscription = () => {
                 </div>
               
               <div className="space-y-4">
-                {availablePlans.map((plan) => {
+                {availablePlans.filter(plan => !(plan.type === 'one-time' || plan.isOneTime)).map((plan) => {
                   const isCurrentPlan = plan.id === currentSubscription.planId;
                   const canUpgrade = !isCurrentPlan && plan.id !== 'custom';
                   
@@ -732,7 +736,7 @@ const Subscription = () => {
                       <div className="flex items-center justify-between">
                         <div>
                           {/* Original Price (Crossed Out) */}
-                          {plan.id !== 'custom' && (
+                          {plan.id !== 'custom' && !(plan.type === 'one-time' || plan.isOneTime) && (
                             <div className="text-sm text-gray-400 line-through mb-1">
                               {plan.id === 'starter' ? '$69/month' : plan.id === 'pro' ? '$399/month' : formatPrice(getCurrentPrice(plan))}
                             </div>
@@ -740,11 +744,11 @@ const Subscription = () => {
                           
                           {/* Current Price */}
                           <div className="font-bold text-lg text-gray-900">
-                            {formatPrice(getCurrentPrice(plan))}/{billingCycle === 'yearly' ? 'year' : 'month'}
+                            {formatPrice(getCurrentPrice(plan))}{plan.type === 'one-time' || plan.isOneTime ? ' one-time' : `/${billingCycle === 'yearly' ? 'year' : 'month'}`}
                           </div>
                           
                           {/* Limited Time Offer */}
-                          {plan.id !== 'custom' && (
+                          {plan.id !== 'custom' && !(plan.type === 'one-time' || plan.isOneTime) && (
                             <div className="text-xs text-gray-500 mb-1">limited time offer</div>
                           )}
                           
@@ -755,7 +759,7 @@ const Subscription = () => {
                           )}
                           
                           {/* Annual Offer */}
-                          {billingCycle === 'monthly' && plan.id !== 'custom' && (
+                          {billingCycle === 'monthly' && plan.id !== 'custom' && !(plan.type === 'one-time' || plan.isOneTime) && (
                             <div className="text-xs text-gray-500 mt-1">
                               {plan.id === 'starter' ? '$197 for one year - special offer' : '$899 for one year - special offer'}
                             </div>
