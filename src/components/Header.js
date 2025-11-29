@@ -8,6 +8,7 @@ const Header = () => {
   const [user, setUser] = useState(null);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const userMenuRef = useRef(null);
+  const desktopUserMenuRef = useRef(null);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -34,7 +35,9 @@ const Header = () => {
   useEffect(() => {
     const onDocClick = (e) => {
       if (!isUserMenuOpen) return;
-      if (userMenuRef.current && !userMenuRef.current.contains(e.target)) {
+      const isClickOutsideDesktop = desktopUserMenuRef.current && !desktopUserMenuRef.current.contains(e.target);
+      const isClickOutsideMobile = userMenuRef.current && !userMenuRef.current.contains(e.target);
+      if (isClickOutsideDesktop && isClickOutsideMobile) {
         setIsUserMenuOpen(false);
       }
     };
@@ -184,7 +187,7 @@ const Header = () => {
             >
               Get Your Audit
             </Link>
-            <div className="relative" ref={userMenuRef}>
+            <div className="relative" ref={desktopUserMenuRef}>
               <button
                 onClick={() => setIsUserMenuOpen((s) => !s)}
                 className={`flex items-center gap-2 px-2 py-1.5 rounded-full border transition ${isScrolled ? 'border-gray-300 hover:bg-gray-100' : 'border-white/30 hover:bg-white/10'} `}
