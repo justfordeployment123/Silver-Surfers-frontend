@@ -399,10 +399,6 @@ const Services = () => {
                             <div className={`text-3xl font-bold bg-gradient-to-r ${plan.gradient} bg-clip-text text-transparent`}>
                               {formatPrice(currentPrice)}
                             </div>
-                            
-                            <div className="text-sm text-gray-500">
-                              one-time payment
-                            </div>
                     </div>
                   ) : (
                     <div className="mb-2">
@@ -428,14 +424,16 @@ const Services = () => {
                         <p className="text-gray-600 mb-4 text-center">{plan.description}</p>
                         
                         {/* Usage Limits */}
-                        <div className="mb-4 p-3 bg-gray-50 rounded-lg">
-                          <div className="text-sm text-gray-600">
-                            <strong>Scans per month:</strong> {plan.limits.scansPerMonth === -1 ? 'Unlimited' : plan.limits.scansPerMonth}
+                        {!(plan.isOneTime || plan.type === 'one-time') && (
+                          <div className="mb-4 p-3 bg-gray-50 rounded-lg">
+                            <div className="text-sm text-gray-600">
+                              <strong>Scans per month:</strong> {plan.limits.scansPerMonth === -1 ? 'Unlimited' : plan.limits.scansPerMonth}
+                            </div>
+                            <div className="text-sm text-gray-600">
+                              <strong>Users:</strong> {plan.limits.maxUsers === -1 ? 'Unlimited' : plan.limits.maxUsers}
+                            </div>
                           </div>
-                          <div className="text-sm text-gray-600">
-                            <strong>Users:</strong> {plan.limits.maxUsers === -1 ? 'Unlimited' : plan.limits.maxUsers}
-                          </div>
-                        </div>
+                        )}
 
                   <ul className="space-y-3">
                           {plan.limits.features.map((feature, index) => (
