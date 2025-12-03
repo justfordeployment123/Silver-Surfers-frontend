@@ -309,41 +309,41 @@ const handleScanSubmit = async (e) => {
                      <button
                        type="button"
                        onClick={() => setSelectedDevice('desktop')}
-                       className={`p-4 border-2 rounded-lg transition-all ${
+                       className={`p-3 border-2 rounded-lg transition-all ${
                          selectedDevice === 'desktop'
-                           ? 'border-green-400 bg-green-500/20 text-white'
+                           ? 'border-green-400 bg-green-500/30 text-white shadow-lg'
                            : 'border-white/30 bg-white/10 text-white hover:border-white/50'
                        }`}
                      >
-                       <svg className="w-8 h-8 mx-auto mb-2" fill="currentColor" viewBox="0 0 20 20">
+                       <svg className="w-6 h-6 mx-auto mb-1" fill="currentColor" viewBox="0 0 20 20">
                          <path fillRule="evenodd" d="M3 5a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2h-2.22l.123.489.804.804A1 1 0 0113 18H7a1 1 0 01-.707-1.707l.804-.804L7.22 15H5a2 2 0 01-2-2V5zm5.771 7H5V5h10v7H8.771z" clipRule="evenodd" />
                        </svg>
-                       <div className="text-sm font-medium">Desktop</div>
-                       <div className="text-xs text-green-300 mt-1">FREE</div>
+                       <div className="text-sm font-semibold">Desktop</div>
+                       <div className="text-xs text-green-300 font-medium mt-0.5">FREE</div>
                      </button>
                      
                      <button
                        type="button"
                        disabled
-                       className="p-4 border-2 border-gray-500/30 bg-gray-600/20 text-gray-400 rounded-lg cursor-not-allowed opacity-60"
+                       className="p-3 border-2 border-gray-500/40 bg-gray-600/30 text-gray-400 rounded-lg cursor-not-allowed opacity-70"
                      >
-                       <svg className="w-8 h-8 mx-auto mb-2" fill="currentColor" viewBox="0 0 20 20">
+                       <svg className="w-6 h-6 mx-auto mb-1" fill="currentColor" viewBox="0 0 20 20">
                          <path d="M7 2a2 2 0 00-2 2v12a2 2 0 002 2h6a2 2 0 002-2V4a2 2 0 00-2-2H7zm3 14a1 1 0 100-2 1 1 0 000 2z" />
                        </svg>
-                       <div className="text-sm font-medium">Tablet</div>
-                       <div className="text-xs text-orange-300 mt-1">Subscription</div>
+                       <div className="text-sm font-semibold">Tablet</div>
+                       <div className="text-xs text-orange-300 font-medium mt-0.5">Subscription</div>
                      </button>
                      
                      <button
                        type="button"
                        disabled
-                       className="p-4 border-2 border-gray-500/30 bg-gray-600/20 text-gray-400 rounded-lg cursor-not-allowed opacity-60"
+                       className="p-3 border-2 border-gray-500/40 bg-gray-600/30 text-gray-400 rounded-lg cursor-not-allowed opacity-70"
                      >
-                       <svg className="w-8 h-8 mx-auto mb-2" fill="currentColor" viewBox="0 0 20 20">
+                       <svg className="w-6 h-6 mx-auto mb-1" fill="currentColor" viewBox="0 0 20 20">
                          <path fillRule="evenodd" d="M7 2a2 2 0 00-2 2v12a2 2 0 002 2h6a2 2 0 002-2V4a2 2 0 00-2-2H7zm3 14a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
                        </svg>
-                       <div className="text-sm font-medium">Mobile</div>
-                       <div className="text-xs text-orange-300 mt-1">Subscription</div>
+                       <div className="text-sm font-semibold">Mobile</div>
+                       <div className="text-xs text-orange-300 font-medium mt-0.5">Subscription</div>
                      </button>
                    </div>
                    <p className="text-xs text-gray-300 text-center">
@@ -366,6 +366,22 @@ const handleScanSubmit = async (e) => {
                    )}
                  </button>
                </form>
+
+               {/* Get Full Audit Button */}
+               <div className="mt-6 text-center">
+                 <a 
+                   href="/subscription" 
+                   className="inline-block px-6 py-3 bg-white/90 backdrop-blur-sm text-blue-600 hover:bg-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+                 >
+                   Get Full Audit Here
+                 </a>
+                 <p className="text-sm text-gray-200 mt-3">
+                   Tablet and Mobile testing available with{' '}
+                   <a href="/subscription" className="text-blue-200 hover:text-white font-medium underline">
+                     paid subscriptions
+                   </a>
+                 </p>
+               </div>
 
                <p className="text-gray-200 text-small sm:text-xl mt-6 leading-relaxed text-center font-medium">
                Earn the SilverSurfers Seal of Approval through expert audits that score your site and deliver actionable reports to create more delightful digital experiences for older adults.
@@ -487,6 +503,12 @@ const handleScanSubmit = async (e) => {
                <p className="text-gray-700 leading-relaxed text-base sm:text-lg">
                  Enter your URL to get an instant <span className="font-semibold">SilverSurfers Score</span> and see how accessible and inclusive your website really is.
                </p>
+               <button
+                 onClick={navigateToServices}
+                 className="mt-6 px-6 py-3 bg-gradient-to-r from-blue-500 to-green-500 hover:from-blue-600 hover:to-green-600 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-300"
+               >
+                 Get Full Audit Here
+               </button>
              </div>
            </div>
 
@@ -593,6 +615,22 @@ const handleScanSubmit = async (e) => {
           >
             Contact Our Team
           </button>
+         </div>
+         
+         {/* Get Full Audit Button */}
+         <div className="mt-8 text-center">
+           <a 
+             href="/subscription" 
+             className="inline-block px-6 py-3 bg-white/90 backdrop-blur-sm text-blue-600 hover:bg-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+           >
+             Get Full Audit Here
+           </a>
+           <p className="text-sm text-gray-200 mt-4">
+             Tablet and Mobile testing available with{' '}
+             <a href="/subscription" className="text-blue-200 hover:text-white font-medium underline">
+               paid subscriptions
+             </a>
+           </p>
          </div>
        </div>
      </section>

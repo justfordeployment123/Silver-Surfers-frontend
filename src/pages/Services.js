@@ -313,6 +313,19 @@ const Services = () => {
                   <svg className="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
                 </a>
                 <p className="text-lg text-gray-500 mt-4 leading-relaxed">No credit card required</p>
+                
+                {/* Get Full Audit Button */}
+                <a href="/subscription" className="inline-block mt-4 px-6 py-3 bg-white border-2 border-blue-500 text-blue-600 hover:bg-blue-50 font-semibold rounded-xl shadow-md hover:shadow-lg transition-all duration-300">
+                  Get Full Audit Here
+                </a>
+                
+                {/* Additional note */}
+                <p className="text-sm text-gray-600 mt-6 leading-relaxed">
+                  🎁 Tablet and Mobile testing available with{' '}
+                  <a href="/subscription" className="text-blue-600 hover:text-blue-700 font-medium underline">
+                    paid subscriptions
+                  </a>
+                </p>
               </div>
             </div>
           </div>
