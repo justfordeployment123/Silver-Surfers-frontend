@@ -723,49 +723,66 @@ const Subscription = () => {
                   const canUpgrade = !isCurrentPlan && plan.id !== 'custom';
                   
                   return (
-                    <div key={plan.id} className={`p-4 border-2 rounded-xl ${isCurrentPlan ? 'border-blue-500 bg-blue-50' : 'border-gray-200'}`}>
-                      <div className="flex items-center justify-between mb-2">
-                        <h3 className="font-semibold text-gray-900">{plan.name}</h3>
+                    <div key={plan.id} className={`p-6 border-2 rounded-xl ${isCurrentPlan ? 'border-blue-500 bg-blue-50' : 'border-gray-200'}`}>
+                      <div className="flex items-center justify-between mb-3">
+                        <h3 className="text-xl font-bold text-gray-900">{plan.name}</h3>
                         {isCurrentPlan && (
                           <span className="text-xs bg-blue-500 text-white px-2 py-1 rounded-full">Current</span>
                         )}
                       </div>
                       
-                      <p className="text-sm text-gray-600 mb-3">{plan.description}</p>
+                      <p className="text-sm text-gray-600 mb-4">{plan.description}</p>
                       
-                      <div className="flex items-center justify-between">
-                        <div>
-                          {/* Current Price */}
-                          <div className="font-bold text-lg text-gray-900">
-                            {formatPrice(getCurrentPrice(plan))}{plan.type === 'one-time' || plan.isOneTime ? ' one-time' : `/${billingCycle === 'yearly' ? 'year' : 'month'}`}
-                          </div>
-                          
-                          {/* Limited Time Offer */}
-                          {plan.id !== 'custom' && !(plan.type === 'one-time' || plan.isOneTime) && (
-                            <div className="text-xs text-gray-500 mb-1">per {billingCycle === 'yearly' ? 'year' : 'month'}</div>
-                          )}
-                          
-                          {billingCycle === 'yearly' && getSavings(plan) && getSavings(plan) > 0 && (
-                            <div className="text-xs text-green-600 font-medium">
-                              Save ${getSavings(plan)} annually
-                            </div>
-                          )}
-                          
-                          <div className="text-xs text-gray-700 mt-2">
-                            {plan.limits.scansPerMonth === -1 ? 'Unlimited' : plan.limits.scansPerMonth} scans/month
-                          </div>
+                      {/* Pricing Section */}
+                      <div className="mb-4">
+                        <div className="font-bold text-2xl text-gray-900 mb-1">
+                          {formatPrice(getCurrentPrice(plan))}
                         </div>
-                        
-                        {canUpgrade && (
-                          <button
-                            onClick={() => handleUpgradePlan(plan.id, billingCycle)}
-                            disabled={actionLoading}
-                            className="px-4 py-2 bg-blue-500 hover:bg-blue-600 disabled:bg-gray-300 text-white text-sm font-semibold rounded-lg transition-colors"
-                          >
-                            {actionLoading ? 'Processing...' : 'Upgrade Plan'}
-                          </button>
+                        <div className="text-sm text-gray-500 mb-2">
+                          per {billingCycle === 'yearly' ? 'year' : 'month'}
+                        </div>
+                        {billingCycle === 'yearly' && getSavings(plan) && getSavings(plan) > 0 && (
+                          <div className="text-sm text-green-600 font-semibold">
+                            Save ${getSavings(plan)} annually
+                          </div>
                         )}
                       </div>
+                      
+                      {/* Package Details */}
+                      <div className="mb-4 p-3 bg-gray-50 rounded-lg">
+                        <div className="text-sm text-gray-700 mb-2">
+                          <strong>Scans per month:</strong> {plan.limits.scansPerMonth === -1 ? 'Unlimited' : plan.limits.scansPerMonth}
+                        </div>
+                        <div className="text-sm text-gray-700">
+                          <strong>Users:</strong> {plan.limits.maxUsers === -1 ? 'Unlimited' : plan.limits.maxUsers}
+                        </div>
+                      </div>
+                      
+                      {/* Features List */}
+                      {plan.limits.features && plan.limits.features.length > 0 && (
+                        <div className="mb-4">
+                          <ul className="space-y-2">
+                            {plan.limits.features.map((feature, idx) => (
+                              <li key={idx} className="flex items-start text-sm text-gray-700">
+                                <svg className="w-4 h-4 text-green-500 mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                </svg>
+                                {feature}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                      
+                      {canUpgrade && (
+                        <button
+                          onClick={() => handleUpgradePlan(plan.id, billingCycle)}
+                          disabled={actionLoading}
+                          className="w-full px-4 py-2 bg-blue-500 hover:bg-blue-600 disabled:bg-gray-300 text-white font-semibold rounded-lg transition-colors"
+                        >
+                          {actionLoading ? 'Processing...' : 'Upgrade Plan'}
+                        </button>
+                      )}
                     </div>
                   );
                 })}
@@ -845,28 +862,13 @@ const Subscription = () => {
                       <p className="text-gray-700 mb-4">{plan.description}</p>
                       
                       <div className="mb-4">
-                        {/* Original Price (Crossed Out) */}
-                        <div className="text-lg text-gray-400 line-through mb-1">
-                          {plan.id === 'starter' ? '$69/month' : plan.id === 'pro' ? '$399/month' : formatPrice(getCurrentPrice(plan))}
-                        </div>
-                        
                         {/* Current Price */}
                         <div className="text-3xl font-bold text-gray-900">{formatPrice(getCurrentPrice(plan))}</div>
                         
-                        {/* Limited Time Offer */}
-                        <div className="text-xs text-gray-500 mb-1">limited time offer</div>
-                        
                         <div className="text-sm text-gray-700">per {billingCycle === 'yearly' ? 'year' : 'month'}</div>
                         
-                        {/* Annual Offer */}
-                        {billingCycle === 'monthly' && (
-                          <div className="text-xs text-gray-500 mt-1">
-                            {plan.id === 'starter' ? '$197 for one year - special offer' : '$899 for one year - special offer'}
-                          </div>
-                        )}
-                        
                         {billingCycle === 'yearly' && getSavings(plan) && getSavings(plan) > 0 && (
-                          <div className="text-xs text-green-600 font-medium mt-1">
+                          <div className="text-sm text-green-600 font-semibold mt-1">
                             Save ${getSavings(plan)} annually
                           </div>
                         )}
