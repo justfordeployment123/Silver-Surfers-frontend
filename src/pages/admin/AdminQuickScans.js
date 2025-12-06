@@ -78,23 +78,33 @@ const AdminQuickScans = () => {
   };
 
   const handleExport = () => {
-    // Prepare CSV data
-    const headers = ['URL', 'Email', 'First Name', 'Last Name', 'Score (%)', 'Scan Date', 'Status'];
-    const csvData = quickScans.map(scan => [
-      scan.url,
-      scan.email,
-      scan.firstName || '',
-      scan.lastName || '',
-      scan.scanScore !== null && scan.scanScore !== undefined ? scan.scanScore : 'N/A',
-      new Date(scan.scanDate).toLocaleString(),
-      scan.status
-    ]);
+    // Prepare CSV data with all available fields
+    const headers = ['URL', 'Email', 'Name', 'Score (%)', 'Scan Date', 'Status', 'Report Generated', 'Created At'];
+    const csvData = quickScans.map(scan => {
+      const fullName = [scan.firstName, scan.lastName].filter(Boolean).join(' ') || 'N/A';
+      const score = scan.scanScore !== null && scan.scanScore !== undefined ? scan.scanScore : 'N/A';
+      
+      return [
+        scan.url || '',
+        scan.email || '',
+        fullName,
+        score,
+        new Date(scan.scanDate).toLocaleString(),
+        scan.status || 'unknown',
+        scan.reportGenerated ? 'Yes' : 'No',
+        new Date(scan.createdAt).toLocaleString()
+      ];
+    });
 
-    // Create CSV content
+    // Create CSV content with proper newlines
     const csvContent = [
       headers.join(','),
-      ...csvData.map(row => row.map(cell => `"${cell}"`).join(','))
-    ].join('\\n');
+      ...csvData.map(row => row.map(cell => {
+        // Escape double quotes and wrap in quotes
+        const cellStr = String(cell).replace(/"/g, '""');
+        return `"${cellStr}"`;
+      }).join(','))
+    ].join('\n'); // Fixed: Use actual newline character, not escaped string
 
     // Create and download file
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
