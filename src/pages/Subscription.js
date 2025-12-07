@@ -223,7 +223,8 @@ const Subscription = () => {
 
   const formatPrice = (price) => {
     if (!price) return 'Contact us';
-    return `$${(price / 100).toFixed(0)}`;
+    const amount = (price / 100).toFixed(0);
+    return `$${parseInt(amount).toLocaleString()}`;
   };
 
   const formatDate = (date) => {
@@ -743,7 +744,7 @@ const Subscription = () => {
                         </div>
                         {billingCycle === 'yearly' && getSavings(plan) && getSavings(plan) > 0 && (
                           <div className="text-sm text-green-600 font-semibold">
-                            Save ${getSavings(plan)} annually
+                            Save ${getSavings(plan).toLocaleString()} annually
                           </div>
                         )}
                       </div>
@@ -869,7 +870,7 @@ const Subscription = () => {
                         
                         {billingCycle === 'yearly' && getSavings(plan) && getSavings(plan) > 0 && (
                           <div className="text-sm text-green-600 font-semibold mt-1">
-                            Save ${getSavings(plan)} annually
+                            Save ${getSavings(plan).toLocaleString()} annually
                           </div>
                         )}
                       </div>

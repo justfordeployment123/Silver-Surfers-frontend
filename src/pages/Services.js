@@ -115,7 +115,8 @@ const Services = () => {
 
   const formatPrice = (price) => {
     if (!price) return 'Contact us';
-    return `$${(price / 100).toFixed(0)}`;
+    const amount = (price / 100).toFixed(0);
+    return `$${parseInt(amount).toLocaleString()}`;
   };
 
   const getCurrentPrice = (plan) => {
@@ -435,7 +436,7 @@ const Services = () => {
                             
                             {billingCycle === 'yearly' && savings && savings > 0 && (
                               <div className="text-xs text-green-600 font-medium mt-1">
-                                Save ${savings} annually
+                                Save ${savings.toLocaleString()} annually
                       </div>
                             )}
                     </div>
