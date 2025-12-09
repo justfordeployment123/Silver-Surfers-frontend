@@ -8,6 +8,7 @@ const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [user, setUser] = useState(null);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const userMenuRef = useRef(null);
   const desktopUserMenuRef = useRef(null);
   const location = useLocation();
@@ -182,15 +183,17 @@ const Header = () => {
 
           {/* Search Bar & Header CTA Container */}
           <div className="hidden lg:flex items-center gap-4 relative">
-            <SearchBar isScrolled={isScrolled} />
+            <SearchBar isScrolled={isScrolled} onSearchOpenChange={setIsSearchOpen} />
 
-            {/* Header CTA (Desktop) */}
-            <Link 
-              to="/services" 
-              className="px-6 py-3 bg-gradient-to-r from-blue-500 via-green-600 to-teal-500 hover:from-blue-600 hover:via-green-700 hover:to-teal-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
-            >
-              Get Your Audit
-            </Link>
+            {/* Header CTA (Desktop) - Hidden when search is open */}
+            {!isSearchOpen && (
+              <Link 
+                to="/services" 
+                className="px-6 py-3 bg-gradient-to-r from-blue-500 via-green-600 to-teal-500 hover:from-blue-600 hover:via-green-700 hover:to-teal-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+              >
+                Get Your Audit
+              </Link>
+            )}
             <div className="relative" ref={desktopUserMenuRef}>
               <button
                 onClick={() => setIsUserMenuOpen((s) => !s)}

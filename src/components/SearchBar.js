@@ -1,12 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const SearchBar = ({ isScrolled }) => {
+const SearchBar = ({ isScrolled, onSearchOpenChange }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [filteredResults, setFilteredResults] = useState([]);
   const searchRef = useRef(null);
   const navigate = useNavigate();
+
+  // Notify parent when search open state changes
+  useEffect(() => {
+    onSearchOpenChange?.(isSearchOpen);
+  }, [isSearchOpen, onSearchOpenChange]);
 
   // Define all searchable pages, features, and content sections
   const searchableContent = [
