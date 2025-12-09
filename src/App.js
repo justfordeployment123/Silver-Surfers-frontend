@@ -32,6 +32,9 @@ import AdminBlog from './pages/admin/AdminBlog';
 import AdminFAQs from './pages/admin/AdminFAQs';
 import AdminAnalysis from './pages/admin/AdminAnalysis';
 import AdminQuickScans from './pages/admin/AdminQuickScans';
+import AdminStarterScans from './pages/admin/AdminStarterScans';
+import AdminProScans from './pages/admin/AdminProScans';
+import AdminOneTimeScans from './pages/admin/AdminOneTimeScans';
 import AdminContact from './pages/admin/AdminContact';
 import AdminUsers from './pages/admin/AdminUsers';
 import AdminContentManager from './pages/AdminContentManager';
@@ -56,12 +59,15 @@ function AppContent() {
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin" element={<ProtectedRoute role="admin"><AdminLayout /></ProtectedRoute>}>
             <Route index element={<Navigate to="/admin/dashboard" replace />} />
-            <Route path="dashboard" element={<AdminDashboard />} />
+          <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="users" element={<AdminUsers />} />
             <Route path="blog" element={<AdminBlog />} />
             <Route path="faqs" element={<AdminFAQs />} />
             <Route path="analysis" element={<AdminAnalysis />} />
             <Route path="quick-scans" element={<AdminQuickScans />} />
+            <Route path="starter-scans" element={<AdminStarterScans />} />
+            <Route path="pro-scans" element={<AdminProScans />} />
+            <Route path="onetime-scans" element={<AdminOneTimeScans />} />
             <Route path="contact" element={<AdminContact />} />
             <Route path="legal" element={<AdminLegal />} />
           </Route>

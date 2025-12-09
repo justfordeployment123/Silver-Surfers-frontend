@@ -1,26 +1,43 @@
 import React, { useState, useEffect } from 'react';
 import { adminListSubscriptionScans } from '../../api';
 
-const AdminSubscriptionScans = () => {
+const AdminSubscriptionScans = ({ planType = 'all' }) => {
   const [scans, setScans] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
-  const [planFilter, setPlanFilter] = useState('all');
   const [sortBy, setSortBy] = useState('createdAt');
   const [sortOrder, setSortOrder] = useState('desc');
   const [refreshing, setRefreshing] = useState(false);
   const [statistics, setStatistics] = useState({
     totalScans: 0,
-    starterScans: 0,
-    proScans: 0,
     completedScans: 0,
-    failedScans: 0
+    failedScans: 0,
+    uniqueEmails: 0,
+    uniqueUrls: 0
   });
+
+  const getPlanTitle = () => {
+    switch(planType) {
+      case 'starter': return 'Starter Plan';
+      case 'pro': return 'Pro Plan';
+      case 'oneTime': return 'One-Time Package';
+      default: return 'All Subscription Scans';
+    }
+  };
+
+  const getPlanEmoji = () => {
+    switch(planType) {
+      case 'starter': return '🚀';
+      case 'pro': return '⭐';
+      case 'oneTime': return '📊';
+      default: return '🔍';
+    }
+  };
 
   useEffect(() => {
     loadScans();
-  }, [sortBy, sortOrder, planFilter]);
+  }, [sortBy, sortOrder, planType]);
 
   useEffect(() => {
     const delayedSearch = setTimeout(() => {
@@ -39,7 +56,7 @@ const AdminSubscriptionScans = () => {
       const params = {
         limit: 100,
         search: searchQuery || undefined,
-        planFilter: planFilter !== 'all' ? planFilter : undefined,
+        planId: planType !== 'all' ? planType : undefined,
         sortBy,
         sortOrder
       };
@@ -50,19 +67,19 @@ const AdminSubscriptionScans = () => {
         setScans([]);
         setStatistics({
           totalScans: 0,
-          starterScans: 0,
-          proScans: 0,
           completedScans: 0,
-          failedScans: 0
+          failedScans: 0,
+          uniqueEmails: 0,
+          uniqueUrls: 0
         });
       } else {
         setScans(result.items || []);
         setStatistics(result.statistics || {
           totalScans: 0,
-          starterScans: 0,
-          proScans: 0,
           completedScans: 0,
-          failedScans: 0
+          failedScans: 0,
+          uniqueEmails: 0,
+          uniqueUrls: 0
         });
       }
     } catch (err) {
@@ -143,8 +160,11 @@ const AdminSubscriptionScans = () => {
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Subscription Scans</h1>
-          <p className="mt-2 text-gray-600">Monitor Starter and Pro package audit requests</p>
+          <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-2">
+            <span>{getPlanEmoji()}</span>
+            {getPlanTitle()}
+          </h1>
+          <p className="mt-2 text-gray-600">Monitor all {getPlanTitle().toLowerCase()} audit requests</p>
         </div>
         <div className="flex gap-3">
           <button
@@ -201,42 +221,6 @@ const AdminSubscriptionScans = () => {
           <div className="p-5">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <div className="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center">
-                  <span className="text-indigo-600 font-semibold">🚀</span>
-                </div>
-              </div>
-              <div className="ml-5 w-0 flex-1">
-                <dl>
-                  <dt className="text-sm font-medium text-gray-500 truncate">Starter</dt>
-                  <dd className="text-lg font-medium text-gray-900">{statistics.starterScans}</dd>
-                </dl>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white overflow-hidden shadow rounded-lg">
-          <div className="p-5">
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
-                  <span className="text-purple-600 font-semibold">⭐</span>
-                </div>
-              </div>
-              <div className="ml-5 w-0 flex-1">
-                <dl>
-                  <dt className="text-sm font-medium text-gray-500 truncate">Pro</dt>
-                  <dd className="text-lg font-medium text-gray-900">{statistics.proScans}</dd>
-                </dl>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white overflow-hidden shadow rounded-lg">
-          <div className="p-5">
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
                 <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
                   <span className="text-green-600 font-semibold">✅</span>
                 </div>
@@ -268,6 +252,42 @@ const AdminSubscriptionScans = () => {
             </div>
           </div>
         </div>
+
+        <div className="bg-white overflow-hidden shadow rounded-lg">
+          <div className="p-5">
+            <div className="flex items-center">
+              <div className="flex-shrink-0">
+                <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
+                  <span className="text-purple-600 font-semibold">📧</span>
+                </div>
+              </div>
+              <div className="ml-5 w-0 flex-1">
+                <dl>
+                  <dt className="text-sm font-medium text-gray-500 truncate">Unique Emails</dt>
+                  <dd className="text-lg font-medium text-gray-900">{statistics.uniqueEmails}</dd>
+                </dl>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white overflow-hidden shadow rounded-lg">
+          <div className="p-5">
+            <div className="flex items-center">
+              <div className="flex-shrink-0">
+                <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center">
+                  <span className="text-orange-600 font-semibold">🔗</span>
+                </div>
+              </div>
+              <div className="ml-5 w-0 flex-1">
+                <dl>
+                  <dt className="text-sm font-medium text-gray-500 truncate">Unique URLs</dt>
+                  <dd className="text-lg font-medium text-gray-900">{statistics.uniqueUrls}</dd>
+                </dl>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Filters */}
@@ -282,16 +302,6 @@ const AdminSubscriptionScans = () => {
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
             />
           </div>
-          <select
-            value={planFilter}
-            onChange={(e) => setPlanFilter(e.target.value)}
-            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
-          >
-            <option value="all">All Plans</option>
-            <option value="starter">Starter</option>
-            <option value="pro">Pro</option>
-            <option value="oneTime">One-Time</option>
-          </select>
           <select
             value={`${sortBy}-${sortOrder}`}
             onChange={(e) => {

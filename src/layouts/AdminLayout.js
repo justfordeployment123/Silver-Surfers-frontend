@@ -45,6 +45,9 @@ const AdminLayout = () => {
     { name: 'FAQ Management', href: '/admin/faqs', icon: '❓', current: location.pathname === '/admin/faqs' },
     { name: 'Analysis Queue', href: '/admin/analysis', icon: '🔍', current: location.pathname === '/admin/analysis' },
     { name: 'Quick Scans', href: '/admin/quick-scans', icon: '⚡', current: location.pathname === '/admin/quick-scans' },
+    { name: 'Starter Scans', href: '/admin/starter-scans', icon: '🌟', current: location.pathname === '/admin/starter-scans' },
+    { name: 'Pro Scans', href: '/admin/pro-scans', icon: '💎', current: location.pathname === '/admin/pro-scans' },
+    { name: 'One-Time Scans', href: '/admin/onetime-scans', icon: '📦', current: location.pathname === '/admin/onetime-scans' },
     { name: 'Contact Messages', href: '/admin/contact', icon: '📧', current: location.pathname === '/admin/contact' },
     { name: 'Legal Documents', href: '/admin/legal', icon: '📋', current: location.pathname === '/admin/legal' },
   ];

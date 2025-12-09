@@ -127,10 +127,10 @@ const SearchBar = ({ isScrolled }) => {
   };
 
   return (
-    <div className="relative" ref={searchRef}>
+    <div className="relative z-40" ref={searchRef}>
       {/* Search Button/Input */}
       <form onSubmit={handleSearch} className="relative">
-        <div className={`flex items-center gap-2 transition-all duration-300 max-w-xs sm:max-w-sm md:max-w-md ${
+        <div className={`flex items-center gap-2 transition-all duration-300 ${
           isSearchOpen ? 'w-48 sm:w-56 md:w-64' : 'w-10'
         }`}>
           <button
@@ -178,7 +178,7 @@ const SearchBar = ({ isScrolled }) => {
 
       {/* Search Results Dropdown */}
       {isSearchOpen && filteredResults.length > 0 && (
-        <div className={`absolute top-full mt-2 w-80 rounded-xl shadow-2xl overflow-hidden z-50 ${
+        <div className={`absolute top-full mt-2 w-48 sm:w-56 md:w-80 rounded-xl shadow-2xl overflow-hidden z-50 ${
           isScrolled 
             ? 'bg-white border border-gray-200' 
             : 'bg-gray-900/95 border border-white/10 backdrop-blur-xl'
@@ -232,7 +232,7 @@ const SearchBar = ({ isScrolled }) => {
 
       {/* No Results Message */}
       {isSearchOpen && searchQuery.trim() !== '' && filteredResults.length === 0 && (
-        <div className={`absolute top-full mt-2 w-80 rounded-xl shadow-2xl overflow-hidden z-50 ${
+        <div className={`absolute top-full mt-2 w-48 sm:w-56 md:w-80 rounded-xl shadow-2xl overflow-hidden z-50 ${
           isScrolled 
             ? 'bg-white border border-gray-200' 
             : 'bg-gray-900/95 border border-white/10 backdrop-blur-xl'

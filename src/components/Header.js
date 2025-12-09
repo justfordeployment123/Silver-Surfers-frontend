@@ -71,7 +71,7 @@ const Header = () => {
         : 'bg-white/10 backdrop-blur-xl border-b border-white/20'
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20 gap-4">
+        <div className="flex items-center justify-between h-20">
         {/* Logo */}
         <Link to="/" className="flex items-center space-x-3 group" onClick={closeMobileMenu}>
           <div className="relative">
@@ -105,7 +105,7 @@ const Header = () => {
 
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-8 flex-1 min-w-0">
+          <nav className="hidden lg:flex items-center space-x-8">
             <Link 
               to="/" 
               className={`nav-link transition-colors duration-300 font-medium hover:scale-105 transform transition-transform ${
@@ -180,11 +180,11 @@ const Header = () => {
             </Link>
           </nav>
 
-          {/* Search Bar */}
-          <SearchBar isScrolled={isScrolled} />
+          {/* Search Bar & Header CTA Container */}
+          <div className="hidden lg:flex items-center gap-4 relative">
+            <SearchBar isScrolled={isScrolled} />
 
-          {/* Header CTA (Desktop) */}
-          <div className="hidden lg:flex items-center gap-4 flex-shrink-0">
+            {/* Header CTA (Desktop) */}
             <Link 
               to="/services" 
               className="px-6 py-3 bg-gradient-to-r from-blue-500 via-green-600 to-teal-500 hover:from-blue-600 hover:via-green-700 hover:to-teal-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
