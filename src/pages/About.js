@@ -74,7 +74,7 @@ const About = () => {
       </div>
 
       {/* Mission Statement Section */}
-      <section className="py-20 bg-white">
+      <section id="mission" className="py-20 bg-white scroll-mt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-16">
@@ -93,7 +93,7 @@ const About = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-20 bg-gradient-to-br from-gray-50 to-green-50/30">
+      <section id="stats" className="py-20 bg-gradient-to-br from-gray-50 to-green-50/30 scroll-mt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">Our Impact</h2>
@@ -115,7 +115,7 @@ const About = () => {
       </section>
 
       {/* Values/Approach Section */}
-      <section className="py-20 bg-gradient-to-br from-gray-50 to-blue-50/30">
+      <section id="approach" className="py-20 bg-gradient-to-br from-gray-50 to-blue-50/30 scroll-mt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">Our Approach & Values</h2>
@@ -143,7 +143,7 @@ const About = () => {
       </section>
 
       {/* Values Section */}
-      <section className="py-20 bg-white">
+      <section id="team" className="py-20 bg-white scroll-mt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">Our Values</h2>

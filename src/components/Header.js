@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { getMe, logout as apiLogout } from '../api';
+import SearchBar from './SearchBar';
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -179,6 +180,9 @@ const Header = () => {
             </Link>
           </nav>
 
+          {/* Search Bar */}
+          <SearchBar isScrolled={isScrolled} />
+
           {/* Header CTA (Desktop) */}
           <div className="hidden lg:flex items-center gap-4">
             <Link 
@@ -287,6 +291,11 @@ const Header = () => {
           isMobileMenuOpen ? 'max-h-screen pb-6' : 'max-h-0'
         }`}>
           <div className="pt-4 space-y-4">
+            {/* Mobile Search Bar */}
+            <div className="px-4">
+              <SearchBar isScrolled={true} />
+            </div>
+            
             <Link 
               to="/" 
               className={`block py-2 px-4 rounded-lg transition-colors duration-300 font-medium ${

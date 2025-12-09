@@ -270,7 +270,7 @@ const Services = () => {
       </div>
 
       {/* Free Audit Section */}
-      <section className="py-20 bg-white">
+      <section id="quickscan" className="py-20 bg-white scroll-mt-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">Start Here - Completely Free</h2>
@@ -334,7 +334,7 @@ const Services = () => {
       </section>
 
       {/* Our Packages */}
-      <section className="py-20 bg-gradient-to-br from-gray-50 to-green-50/30">
+      <section id="fullaudit" className="py-20 bg-gradient-to-br from-gray-50 to-green-50/30 scroll-mt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">Our Plans & Pricing</h2>
@@ -390,7 +390,7 @@ const Services = () => {
                 const isTeamMember = currentSubscription && currentSubscription.isTeamMember;
                 
                 return (
-                  <div key={plan.id} className={`relative bg-white rounded-3xl p-8 shadow-xl border-2 transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 flex flex-col h-full ${
+                  <div id={plan.id} key={plan.id} className={`relative bg-white rounded-3xl p-8 shadow-xl border-2 transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 flex flex-col h-full scroll-mt-20 ${
                     isCurrentPlan ? 'border-green-500 scale-105 bg-green-50' : 
                     plan.popular ? 'border-blue-500 scale-105' : 'border-gray-200'
                   }`}>

@@ -124,7 +124,7 @@ const Contact = () => {
       </div>
 
   {/* Contact Methods */}
-  <section id="contact-methods" className="py-20 bg-white">
+  <section id="support" className="py-20 bg-white scroll-mt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
               <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">How Can We Help?</h2>
@@ -159,7 +159,7 @@ const Contact = () => {
       </section>
 
     {/* Contact Form */}
-  <section id="contact-form" className="py-20 bg-gradient-to-br from-gray-50 to-green-50/30">
+  <section id="form" className="py-20 bg-gradient-to-br from-gray-50 to-green-50/30 scroll-mt-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-white/90 backdrop-blur-sm rounded-3xl p-8 lg:p-12 shadow-xl border border-purple-100">
             <div className="text-center mb-8">
