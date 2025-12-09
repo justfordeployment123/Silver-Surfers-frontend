@@ -130,8 +130,8 @@ const SearchBar = ({ isScrolled }) => {
     <div className="relative" ref={searchRef}>
       {/* Search Button/Input */}
       <form onSubmit={handleSearch} className="relative">
-        <div className={`flex items-center gap-2 transition-all duration-300 ${
-          isSearchOpen ? 'w-64' : 'w-10'
+        <div className={`flex items-center gap-2 transition-all duration-300 max-w-xs sm:max-w-sm md:max-w-md ${
+          isSearchOpen ? 'w-48 sm:w-56 md:w-64' : 'w-10'
         }`}>
           <button
             type="button"
