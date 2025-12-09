@@ -321,7 +321,6 @@ const AdminSubscriptionScans = ({ planType = 'all' }) => {
           <button
             onClick={() => {
               setSearchQuery('');
-              setPlanFilter('all');
               setSortBy('createdAt');
               setSortOrder('desc');
             }}
