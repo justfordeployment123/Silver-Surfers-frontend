@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import { getMe } from '../api';
 
 const ProtectedRoute = ({ role = null, children }) => {
   const [loading, setLoading] = useState(true);
   const [allowed, setAllowed] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     let mounted = true;
@@ -67,7 +68,15 @@ const ProtectedRoute = ({ role = null, children }) => {
     );
   }
   
-  if (!allowed) return <Navigate to="/login" replace />;
+  if (!allowed) {
+    // Save the current path so user can be redirected back after login
+    const from = location.pathname + location.search + location.hash;
+    // Store in localStorage as backup
+    if (from && from !== '/login' && from !== '/signup' && !from.includes('/api')) {
+      localStorage.setItem('lastRoute', from);
+    }
+    return <Navigate to="/login" state={{ from }} replace />;
+  }
   return children;
 };
 

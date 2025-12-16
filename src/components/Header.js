@@ -221,7 +221,19 @@ const Header = () => {
                     </div>
                   ) : (
                     <div className="py-1">
-                      <Link to="/login" onClick={() => setIsUserMenuOpen(false)} className={`block px-4 py-2 text-sm ${isScrolled ? 'text-gray-800 hover:bg-gray-100' : 'text-gray-200 hover:bg-white/10'}`}>Login</Link>
+                      <Link 
+                        to="/login" 
+                        onClick={() => {
+                          const currentPath = window.location.pathname + window.location.search + window.location.hash;
+                          if (currentPath && currentPath !== '/' && !currentPath.includes('/login')) {
+                            localStorage.setItem('lastRoute', currentPath);
+                          }
+                          setIsUserMenuOpen(false);
+                        }} 
+                        className={`block px-4 py-2 text-sm ${isScrolled ? 'text-gray-800 hover:bg-gray-100' : 'text-gray-200 hover:bg-white/10'}`}
+                      >
+                        Login
+                      </Link>
                       <Link to="/signup" onClick={() => setIsUserMenuOpen(false)} className="block px-4 py-2 text-sm text-white bg-gradient-to-r from-blue-500 via-green-600 to-teal-500 hover:from-blue-600 hover:via-green-700 hover:to-teal-600 rounded-none">Get Started</Link>
                     </div>
                   )}
@@ -260,7 +272,19 @@ const Header = () => {
                     </div>
                   ) : (
                     <div className="py-1">
-                      <Link to="/login" onClick={() => setIsUserMenuOpen(false)} className={`block px-4 py-2 text-sm ${isScrolled ? 'text-gray-800 hover:bg-gray-100' : 'text-gray-200 hover:bg-white/10'}`}>Login</Link>
+                      <Link 
+                        to="/login" 
+                        onClick={() => {
+                          const currentPath = window.location.pathname + window.location.search + window.location.hash;
+                          if (currentPath && currentPath !== '/' && !currentPath.includes('/login')) {
+                            localStorage.setItem('lastRoute', currentPath);
+                          }
+                          setIsUserMenuOpen(false);
+                        }} 
+                        className={`block px-4 py-2 text-sm ${isScrolled ? 'text-gray-800 hover:bg-gray-100' : 'text-gray-200 hover:bg-white/10'}`}
+                      >
+                        Login
+                      </Link>
                       <Link to="/signup" onClick={() => setIsUserMenuOpen(false)} className="block px-4 py-2 text-sm text-white bg-gradient-to-r from-blue-500 via-green-600 to-teal-500 hover:from-blue-600 hover:via-green-700 hover:to-teal-600 rounded-none">Get Started</Link>
                     </div>
                   )}
@@ -384,7 +408,19 @@ const Header = () => {
                 <button onClick={() => { handleLogout(); closeMobileMenu(); }} className="block w-full text-center px-6 py-3 bg-red-600 text-white font-semibold rounded-xl">Logout</button>
               ) : (
                 <div className="flex gap-3">
-                  <Link to="/login" onClick={closeMobileMenu} className="flex-1 text-center px-6 py-3 bg-gray-100 text-gray-900 font-semibold rounded-xl">Login</Link>
+                  <Link 
+                    to="/login" 
+                    onClick={() => {
+                      const currentPath = window.location.pathname + window.location.search + window.location.hash;
+                      if (currentPath && currentPath !== '/' && !currentPath.includes('/login')) {
+                        localStorage.setItem('lastRoute', currentPath);
+                      }
+                      closeMobileMenu();
+                    }} 
+                    className="flex-1 text-center px-6 py-3 bg-gray-100 text-gray-900 font-semibold rounded-xl"
+                  >
+                    Login
+                  </Link>
                   <Link to="/register" onClick={closeMobileMenu} className="flex-1 text-center px-6 py-3 bg-gray-900 text-white font-semibold rounded-xl">Register</Link>
                 </div>
               )}

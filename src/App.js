@@ -108,9 +108,33 @@ function AppContent() {
   );
 }
 
+// Component to track route changes
+function RouteTracker() {
+  const location = useLocation();
+  useEffect(() => {
+    // Save current route (excluding login/signup/verify routes)
+    const currentPath = location.pathname + location.search + location.hash;
+    if (
+      currentPath &&
+      currentPath !== '/' &&
+      !currentPath.includes('/login') &&
+      !currentPath.includes('/signup') &&
+      !currentPath.includes('/verify') &&
+      !currentPath.includes('/forgot-password') &&
+      !currentPath.includes('/reset-password') &&
+      !currentPath.includes('/api') &&
+      !currentPath.includes('undefined')
+    ) {
+      localStorage.setItem('lastRoute', currentPath);
+    }
+  }, [location]);
+  return null;
+}
+
 function App() {
   return (
     <Router>
+      <RouteTracker />
       <AppContent />
     </Router>
   );

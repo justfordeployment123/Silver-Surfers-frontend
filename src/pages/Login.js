@@ -7,14 +7,22 @@ export default function Login() {
   const navigate = useNavigate();
   const location = useLocation();
   // Determine where to go after successful login:
-  // 1. If a protected route stored an origin in location.state.from, use it.
-  // 2. Else if query string explicitly asks for checkout (?from=checkout), go there.
-  // 3. Otherwise go to home page.
+  // 1. Check if there's a pending team invite
+  // 2. If a protected route stored an origin in location.state.from, use it.
+  // 3. Else if query string explicitly asks for checkout (?from=checkout), go there.
+  // 4. Otherwise go to home page.
   const urlParams = new URLSearchParams(location.search);
+  const inviteToken = urlParams.get('invite') || localStorage.getItem('pendingInviteToken');
+  const inviteEmail = urlParams.get('email') || localStorage.getItem('pendingInviteEmail');
+  
   let redirectTo = location.state?.from;
   if(!redirectTo) {
-    if (urlParams.get('from') === 'checkout') redirectTo = '/checkout';
-    else {
+    // If there's a pending invite, redirect back to accept page after login
+    if (inviteToken) {
+      redirectTo = `/team/accept?token=${inviteToken}`;
+    } else if (urlParams.get('from') === 'checkout') {
+      redirectTo = '/checkout';
+    } else {
       const stored = typeof window !== 'undefined' ? localStorage.getItem('lastRoute') : null;
       // Validate the stored route - must start with / and not contain /api or invalid paths
       const isValidRoute = stored && 
@@ -28,7 +36,7 @@ export default function Login() {
   }
   // Auto-admin redirect handled after token decode; no manual admin mode toggle.
 
-  const [form, setForm] = useState({ email: '', password: '' });
+  const [form, setForm] = useState({ email: inviteEmail || '', password: '' });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [unverifiedEmail, setUnverifiedEmail] = useState(null);
@@ -89,6 +97,15 @@ export default function Login() {
     try {
       const { ok, data } = await fetchJSON('/auth/google', { method: 'POST', body: JSON.stringify({ idToken: resp.credential }) });
       if (!ok || !data.token) throw new Error(data?.error || 'Google login failed');
+      
+      // If there's an invite email requirement, validate email match
+      if (inviteEmail && data.user && data.user.email) {
+        if (data.user.email.toLowerCase() !== inviteEmail.toLowerCase()) {
+          setError(`This invitation is for ${inviteEmail}. Please log in with that email address.`);
+          return;
+        }
+      }
+      
       localStorage.setItem('authToken', data.token);
   try { const payload = JSON.parse(atob(data.token.split('.')[1])); if(payload.role==='admin'){ navigate('/admin', { replace: true }); return; } } catch {}
   navigate(redirectTo, { replace: true });
@@ -123,6 +140,13 @@ export default function Login() {
       setError('Email and password required');
       return;
     }
+    
+    // If there's an invite email requirement, validate email match
+    if (inviteEmail && form.email.toLowerCase() !== inviteEmail.toLowerCase()) {
+      setError(`This invitation is for ${inviteEmail}. Please use that email address to log in.`);
+      return;
+    }
+    
     setLoading(true);
     try {
       const { ok, data, status } = await fetchJSON('/auth/login', { method: 'POST', body: JSON.stringify(form) });
@@ -145,6 +169,23 @@ export default function Login() {
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-950 via-green-950 via-teal-950 to-cyan-900 pt-24 pb-10 px-4">
       <form onSubmit={handleSubmit} className="bg-white rounded-3xl shadow-xl p-8 w-full max-w-md">
         <h2 className="heading-page font-bold text-gray-900 mb-6 text-center">Sign in to continue</h2>
+        
+        {inviteEmail && (
+          <div className="mb-6 p-4 bg-blue-50 border-l-4 border-blue-600 rounded">
+            <div className="flex items-start">
+              <svg className="w-5 h-5 text-blue-600 mt-0.5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+              </svg>
+              <div>
+                <p className="text-sm font-semibold text-blue-900">Team Invitation</p>
+                <p className="text-sm text-blue-800 mt-1">
+                  Please log in with <strong>{inviteEmail}</strong> to accept your team invitation.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+        
         <div className="mb-4">
           <label className="block text-gray-800 font-semibold mb-2">Email</label>
           <input
@@ -156,6 +197,7 @@ export default function Login() {
             className="w-full px-4 py-3 rounded-xl border border-gray-400 focus:ring-2 focus:ring-blue-600 text-gray-900 bg-gray-50"
             autoComplete="email"
             required
+            readOnly={!!inviteEmail}
           />
         </div>
         <div className="mb-6">

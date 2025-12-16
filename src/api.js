@@ -327,6 +327,15 @@ export const publishLegalDocument = async (id) => {
   }
 };
 
+export const getInvitationDetails = async (token) => {
+  try {
+    const response = await axios.get(`${API_BASE}/subscription/team/invite/${token}`);
+    return response.data;
+  } catch (error) {
+    return { error: error.response?.data?.error || error.message };
+  }
+};
+
 export const acceptTeamInvitation = async (token) => {
   try {
     const response = await api.post('/subscription/team/accept', { token });
