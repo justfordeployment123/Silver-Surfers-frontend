@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const BACKEND_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000';
-const API_BASE_URL = BACKEND_URL;
+const API_BASE = BACKEND_URL;
 
 // Create a single axios instance so we can attach auth headers automatically
 const api = axios.create({ baseURL: BACKEND_URL });
