@@ -98,7 +98,7 @@ const AdminSubscriptionScans = ({ planType = 'all' }) => {
 
   const handleExport = () => {
     // Prepare CSV data
-    const headers = ['URL', 'Email', 'First Name', 'Last Name', 'Plan', 'Device', 'Status', 'Scan Date'];
+    const headers = ['URL', 'Email', 'First Name', 'Last Name', 'Plan', 'Device', 'Score', 'Status', 'Scan Date'];
     const csvData = scans.map(scan => [
       scan.url,
       scan.email,
@@ -106,6 +106,7 @@ const AdminSubscriptionScans = ({ planType = 'all' }) => {
       scan.lastName || '',
       scan.planId || 'N/A',
       scan.device || 'N/A',
+      scan.score !== undefined ? `${scan.score}%` : 'N/A',
       scan.status,
       new Date(scan.createdAt).toLocaleString()
     ]);
@@ -356,8 +357,8 @@ const AdminSubscriptionScans = ({ planType = 'all' }) => {
         </div>
         
         {scans.length > 0 ? (
-          <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
+          <div className="overflow-x-auto" style={{ maxWidth: '100%' }}>
+            <table className="min-w-full divide-y divide-gray-200" style={{ tableLayout: 'auto' }}>
               <thead className="bg-gray-50">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -386,16 +387,29 @@ const AdminSubscriptionScans = ({ planType = 'all' }) => {
                       )}
                     </button>
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Name
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Plan
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Device
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <button
+                      onClick={() => handleSort('score')}
+                      className="hover:text-gray-700 flex items-center"
+                    >
+                      Score
+                      {sortBy === 'score' && (
+                        <span className="ml-1">
+                          {sortOrder === 'asc' ? '↑' : '↓'}
+                        </span>
+                      )}
+                    </button>
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Status
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -424,12 +438,12 @@ const AdminSubscriptionScans = ({ planType = 'all' }) => {
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm text-gray-900">{scan.email}</div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-4 py-4 whitespace-nowrap">
                       <div className="text-sm text-gray-900">
                         {[scan.firstName, scan.lastName].filter(Boolean).join(' ') || 'N/A'}
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-4 py-4 whitespace-nowrap">
                       <span className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
                         scan.planId === 'pro' ? 'bg-purple-100 text-purple-800' :
                         scan.planId === 'starter' ? 'bg-indigo-100 text-indigo-800' :
@@ -438,10 +452,25 @@ const AdminSubscriptionScans = ({ planType = 'all' }) => {
                         {scan.planId ? scan.planId.charAt(0).toUpperCase() + scan.planId.slice(1) : 'N/A'}
                       </span>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-4 py-4 whitespace-nowrap">
                       <div className="text-sm text-gray-900 capitalize">{scan.device || 'All'}</div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-4 py-4 whitespace-nowrap">
+                      {scan.score !== undefined && scan.score !== null ? (
+                        <div className="flex items-center">
+                          <span className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                            scan.score >= 80 ? 'bg-green-100 text-green-800' :
+                            scan.score >= 50 ? 'bg-yellow-100 text-yellow-800' :
+                            'bg-red-100 text-red-800'
+                          }`}>
+                            {Math.round(scan.score)}%
+                          </span>
+                        </div>
+                      ) : (
+                        <span className="text-sm text-gray-500">N/A</span>
+                      )}
+                    </td>
+                    <td className="px-4 py-4 whitespace-nowrap">
                       <span className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
                         scan.status === 'completed' ? 'bg-green-100 text-green-800' :
                         scan.status === 'processing' ? 'bg-yellow-100 text-yellow-800' :
@@ -451,7 +480,7 @@ const AdminSubscriptionScans = ({ planType = 'all' }) => {
                         {scan.status}
                       </span>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-4 py-4 whitespace-nowrap">
                       <div className="text-sm text-gray-900">
                         {new Date(scan.createdAt).toLocaleString()}
                       </div>
