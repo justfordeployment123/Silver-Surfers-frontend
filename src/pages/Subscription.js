@@ -3,12 +3,6 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { createCheckoutSession, getSubscription, getSubscriptionPlans, createPortalSession, cancelSubscription, inviteTeamMember, removeTeamMember, getTeamMembers, leaveTeam, getTeamScans, upgradeSubscription } from '../api';
 
 const Subscription = () => {
-    // Scroll to top when error or success is set
-    useEffect(() => {
-      if (error || success) {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-    }, [error, success]);
   const [currentSubscription, setCurrentSubscription] = useState(null);
   const [availablePlans, setAvailablePlans] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -25,6 +19,13 @@ const Subscription = () => {
   const [params] = useSearchParams();
   const selectedPlan = params.get('plan');
   const selectedCycle = params.get('cycle') || 'monthly';
+
+    // Scroll to top when error or success is set
+    useEffect(() => {
+      if (error || success) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }, [error, success]);
 
   // Helper functions for pricing
   const getCurrentPrice = (plan) => {
