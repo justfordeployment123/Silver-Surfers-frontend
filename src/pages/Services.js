@@ -159,7 +159,7 @@ const Services = () => {
     const isCurrentPlan = currentSubscription && currentSubscription.planId === plan.id;
     const hasActiveSubscription = currentSubscription && currentSubscription.status === 'active';
     const isTeamMember = currentSubscription && currentSubscription.isTeamMember;
-    
+
     if (plan.contactSales) {
       return {
         text: 'Contact Sales',
@@ -167,17 +167,17 @@ const Services = () => {
         isDisabled: false
       };
     }
-    
-    // Handle one-time purchases - if user has scans, go to report, else checkout
+
+    // Handle one-time purchases - if user has scans, go to /checkout, else Stripe checkout
     if (plan.isOneTime || plan.type === 'one-time') {
       const hasOneTimeScans = currentSubscription && currentSubscription.oneTimeScans > 0;
       return {
         text: hasOneTimeScans ? 'Use One-Time Report' : 'Get Report',
-        link: hasOneTimeScans ? '/start-audit' : '/checkout',
+        link: hasOneTimeScans ? '/checkout' : '/stripe-checkout',
         isDisabled: false
       };
     }
-    
+
     if (isCurrentPlan && hasActiveSubscription) {
       return {
         text: 'Start Audit',
@@ -185,8 +185,7 @@ const Services = () => {
         isDisabled: false
       };
     }
-    
-    // Team members can only use their assigned plan, not upgrade
+
     if (hasActiveSubscription && !isCurrentPlan) {
       if (isTeamMember) {
         return {
@@ -195,15 +194,14 @@ const Services = () => {
           isDisabled: false
         };
       }
-      
+
       return {
         text: 'Upgrade Plan',
         link: `/subscription?plan=${plan.id}&cycle=${billingCycle}`,
         isDisabled: false
       };
     }
-    
-    // Team members shouldn't see subscribe button
+
     if (isTeamMember) {
       return {
         text: 'Contact Owner',
@@ -211,7 +209,7 @@ const Services = () => {
         isDisabled: false
       };
     }
-    
+
     return {
       text: 'Subscribe Now',
       link: `/subscription?plan=${plan.id}&cycle=${billingCycle}`,

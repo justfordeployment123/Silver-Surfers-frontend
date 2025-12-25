@@ -367,6 +367,68 @@ const Subscription = () => {
     </div>
   );
 
+  const getPlanButtonInfo = (plan) => {
+    const isCurrentPlan = currentSubscription && currentSubscription.planId === plan.id;
+    const hasActiveSubscription = currentSubscription && currentSubscription.status === 'active';
+    const isTeamMember = currentSubscription && currentSubscription.isTeamMember;
+
+    if (plan.contactSales) {
+      return {
+        text: 'Contact Sales',
+        link: '/contact',
+        isDisabled: false
+      };
+    }
+
+    // Handle one-time purchases - if user has scans, go to /checkout, else Stripe checkout
+    if (plan.isOneTime || plan.type === 'one-time') {
+      const hasOneTimeScans = currentSubscription && currentSubscription.oneTimeScans > 0;
+      return {
+        text: hasOneTimeScans ? 'Use One-Time Report' : 'Get Report',
+        link: hasOneTimeScans ? '/checkout' : '/stripe-checkout',
+        isDisabled: false
+      };
+    }
+
+    if (isCurrentPlan && hasActiveSubscription) {
+      return {
+        text: 'Start Audit',
+        link: '/checkout',
+        isDisabled: false
+      };
+    }
+
+    if (hasActiveSubscription && !isCurrentPlan) {
+      if (isTeamMember) {
+        return {
+          text: 'Contact Owner',
+          link: '/subscription',
+          isDisabled: false
+        };
+      }
+
+      return {
+        text: 'Upgrade Plan',
+        link: `/subscription?plan=${plan.id}&cycle=${billingCycle}`,
+        isDisabled: false
+      };
+    }
+
+    if (isTeamMember) {
+      return {
+        text: 'Contact Owner',
+        link: '/subscription',
+        isDisabled: false
+      };
+    }
+
+    return {
+      text: 'Subscribe Now',
+      link: `/subscription?plan=${plan.id}&cycle=${billingCycle}`,
+      isDisabled: false
+    };
+  };
+
   if (loading) {
     return <LoadingSkeleton />;
   }
@@ -577,7 +639,7 @@ const Subscription = () => {
                           <div className="flex items-center">
                             <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-3">
                               <svg className="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                               </svg>
                             </div>
                             <div>
