@@ -168,11 +168,12 @@ const Services = () => {
       };
     }
     
-    // Handle one-time purchases - direct to checkout
+    // Handle one-time purchases - if user has scans, go to report, else checkout
     if (plan.isOneTime || plan.type === 'one-time') {
+      const hasOneTimeScans = currentSubscription && currentSubscription.oneTimeScans > 0;
       return {
-        text: 'Get Report',
-        link: '/checkout',
+        text: hasOneTimeScans ? 'Use One-Time Report' : 'Get Report',
+        link: hasOneTimeScans ? '/start-audit' : '/checkout',
         isDisabled: false
       };
     }
@@ -475,16 +476,28 @@ const Services = () => {
                       {(() => {
                         const buttonInfo = getPlanButtonInfo(plan);
                         
-                        // For one-time purchases, use a button with click handler
+                        // For one-time purchases, use a button with click handler or direct link if scan available
                         if (plan.isOneTime || plan.type === 'one-time') {
-                          return (
-                            <button
-                              onClick={() => handleOneTimePurchase(plan.id)}
-                              className={`inline-block px-8 py-4 bg-gradient-to-r ${plan.gradient} text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 ${buttonInfo.isDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
-                            >
-                              {buttonInfo.text}
-                            </button>
-                          );
+                          const hasOneTimeScans = currentSubscription && currentSubscription.oneTimeScans > 0;
+                          if (hasOneTimeScans) {
+                            return (
+                              <a
+                                href="/start-audit"
+                                className={`inline-block px-8 py-4 bg-gradient-to-r ${plan.gradient} text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 ${buttonInfo.isDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+                              >
+                                {buttonInfo.text}
+                              </a>
+                            );
+                          } else {
+                            return (
+                              <button
+                                onClick={() => handleOneTimePurchase(plan.id)}
+                                className={`inline-block px-8 py-4 bg-gradient-to-r ${plan.gradient} text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 ${buttonInfo.isDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+                              >
+                                {buttonInfo.text}
+                              </button>
+                            );
+                          }
                         }
                         
                         // For all other plans, use regular link
