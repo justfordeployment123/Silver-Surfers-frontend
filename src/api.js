@@ -506,6 +506,21 @@ export const adminListQuickScans = async (params = {}) => {
     return { error: e.response?.data?.error || e.message }; 
   }
 };
+
+export const adminBulkQuickScans = async (urls, email, firstName, lastName) => {
+  try {
+    const res = await api.post('/admin/quick-scans/bulk', {
+      urls,
+      email,
+      firstName,
+      lastName
+    });
+    return res.data;
+  } catch (e) {
+    return { error: e.response?.data?.error || e.message };
+  }
+};
+
 export const adminListSubscriptionScans = async (params = {}) => {
   try { 
     const res = await api.get('/admin/subscription-scans', { params }); 
