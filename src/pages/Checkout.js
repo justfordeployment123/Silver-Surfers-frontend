@@ -110,6 +110,18 @@ const Checkout = () => {
       return;
     }
 
+    // Validate device selection for one-time scans
+    if (oneTimeScans > 0 && (!subscription || subscription.status !== 'active')) {
+      if (!selectedDevice) {
+        setError('Please select a device type (Desktop, Tablet, or Mobile) to continue with your one-time scan.');
+        return;
+      }
+      if (!['desktop', 'mobile', 'tablet'].includes(selectedDevice)) {
+        setError('Invalid device selection. Please select Desktop, Tablet, or Mobile.');
+        return;
+      }
+    }
+
     setLoading(true);
     setPrecheckLoading(true);
     setError('');
@@ -329,14 +341,16 @@ const Checkout = () => {
               </div>
             </div>
 
-            {/* Device Selection - Show for Starter plan or when no subscription */}
-            {subscription && subscription.planId === 'starter' && (
+            {/* Device Selection - Show for Starter plan or one-time scans */}
+            {((subscription && subscription.planId === 'starter') || (oneTimeScans > 0 && (!subscription || subscription.status !== 'active'))) && (
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Select Device Type
                 </label>
                 <p className="text-xs text-gray-600 mb-3">
-                  Your Starter plan allows auditing for one device type per scan.
+                  {oneTimeScans > 0 && (!subscription || subscription.status !== 'active') 
+                    ? 'Please select which device type you want to audit (Desktop, Tablet, or Mobile).'
+                    : 'Your Starter plan allows auditing for one device type per scan.'}
                 </p>
                 <div className="grid grid-cols-3 gap-3">
                   <button
