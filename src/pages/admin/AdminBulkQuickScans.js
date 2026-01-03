@@ -368,3 +368,6 @@ const AdminBulkQuickScans = () => {
 
 export default AdminBulkQuickScans;
 
+
+
+
