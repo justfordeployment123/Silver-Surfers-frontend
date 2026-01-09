@@ -32,7 +32,6 @@ import AdminBlog from './pages/admin/AdminBlog';
 import AdminFAQs from './pages/admin/AdminFAQs';
 import AdminAnalysis from './pages/admin/AdminAnalysis';
 import AdminQuickScans from './pages/admin/AdminQuickScans';
-import AdminBulkQuickScans from './pages/admin/AdminBulkQuickScans';
 import AdminStarterScans from './pages/admin/AdminStarterScans';
 import AdminProScans from './pages/admin/AdminProScans';
 import AdminOneTimeScans from './pages/admin/AdminOneTimeScans';
@@ -66,7 +65,6 @@ function AppContent() {
             <Route path="faqs" element={<AdminFAQs />} />
             <Route path="analysis" element={<AdminAnalysis />} />
             <Route path="quick-scans" element={<AdminQuickScans />} />
-            <Route path="bulk-quick-scans" element={<AdminBulkQuickScans />} />
             <Route path="starter-scans" element={<AdminStarterScans />} />
             <Route path="pro-scans" element={<AdminProScans />} />
             <Route path="onetime-scans" element={<AdminOneTimeScans />} />
