@@ -9,6 +9,7 @@ const Checkout = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [selectedDevice, setSelectedDevice] = useState('desktop'); // Default device selection
+  const [creditType, setCreditType] = useState(null); // 'subscription' or 'oneTime'
   const [loading, setLoading] = useState(false);
   const [precheckLoading, setPrecheckLoading] = useState(false);
   const [error, setError] = useState('');
@@ -50,6 +51,14 @@ const Checkout = () => {
           setOneTimeScans(subscriptionResult.oneTimeScans);
         }
         
+        // Auto-select credit type based on availability
+        // Prefer subscription if active, otherwise one-time
+        if (subscriptionResult.subscription && subscriptionResult.subscription.status === 'active') {
+          setCreditType('subscription');
+        } else if (subscriptionResult.oneTimeScans > 0) {
+          setCreditType('oneTime');
+        }
+        
       } catch (error) {
         console.log('Could not load user data:', error);
         // Fallback to localStorage if available
@@ -77,12 +86,34 @@ const Checkout = () => {
 
   // Helper function to check if user can start audit
   const canStartAudit = () => {
-    // Check one-time scans first
-    if (oneTimeScans > 0) return true;
+    if (!creditType) return false;
     
-    // Check subscription
-    if (!subscription || subscription.status !== 'active') return false;
-    return getRemainingScans() > 0;
+    if (creditType === 'oneTime') {
+      return oneTimeScans > 0;
+    } else if (creditType === 'subscription') {
+      if (!subscription || subscription.status !== 'active') return false;
+      return getRemainingScans() > 0;
+    }
+    
+    return false;
+  };
+  
+  // Check if user has both subscription and one-time scans
+  const hasBothOptions = () => {
+    const hasActiveSubscription = subscription && subscription.status === 'active' && getRemainingScans() > 0;
+    const hasOneTime = oneTimeScans > 0;
+    return hasActiveSubscription && hasOneTime;
+  };
+  
+  // Check if device selection should be shown
+  const shouldShowDeviceSelection = () => {
+    if (creditType === 'oneTime') {
+      return true; // Always show for one-time scans
+    } else if (creditType === 'subscription') {
+      // Only show for Starter plan, not Pro
+      return subscription && subscription.planId === 'starter';
+    }
+    return false;
   };
 
   // Helper function to get usage status color
@@ -100,12 +131,43 @@ const Checkout = () => {
       return;
     }
 
+    // Ensure credit type is selected
+    if (!creditType) {
+      // Auto-select if only one option available
+      if (subscription && subscription.status === 'active' && getRemainingScans() > 0) {
+        setCreditType('subscription');
+      } else if (oneTimeScans > 0) {
+        setCreditType('oneTime');
+      } else {
+        setError('You need an active subscription or one-time scan credit to start an audit. Please purchase a plan or one-time scan.');
+        return;
+      }
+    }
+    
+    // Validate device selection for one-time scans
+    if (creditType === 'oneTime' && !selectedDevice) {
+      setError('Please select a device type for your one-time scan.');
+      return;
+    }
+    
+    // Validate device selection for Starter plan
+    if (creditType === 'subscription' && subscription && subscription.planId === 'starter' && !selectedDevice) {
+      setError('Please select a device type for your Starter plan scan.');
+      return;
+    }
+
     // Check if user can start audit
     if (!canStartAudit()) {
-      if (oneTimeScans === 0 && (!subscription || subscription.status !== 'active')) {
+      if (creditType === 'oneTime' && oneTimeScans === 0) {
+        setError('You have no one-time scan credits available.');
+      } else if (creditType === 'subscription') {
+        if (!subscription || subscription.status !== 'active') {
+          setError('You need an active subscription to start an audit.');
+        } else {
+          setError(`You have reached your monthly scan limit (${subscription.limits?.scansPerMonth || 0} scans). Please upgrade your plan or wait for next month.`);
+        }
+      } else {
         setError('You need an active subscription or one-time scan credit to start an audit. Please purchase a plan or one-time scan.');
-      } else if (subscription && subscription.status === 'active') {
-        setError(`You have reached your monthly scan limit (${subscription.limits?.scansPerMonth || 0} scans). Please upgrade your plan or wait for next month.`);
       }
       return;
     }
@@ -128,8 +190,19 @@ const Checkout = () => {
       setPrecheckLoading(false);
       setSuccess('✅ URL validated successfully! Starting audit...');
 
+      // Determine device selection based on credit type
+      // For Pro subscription, don't pass device (backend will test all devices)
+      // For Starter or one-time, pass the selected device
+      let deviceToUse = null;
+      if (creditType === 'oneTime') {
+        deviceToUse = selectedDevice; // Required for one-time scans
+      } else if (creditType === 'subscription' && subscription && subscription.planId === 'starter') {
+        deviceToUse = selectedDevice; // Required for Starter plan
+      }
+      // For Pro plan, deviceToUse remains null (backend handles all devices)
+
       // Now start the actual audit with device selection
-      const auditResult = await startAudit(email, url, selectedDevice, firstName, lastName);
+      const auditResult = await startAudit(email, url, deviceToUse, firstName, lastName);
       
       if (auditResult.error) {
         setError(auditResult.error);
@@ -329,14 +402,64 @@ const Checkout = () => {
               </div>
             </div>
 
-            {/* Device Selection - Show for Starter plan or one-time scans */}
-            {((subscription && subscription.planId === 'starter') || oneTimeScans > 0) && (
+            {/* Credit Type Selection - Show when user has both subscription and one-time scans */}
+            {hasBothOptions() && (
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-gray-700 mb-3">
+                  Select Credit Type to Use
+                </label>
+                <div className="space-y-3">
+                  <label className="flex items-center p-4 border-2 rounded-lg cursor-pointer transition-all hover:border-blue-300">
+                    <input
+                      type="radio"
+                      name="creditType"
+                      value="subscription"
+                      checked={creditType === 'subscription'}
+                      onChange={(e) => setCreditType(e.target.value)}
+                      className="w-5 h-5 text-blue-600 focus:ring-blue-500"
+                    />
+                    <div className="ml-3 flex-1">
+                      <div className="font-medium text-gray-900">
+                        Use Subscription ({subscription.plan?.name || 'Plan'})
+                      </div>
+                      <div className="text-sm text-gray-600">
+                        {getRemainingScans()} scan{getRemainingScans() !== 1 ? 's' : ''} remaining this month
+                        {subscription.planId === 'pro' && ' • Tests all devices (Desktop, Tablet, Mobile)'}
+                        {subscription.planId === 'starter' && ' • Select one device type per scan'}
+                      </div>
+                    </div>
+                  </label>
+                  
+                  <label className="flex items-center p-4 border-2 rounded-lg cursor-pointer transition-all hover:border-orange-300">
+                    <input
+                      type="radio"
+                      name="creditType"
+                      value="oneTime"
+                      checked={creditType === 'oneTime'}
+                      onChange={(e) => setCreditType(e.target.value)}
+                      className="w-5 h-5 text-orange-600 focus:ring-orange-500"
+                    />
+                    <div className="ml-3 flex-1">
+                      <div className="font-medium text-gray-900">
+                        Use One-Time Scan Credit
+                      </div>
+                      <div className="text-sm text-gray-600">
+                        {oneTimeScans} credit{oneTimeScans !== 1 ? 's' : ''} available • Select one device type per scan
+                      </div>
+                    </div>
+                  </label>
+                </div>
+              </div>
+            )}
+
+            {/* Device Selection - Show only when needed */}
+            {shouldShowDeviceSelection() && (
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Select Device Type
                 </label>
                 <p className="text-xs text-gray-600 mb-3">
-                  {oneTimeScans > 0
+                  {creditType === 'oneTime'
                     ? 'Select which device type to audit for this one-time scan. One-time scans audit one device type per scan.'
                     : 'Your Starter plan allows auditing for one device type per scan.'}
                 </p>
@@ -389,8 +512,8 @@ const Checkout = () => {
               </div>
             )}
 
-            {/* Info message for Pro plan */}
-            {subscription && subscription.planId === 'pro' && (
+            {/* Info message for Pro plan - only show when subscription is selected */}
+            {creditType === 'subscription' && subscription && subscription.planId === 'pro' && (
               <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
                 <div className="flex items-center">
                   <svg className="w-5 h-5 mr-2 text-green-600" fill="currentColor" viewBox="0 0 20 20">
