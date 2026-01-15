@@ -52,8 +52,12 @@ const Checkout = () => {
         }
         
         // Auto-select credit type based on availability
-        // Prefer subscription if active, otherwise one-time
-        if (subscriptionResult.subscription && subscriptionResult.subscription.status === 'active') {
+        // Prefer subscription if active AND has scans remaining, otherwise one-time
+        const hasSubscriptionScans = subscriptionResult.subscription && 
+          subscriptionResult.subscription.status === 'active' &&
+          (subscriptionResult.subscription.limits?.scansPerMonth || 0) - (subscriptionResult.subscription.usage?.scansThisMonth || 0) > 0;
+        
+        if (hasSubscriptionScans) {
           setCreditType('subscription');
         } else if (subscriptionResult.oneTimeScans > 0) {
           setCreditType('oneTime');
@@ -73,6 +77,14 @@ const Checkout = () => {
     
     loadUserData();
   }, []);
+
+  // Auto-switch to one-time if subscription has 0 scans but one-time is available
+  useEffect(() => {
+    const remainingScans = getRemainingScans();
+    if (creditType === 'subscription' && remainingScans === 0 && oneTimeScans > 0) {
+      setCreditType('oneTime');
+    }
+  }, [creditType, subscription, oneTimeScans, subscription?.usage?.scansThisMonth, subscription?.limits?.scansPerMonth]);
 
   // Helper function to calculate remaining scans
   const getRemainingScans = () => {
@@ -100,7 +112,10 @@ const Checkout = () => {
   
   // Check if user has both subscription and one-time scans
   const hasBothOptions = () => {
-    const hasActiveSubscription = subscription && subscription.status === 'active' && getRemainingScans() > 0;
+    // User has both options if:
+    // 1. Has active subscription (even if scans exhausted) AND has one-time scans, OR
+    // 2. Has active subscription with scans remaining AND has one-time scans
+    const hasActiveSubscription = subscription && subscription.status === 'active';
     const hasOneTime = oneTimeScans > 0;
     return hasActiveSubscription && hasOneTime;
   };
@@ -133,7 +148,8 @@ const Checkout = () => {
 
     // Ensure credit type is selected
     if (!creditType) {
-      // Auto-select if only one option available
+      // Auto-select based on what's actually available
+      // If subscription has scans, use subscription; otherwise use one-time if available
       if (subscription && subscription.status === 'active' && getRemainingScans() > 0) {
         setCreditType('subscription');
       } else if (oneTimeScans > 0) {
@@ -142,6 +158,11 @@ const Checkout = () => {
         setError('You need an active subscription or one-time scan credit to start an audit. Please purchase a plan or one-time scan.');
         return;
       }
+    }
+    
+    // If creditType is subscription but no scans remaining, switch to one-time if available
+    if (creditType === 'subscription' && getRemainingScans() === 0 && oneTimeScans > 0) {
+      setCreditType('oneTime');
     }
     
     // Validate device selection for one-time scans
@@ -201,8 +222,8 @@ const Checkout = () => {
       }
       // For Pro plan, deviceToUse remains null (backend handles all devices)
 
-      // Now start the actual audit with device selection
-      const auditResult = await startAudit(email, url, deviceToUse, firstName, lastName);
+      // Now start the actual audit with device selection and credit type
+      const auditResult = await startAudit(email, url, deviceToUse, firstName, lastName, creditType);
       
       if (auditResult.error) {
         setError(auditResult.error);
@@ -542,7 +563,11 @@ const Checkout = () => {
                   {precheckLoading ? 'Validating URL...' : 'Starting Audit...'}
                 </>
               ) : !canStartAudit() ? (
-                getRemainingScans() === 0 ? 'Scan Limit Reached' : 'No Active Subscription'
+                (creditType === 'subscription' && getRemainingScans() === 0 && oneTimeScans > 0)
+                  ? 'Please Select One-Time Scan Credit'
+                  : (getRemainingScans() === 0 && oneTimeScans === 0)
+                    ? 'Scan Limit Reached'
+                    : 'No Active Subscription'
               ) : (
                 'Start Full Audit'
               )}

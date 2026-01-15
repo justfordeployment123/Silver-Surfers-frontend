@@ -104,7 +104,7 @@ export const precheckUrl = async (url) => {
 };
 
 // Existing API calls (now use the axios instance) with precheck
-export const startAudit = async (email, url, selectedDevice = null, firstName = '', lastName = '') => {
+export const startAudit = async (email, url, selectedDevice = null, firstName = '', lastName = '', creditType = null) => {
   try {
     // Precheck & normalize
     const pre = await precheckUrl(url);
@@ -117,7 +117,8 @@ export const startAudit = async (email, url, selectedDevice = null, firstName = 
       url: normalized,
       selectedDevice,
       firstName,
-      lastName
+      lastName,
+      creditType // Pass credit type to backend
     });
     return response.data;
   } catch (error) {

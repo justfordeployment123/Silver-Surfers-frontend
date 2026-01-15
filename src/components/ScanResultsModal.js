@@ -19,6 +19,18 @@ const ScanResultsModal = ({ result, onClose, isVisible }) => {
     return 'from-red-500 to-pink-600';
   };
 
+  const getScoreGradientColors = (score) => {
+    if (score >= 80) return { start: '#22c55e', end: '#16a34a' }; // green
+    if (score >= 60) return { start: '#eab308', end: '#f59e0b' }; // yellow
+    return { start: '#ef4444', end: '#dc2626' }; // red
+  };
+
+  const getScoreTextColor = (score) => {
+    if (score >= 80) return 'text-green-600';
+    if (score >= 60) return 'text-yellow-600';
+    return 'text-red-600';
+  };
+
   const getScoreMessage = (score) => {
     if (score >= 80) return 'Excellent AI Visibility';
     if (score >= 60) return 'Good AI Visibility';
@@ -97,20 +109,20 @@ const ScanResultsModal = ({ result, onClose, isVisible }) => {
                     <path
                       d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                       fill="none"
-                      stroke="url(#gradient)"
+                      stroke={`url(#gradient-${scanData.score})`}
                       strokeWidth="2"
                       strokeDasharray={`${scanData.score}, 100`}
                       className="transition-all duration-1000 ease-out"
                     />
                     <defs>
-                      <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stopColor="#8b5cf6" />
-                        <stop offset="100%" stopColor="#3b82f6" />
+                      <linearGradient id={`gradient-${scanData.score}`} x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor={getScoreGradientColors(scanData.score).start} />
+                        <stop offset="100%" stopColor={getScoreGradientColors(scanData.score).end} />
                       </linearGradient>
                     </defs>
                   </svg>
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-2xl font-bold text-gray-900">{scanData.score}</span>
+                    <span className={`text-2xl font-bold ${getScoreTextColor(scanData.score)}`}>{scanData.score}%</span>
                   </div>
                 </div>
               </div>
