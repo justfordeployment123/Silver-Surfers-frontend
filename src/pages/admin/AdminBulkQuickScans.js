@@ -59,12 +59,12 @@ const AdminBulkQuickScans = () => {
     setLoading(true);
 
     try {
-      const response = await adminBulkQuickScans(
-        urlList,
+      const response = await adminBulkQuickScans({
+        urls: urlList,
         email,
-        firstName || 'Admin',
-        lastName || 'User'
-      );
+        firstName: firstName || 'Admin',
+        lastName: lastName || 'User'
+      });
 
       if (response.error) {
         setError(response.error);
