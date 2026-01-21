@@ -37,6 +37,7 @@ import AdminProScans from './pages/admin/AdminProScans';
 import AdminOneTimeScans from './pages/admin/AdminOneTimeScans';
 import AdminContact from './pages/admin/AdminContact';
 import AdminUsers from './pages/admin/AdminUsers';
+import AdminBulkQuickScans from './pages/admin/AdminBulkQuickScans'
 import AdminContentManager from './pages/AdminContentManager';
 import AdminLegal from './pages/AdminLegal';
 import AdminLogin from './pages/AdminLogin';
@@ -64,6 +65,7 @@ function AppContent() {
             <Route path="blog" element={<AdminBlog />} />
             <Route path="faqs" element={<AdminFAQs />} />
             <Route path="analysis" element={<AdminAnalysis />} />
+            <Route path="bulk-quick-scans" element={<AdminBulkQuickScans />} />
             <Route path="quick-scans" element={<AdminQuickScans />} />
             <Route path="starter-scans" element={<AdminStarterScans />} />
             <Route path="pro-scans" element={<AdminProScans />} />

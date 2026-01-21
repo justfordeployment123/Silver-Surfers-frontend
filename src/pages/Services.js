@@ -373,16 +373,7 @@ const Services = () => {
             </div>
           ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
-              {plans.filter(plan => {
-                // Hide One-Time package if user has Pro or Starter subscription
-                if ((plan.isOneTime || plan.type === 'one-time') && currentSubscription) {
-                  const subscribedPlanId = currentSubscription.planId;
-                  if (subscribedPlanId === 'pro' || subscribedPlanId === 'starter') {
-                    return false;
-                  }
-                }
-                return true;
-              }).map((plan) => {
+              {plans.map((plan) => {
                 const currentPrice = getCurrentPrice(plan);
                 const savings = getSavings(plan);
                 const isCurrentPlan = currentSubscription && currentSubscription.planId === plan.id && currentSubscription.status === 'active';
