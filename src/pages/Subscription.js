@@ -862,14 +862,6 @@ const Subscription = () => {
                         <div className="text-sm text-gray-700">per year</div>
                       </div>
                       
-                      <div className="mb-6">
-                        <div className="text-sm text-gray-700 mb-2">
-                          {plan.limits.scansPerMonth === -1 ? 'Unlimited' : plan.limits.scansPerMonth} scans/month
-                        </div>
-                        <div className="text-sm text-gray-700">
-                          {plan.limits.maxUsers === -1 ? 'Unlimited' : plan.limits.maxUsers} users
-                        </div>
-                      </div>
                     </div>
                     
                     <div className="mt-auto">

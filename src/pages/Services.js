@@ -37,42 +37,58 @@ const Services = () => {
   const getDefaultPlans = () => [
     {
       id: 'starter',
-      name: "SilverSurfers Starter",
+      name: "Starter",
       icon: "🚀",
-      description: "Perfect for small businesses starting their accessibility journey.",
-      monthlyPrice: 29700,
-      yearlyPrice: 297000,
+      description: "",
+      yearlyPrice: 199700,
       currency: 'usd',
       limits: {
-        scansPerMonth: 10,
+        scansPerMonth: 5,
         maxUsers: 1,
-        features: ["SilverSurfers Score", "Basic reports", "Email support", "PDF downloads"]
+        features: [
+          "60 reports per year",
+          "Select device per report",
+          "up to 25 subpages scanned",
+          "1 user account",
+          "PDF reports",
+          "Actionable recommendations",
+          "Priority email support"
+        ]
       },
       gradient: "from-blue-500 to-green-500",
       popular: false
     },
     {
       id: 'pro',
-      name: "SilverSurfers Pro",
+      name: "Pro",
       icon: "⭐",
-      description: "Comprehensive accessibility solution for growing businesses.",
-      monthlyPrice: 69700,
-      yearlyPrice: 697000,
+      description: "",
+      yearlyPrice: 299700,
       currency: 'usd',
       limits: {
-        scansPerMonth: 50,
-        maxUsers: 5,
-        features: ["SilverSurfers Score", "Detailed reports", "SilverSurfers Seal", "Priority support", "Multi-user access"]
+        scansPerMonth: 12,
+        maxUsers: 3,
+        features: [
+          "144 reports per year",
+          "All devices tested together",
+          "up to 25 subpages scanned",
+          "3 team users",
+          "SilverSurfers Seal",
+          "Priority support",
+          "Historical tracking",
+          "White-label reports",
+          "Quarterly consultation"
+        ]
       },
       gradient: "from-green-500 to-teal-500",
       popular: true
     },
     {
       id: 'oneTime',
-      name: "One-Time Report",
+      name: "One-Time",
       icon: "📊",
-      description: "Get a comprehensive one-time accessibility report.",
-      price: 49700,
+      description: "Perfect for getting started",
+      price: 39700,
       monthlyPrice: null,
       yearlyPrice: null,
       currency: 'usd',
@@ -81,11 +97,10 @@ const Services = () => {
         scansPerMonth: 1,
         maxUsers: 1,
         features: [
-          "1 comprehensive audit",
-          "Choose ONE device type",
-          "All subpages scanned",
+          "All devices tested",
+          "up to 25 subpages scanned",
           "Detailed PDF report",
-          "Visual annotations",
+          "Actionable recommendations",
           "17-category analysis",
           "Email support"
         ]
@@ -96,7 +111,7 @@ const Services = () => {
     },
     {
       id: 'custom',
-      name: "SilverSurfers Custom",
+      name: "Custom",
       icon: "🏆",
       description: "Tailored solutions for enterprise-level accessibility needs.",
       monthlyPrice: null,
@@ -105,7 +120,17 @@ const Services = () => {
       limits: {
         scansPerMonth: -1,
         maxUsers: -1,
-        features: ["Unlimited scans", "API access", "White labeling", "Dedicated support"]
+        features: [
+          "SilverSurfers Score",
+          "Unlimited scans",
+          "SilverSurfers Seal of Approval",
+          "Unlimited team users",
+          "Advanced analytics",
+          "API access",
+          "White labeling options",
+          "Dedicated support",
+          "Custom integrations"
+        ]
       },
       gradient: "from-purple-500 to-blue-500",
       popular: false,
