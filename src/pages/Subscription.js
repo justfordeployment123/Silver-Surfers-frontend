@@ -14,11 +14,11 @@ const Subscription = () => {
   const [newMemberEmail, setNewMemberEmail] = useState('');
   const [teamScans, setTeamScans] = useState([]);
   const [scansLoading, setScansLoading] = useState(false);
-  const [billingCycle, setBillingCycle] = useState('monthly');
+  const [billingCycle] = useState('yearly'); // Always yearly - no monthly option
   const navigate = useNavigate();
   const [params] = useSearchParams();
   const selectedPlan = params.get('plan');
-  const selectedCycle = params.get('cycle') || 'monthly';
+  const selectedCycle = 'yearly'; // Always yearly
 
     // Scroll to top when error or success is set
     useEffect(() => {
@@ -33,15 +33,7 @@ const Subscription = () => {
     if (plan.type === 'one-time' || plan.isOneTime) {
       return plan.price;
     }
-    return billingCycle === 'yearly' ? plan.yearlyPrice : plan.monthlyPrice;
-  };
-
-  const getSavings = (plan) => {
-    if (!plan.monthlyPrice || !plan.yearlyPrice) return null;
-    const monthlyTotal = plan.monthlyPrice * 12;
-    const yearlyTotal = plan.yearlyPrice;
-    const savings = monthlyTotal - yearlyTotal;
-    return savings > 0 ? Math.round(savings / 100) : 0;
+    return plan.yearlyPrice; // Always yearly
   };
 
   useEffect(() => {
@@ -140,7 +132,7 @@ const Subscription = () => {
     }
   };
 
-  const handleSubscribe = async (planId, billingCycle = 'monthly') => {
+  const handleSubscribe = async (planId, billingCycle = 'yearly') => {
     try {
       setActionLoading(true);
       setError('');
@@ -758,33 +750,6 @@ const Subscription = () => {
                 <div className="text-center mb-8">
                   <h2 className="text-2xl font-bold text-gray-900 mb-4">Available Plans</h2>
                   <p className="text-lg text-gray-600 mb-6">Upgrade or change your subscription</p>
-                  
-                  {/* Billing Cycle Toggle */}
-                  <div className="flex items-center justify-center mb-8">
-                    <span className={`text-sm font-medium ${billingCycle === 'monthly' ? 'text-gray-900' : 'text-gray-500'}`}>
-                      Monthly
-                    </span>
-                    <button
-                      onClick={() => setBillingCycle(billingCycle === 'monthly' ? 'yearly' : 'monthly')}
-                      className={`mx-3 relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                        billingCycle === 'yearly' ? 'bg-blue-600' : 'bg-gray-200'
-                      }`}
-                    >
-                      <span
-                        className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                          billingCycle === 'yearly' ? 'translate-x-6' : 'translate-x-1'
-                        }`}
-                      />
-                    </button>
-                    <span className={`text-sm font-medium ${billingCycle === 'yearly' ? 'text-gray-900' : 'text-gray-500'}`}>
-                      Yearly
-                    </span>
-                    {billingCycle === 'yearly' && (
-                      <span className="ml-2 text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">
-                        Save up to 20%
-                      </span>
-                    )}
-                  </div>
                 </div>
               
               <div className="space-y-4">
@@ -809,24 +774,10 @@ const Subscription = () => {
                           {formatPrice(getCurrentPrice(plan))}
                         </div>
                         <div className="text-sm text-gray-500 mb-2">
-                          per {billingCycle === 'yearly' ? 'year' : 'month'}
+                          per year
                         </div>
-                        {billingCycle === 'yearly' && getSavings(plan) && getSavings(plan) > 0 && (
-                          <div className="text-sm text-green-600 font-semibold">
-                            Save ${getSavings(plan).toLocaleString()} annually
-                          </div>
-                        )}
                       </div>
                       
-                      {/* Package Details */}
-                      <div className="mb-4 p-3 bg-gray-50 rounded-lg">
-                        <div className="text-sm text-gray-700 mb-2">
-                          <strong>Scans per month:</strong> {plan.limits.scansPerMonth === -1 ? 'Unlimited' : plan.limits.scansPerMonth}
-                        </div>
-                        <div className="text-sm text-gray-700">
-                          <strong>Users:</strong> {plan.limits.maxUsers === -1 ? 'Unlimited' : plan.limits.maxUsers}
-                        </div>
-                      </div>
                       
                       {/* Features List */}
                       {plan.limits.features && plan.limits.features.length > 0 && (
@@ -867,33 +818,6 @@ const Subscription = () => {
             <div className="text-center mb-8">
               <h2 className="text-2xl font-bold text-gray-900 mb-4">Choose Your Plan</h2>
               <p className="text-lg text-gray-600 mb-6">Select the plan that fits your business needs</p>
-              
-              {/* Billing Cycle Toggle */}
-              <div className="flex items-center justify-center mb-8">
-                <span className={`text-sm font-medium ${billingCycle === 'monthly' ? 'text-gray-900' : 'text-gray-500'}`}>
-                  Monthly
-                </span>
-                <button
-                  onClick={() => setBillingCycle(billingCycle === 'monthly' ? 'yearly' : 'monthly')}
-                  className={`mx-3 relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                    billingCycle === 'yearly' ? 'bg-blue-600' : 'bg-gray-200'
-                  }`}
-                >
-                  <span
-                    className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                      billingCycle === 'yearly' ? 'translate-x-6' : 'translate-x-1'
-                    }`}
-                  />
-                </button>
-                <span className={`text-sm font-medium ${billingCycle === 'yearly' ? 'text-gray-900' : 'text-gray-500'}`}>
-                  Yearly
-                </span>
-                {billingCycle === 'yearly' && (
-                  <span className="ml-2 text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">
-                    Save up to 20%
-                  </span>
-                )}
-              </div>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -935,13 +859,7 @@ const Subscription = () => {
                         {/* Current Price */}
                         <div className="text-3xl font-bold text-gray-900">{formatPrice(getCurrentPrice(plan))}</div>
                         
-                        <div className="text-sm text-gray-700">per {billingCycle === 'yearly' ? 'year' : 'month'}</div>
-                        
-                        {billingCycle === 'yearly' && getSavings(plan) && getSavings(plan) > 0 && (
-                          <div className="text-sm text-green-600 font-semibold mt-1">
-                            Save ${getSavings(plan).toLocaleString()} annually
-                          </div>
-                        )}
+                        <div className="text-sm text-gray-700">per year</div>
                       </div>
                       
                       <div className="mb-6">

@@ -4,7 +4,7 @@ import { getSubscriptionPlans, getSubscription, createCheckoutSession } from '..
 const Services = () => {
   const [plans, setPlans] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [billingCycle, setBillingCycle] = useState('monthly');
+  const [billingCycle] = useState('yearly'); // Always yearly - no monthly option
   const [currentSubscription, setCurrentSubscription] = useState(null);
 
   useEffect(() => {
@@ -338,33 +338,6 @@ const Services = () => {
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">Our Plans & Pricing</h2>
             <p className="text-xl text-gray-600 mb-8">Choose the plan that fits your business needs</p>
-            
-            {/* Billing Cycle Toggle */}
-            <div className="flex items-center justify-center mb-8">
-              <span className={`text-sm font-medium ${billingCycle === 'monthly' ? 'text-gray-900' : 'text-gray-500'}`}>
-                Monthly
-              </span>
-              <button
-                onClick={() => setBillingCycle(billingCycle === 'monthly' ? 'yearly' : 'monthly')}
-                className={`mx-3 relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                  billingCycle === 'yearly' ? 'bg-blue-600' : 'bg-gray-200'
-                }`}
-              >
-                <span
-                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                    billingCycle === 'yearly' ? 'translate-x-6' : 'translate-x-1'
-                  }`}
-                />
-              </button>
-              <span className={`text-sm font-medium ${billingCycle === 'yearly' ? 'text-gray-900' : 'text-gray-500'}`}>
-                Yearly
-              </span>
-              {billingCycle === 'yearly' && (
-                <span className="ml-2 text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">
-                  Save 17%
-                </span>
-              )}
-            </div>
           </div>
           
           {loading ? (
@@ -421,14 +394,8 @@ const Services = () => {
                             </div>
                             
                             <div className="text-sm text-gray-500">
-                              per {billingCycle === 'yearly' ? 'year' : 'month'}
+                              per year
                             </div>
-                            
-                            {billingCycle === 'yearly' && savings && savings > 0 && (
-                              <div className="text-xs text-green-600 font-medium mt-1">
-                                Save ${savings.toLocaleString()} annually
-                      </div>
-                            )}
                     </div>
                   )}
                 </div>
@@ -436,17 +403,6 @@ const Services = () => {
                       <div className="mb-6 flex-grow">
                         <p className="text-gray-600 mb-4 text-center">{plan.description}</p>
                         
-                        {/* Usage Limits */}
-                        {!(plan.isOneTime || plan.type === 'one-time') && (
-                          <div className="mb-4 p-3 bg-gray-50 rounded-lg">
-                            <div className="text-sm text-gray-600">
-                              <strong>Scans per month:</strong> {plan.limits.scansPerMonth === -1 ? 'Unlimited' : plan.limits.scansPerMonth}
-                            </div>
-                            <div className="text-sm text-gray-600">
-                              <strong>Users:</strong> {plan.limits.maxUsers === -1 ? 'Unlimited' : plan.limits.maxUsers}
-                            </div>
-                          </div>
-                        )}
 
                   <ul className="space-y-3">
                           {plan.limits.features.map((feature, index) => (
