@@ -43,7 +43,7 @@ const Services = () => {
       yearlyPrice: 199700,
       currency: 'usd',
       limits: {
-        scansPerMonth: 5,
+        scansPerMonth: 60, // 60 scans per year
         maxUsers: 1,
         features: [
           "60 reports per year",
@@ -66,7 +66,7 @@ const Services = () => {
       yearlyPrice: 299700,
       currency: 'usd',
       limits: {
-        scansPerMonth: 12,
+        scansPerMonth: 144, // 144 scans per year
         maxUsers: 3,
         features: [
           "144 reports per year",
@@ -406,7 +406,7 @@ const Services = () => {
                           <div className="text-3xl font-bold text-gray-900 mb-2">Contact us</div>
                   ) : plan.isOneTime || plan.type === 'one-time' ? (
                     <div className="mb-2">
-                            {/* One-Time Price */}
+                            {/* One-Time Price - no "per year" text */}
                             <div className={`text-3xl font-bold bg-gradient-to-r ${plan.gradient} bg-clip-text text-transparent`}>
                               {formatPrice(currentPrice)}
                             </div>

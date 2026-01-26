@@ -130,7 +130,7 @@ const AdminUsers = () => {
   };
 
   const handleResetUsage = async (userId) => {
-    if (!window.confirm('Are you sure you want to reset this user\'s monthly usage?')) {
+    if (!window.confirm('Are you sure you want to reset this user\'s yearly usage?')) {
       return;
     }
 
@@ -526,13 +526,13 @@ const AdminUsers = () => {
                    onClick={() => handleUpdatePlan(showPlanModal._id, 'starter')}
                    className="w-full px-3 py-2 bg-green-500 hover:bg-green-600 text-white text-sm font-medium rounded-lg transition-colors"
                  >
-                   Set to Starter Plan (5 scans/month)
+                   Set to Starter Plan (60 scans/year)
                  </button>
                  <button
                    onClick={() => handleUpdatePlan(showPlanModal._id, 'pro')}
                    className="w-full px-3 py-2 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium rounded-lg transition-colors"
                  >
-                   Set to Pro Plan (12 scans/month)
+                   Set to Pro Plan (144 scans/year)
                  </button>
                </div>
              </div>

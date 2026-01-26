@@ -496,7 +496,7 @@ const Subscription = () => {
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <span className="text-gray-700">Scans This Month:</span>
+                  <span className="text-gray-700">Scans This Year:</span>
                   <span className="font-semibold text-gray-900">
                     {currentSubscription.usage?.scansThisMonth || 0} / {currentSubscription.limits?.scansPerMonth === -1 ? '∞' : currentSubscription.limits?.scansPerMonth}
                   </span>
@@ -859,8 +859,27 @@ const Subscription = () => {
                         {/* Current Price */}
                         <div className="text-3xl font-bold text-gray-900">{formatPrice(getCurrentPrice(plan))}</div>
                         
-                        <div className="text-sm text-gray-700">per year</div>
+                        {/* Only show "per year" for subscription plans, not one-time */}
+                        {!(plan.isOneTime || plan.type === 'one-time') && (
+                          <div className="text-sm text-gray-700">per year</div>
+                        )}
                       </div>
+                      
+                      {/* Features List - matching Services page */}
+                      {plan.limits && plan.limits.features && plan.limits.features.length > 0 && (
+                        <div className="mb-4">
+                          <ul className="space-y-2 text-left">
+                            {plan.limits.features.map((feature, idx) => (
+                              <li key={idx} className="flex items-start text-sm text-gray-700">
+                                <svg className="w-4 h-4 text-green-500 mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                </svg>
+                                {feature}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
                       
                     </div>
                     

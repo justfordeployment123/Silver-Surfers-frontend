@@ -185,7 +185,7 @@ const Checkout = () => {
         if (!subscription || subscription.status !== 'active') {
           setError('You need an active subscription to start an audit.');
         } else {
-          setError(`You have reached your monthly scan limit (${subscription.limits?.scansPerMonth || 0} scans). Please upgrade your plan or wait for next month.`);
+          setError(`You have reached your yearly scan limit (${subscription.limits?.scansPerMonth || 0} scans). Please upgrade your plan or wait for next year.`);
         }
       } else {
         setError('You need an active subscription or one-time scan credit to start an audit. Please purchase a plan or one-time scan.');
@@ -284,7 +284,7 @@ const Checkout = () => {
                 
                 <div className="text-center">
                   <div className="text-2xl font-bold text-gray-900">{subscription.limits?.scansPerMonth || 0}</div>
-                  <div className="text-sm text-gray-600">Monthly Limit</div>
+                  <div className="text-sm text-gray-600">Yearly Limit</div>
                 </div>
               </div>
               
@@ -294,7 +294,7 @@ const Checkout = () => {
                     <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
                     </svg>
-                    <span className="font-medium">No scans remaining this month. Upgrade your plan or wait for next month.</span>
+                    <span className="font-medium">No scans remaining this year. Upgrade your plan or wait for next year.</span>
                   </div>
                 ) : getRemainingScans() <= 2 ? (
                   <div className="flex items-center">
