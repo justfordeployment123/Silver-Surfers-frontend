@@ -454,7 +454,7 @@ export const adminResetUserUsage = async (userId) => {
   }
 };
 
-export const adminUpdateUserSubscription = async (userId, planId, billingCycle = 'monthly') => {
+export const adminUpdateUserSubscription = async (userId, planId, billingCycle = 'yearly') => {
   try { 
     const res = await api.post('/admin/subscription/update', { userId, planId, billingCycle }); 
     return res.data; 
